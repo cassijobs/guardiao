@@ -3,7 +3,7 @@ const dialogo = {
     "Você veio...",
     "Imaginei que você viria.",
     "Antes de caminharmos juntos...",
-    "Como devo chamá-lo?"
+  
   ],
 
   compromisso: [
