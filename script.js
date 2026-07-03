@@ -1,19 +1,24 @@
+
+
 const app = document.getElementById("app");
+const PAUSA_CURTA = 2000;
+const PAUSA_MEDIA = 3000;
+const PAUSA_LONGA = 4000;
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-}
+
 
 async function mostrarTexto(texto, delay = 2000) {
   app.innerHTML = texto;
-  await sleep(delay);
+  await sleep(PAUSA_CURTA);
 }
 
 async function falarSequencia(lista) {
   for (let i = 0; i < lista.length; i++) {
     await mostrarTexto(lista[i]);
-    await sleep(1200); // silêncio entre frases
+    await sleep(2500); // silêncio entre frases
   }
 }
 
@@ -74,7 +79,7 @@ async function pedirNome() {
 async function iniciar() {
 
   app.innerHTML = "";
-  await sleep(1000);
+  await sleep(PAUSA_MEDIA);
 
   await falarSequencia(dialogo.inicio);
 
@@ -84,7 +89,7 @@ async function iniciar() {
   await sleep(1500);
 
   await mostrarTexto("Agora conheço a forma como o mundo chama você.");
-  await sleep(1500);
+  await sleep(PAUSA_MEDIA);
 
   await falarSequencia(dialogo.compromisso);
 
@@ -97,7 +102,7 @@ async function iniciar() {
 
 async function continuar() {
   await falarSequencia(dialogo.reflexao);
-  await sleep(2000);
+  await sleep(PAUSA_LONGA);
   await falarSequencia(dialogo.fim);
 }
 
