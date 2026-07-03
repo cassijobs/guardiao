@@ -1,3 +1,4 @@
+iniciarNucleo();
 const app = document.getElementById("app");
 
 async function pedirNome() {
