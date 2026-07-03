@@ -24,7 +24,7 @@ async function falarSequencia(lista) {
 
 async function pedirNome() {
   app.innerHTML = `
-    <div style="margin-bottom:20px;">
+    <div style="margin-bottom:30px; font-size:22px;">
       Como devo chamá-lo?
     </div>
 
@@ -41,22 +41,64 @@ async function pedirNome() {
         color:#fff;
         text-align:center;
         outline:none;
+        margin-bottom:40px;
       "
     />
 
-    <div style="margin-top:20px;">
+    <div style="display:flex; flex-direction:column; gap:20px; align-items:center;">
+      
       <button id="btnEnter"
         style="
-          padding:10px 20px;
+          width:220px;
+          padding:12px;
           font-size:18px;
-          background:#fff;
-          color:#000;
-          border:none;
+          background:transparent;
+          color:#fff;
+          border:1px solid #777;
+          clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
           cursor:pointer;
         ">
-        Enter
+        sim
       </button>
+
+      <button id="btnNao"
+        style="
+          width:220px;
+          padding:12px;
+          font-size:18px;
+          background:transparent;
+          color:#fff;
+          border:1px solid #777;
+          clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+          cursor:pointer;
+        ">
+        não
+      </button>
+
     </div>
+  `;
+
+  return new Promise(resolve => {
+    const input = document.getElementById("nome");
+    const sim = document.getElementById("btnEnter");
+    const nao = document.getElementById("btnNao");
+
+    function confirmar() {
+      const valor = input.value.trim();
+      if (valor.length > 0) resolve(valor);
+    }
+
+    sim.addEventListener("click", confirmar);
+
+    nao.addEventListener("click", () => {
+      resolve(null);
+    });
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") confirmar();
+    });
+  });
+}
   `;
 
   return new Promise(resolve => {
