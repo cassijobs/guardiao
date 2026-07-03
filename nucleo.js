@@ -6,7 +6,12 @@ Responsável por controlar a experiência.
 Não conhece nenhuma frase.
 ==========================================
 */
+ 
+let guardiao;
 
+function iniciarNucleo() {
+    guardiao = document.getElementById("guardiao");
+} 
 const nucleo = {
 
     esperar(ms) {
@@ -14,12 +19,12 @@ const nucleo = {
     },
 
     limpar() {
-        app.innerHTML = "";
+        guardiao.innerHTML = "";
     },
 
     async mostrar(texto, pausa = CONFIG.pausa.media) {
 
-        app.innerHTML = texto;
+        guardiao.innerHTML = texto;
 
         await this.esperar(pausa);
 
