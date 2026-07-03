@@ -17,15 +17,56 @@ async function falarSequencia(lista) {
 }
 
 async function pedirNome() {
-  app.innerHTML = "Como devo chamá-lo?<br><input id='nome' autofocus />";
-  
+  app.innerHTML = `
+    <div style="margin-bottom:20px;">
+      Como devo chamá-lo?
+    </div>
+
+    <input id="nome"
+      placeholder="Digite seu nome"
+      autofocus
+      style="
+        font-size:20px;
+        padding:12px;
+        width:80%;
+        border:none;
+        border-bottom:1px solid #555;
+        background:transparent;
+        color:#fff;
+        text-align:center;
+        outline:none;
+      "
+    />
+
+    <div style="margin-top:20px;">
+      <button id="btnEnter"
+        style="
+          padding:10px 20px;
+          font-size:18px;
+          background:#fff;
+          color:#000;
+          border:none;
+          cursor:pointer;
+        ">
+        Enter
+      </button>
+    </div>
+  `;
+
   return new Promise(resolve => {
     const input = document.getElementById("nome");
+    const btn = document.getElementById("btnEnter");
+
+    function finalizar() {
+      const valor = input.value.trim();
+      if (valor.length > 0) resolve(valor);
+    }
+
     input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        resolve(input.value);
-      }
+      if (e.key === "Enter") finalizar();
     });
+
+    btn.addEventListener("click", finalizar);
   });
 }
 
