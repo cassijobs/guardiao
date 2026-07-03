@@ -1,14 +1,23 @@
+/*
+==========================================
+NÚCLEO DO GUARDIÃO
+==========================================
+Responsável por controlar a experiência.
+Não conhece nenhuma frase.
+==========================================
+*/
+
 const nucleo = {
 
-    async esperar(ms){
+    esperar(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     },
 
-    limpar(){
+    limpar() {
         app.innerHTML = "";
     },
 
-    async mostrar(texto, pausa = PAUSA_MEDIA){
+    async mostrar(texto, pausa = CONFIG.pausa.media) {
 
         app.innerHTML = texto;
 
@@ -16,13 +25,13 @@ const nucleo = {
 
     },
 
-    async executar(lista){
+    async executar(lista) {
 
-        for(const frase of lista){
+        for (const texto of lista) {
 
-            await this.mostrar(frase);
+            await this.mostrar(texto);
 
-            await this.esperar(PAUSA_CURTA);
+            await this.esperar(CONFIG.pausa.curta);
 
         }
 
