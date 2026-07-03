@@ -1,0 +1,3 @@
+const PAUSA_CURTA = 2000;
+const PAUSA_MEDIA = 3000;
+const PAUSA_LONGA = 4500;
