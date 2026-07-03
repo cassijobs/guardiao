@@ -3,6 +3,7 @@ const app = document.getElementById("app");
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+}
 
 async function mostrarTexto(texto, delay = 2000) {
   app.innerHTML = texto;
