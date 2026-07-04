@@ -1,42 +1,89 @@
-body {
-  margin: 0;
-  background: #000;
-  color: #e5e5e5;
-  font-family: Georgia, serif;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  height: 100vh;
-  overflow: hidden;
-
-  /* importante para mobile */
-  padding: 0;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-#app {
-  width: 100%;
-  max-width: 600px;
-  padding: 24px;
+html,body{
 
-  text-align: center;
+    width:100%;
+    height:100%;
 
-  font-size: 26px; /* 👈 aumento real de impacto */
-  line-height: 1.6;
+    overflow:hidden;
 
-  box-sizing: border-box;
+    background:#000;
+
+    color:#ECECEC;
+
+    font-family:Georgia,serif;
+
 }
-.botaoGuardiao{
 
-    width:220px;
-    height:55px;
+body{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+#guardiao{
+
+    width:100%;
+
+    max-width:600px;
+
+    padding:40px;
+
+    text-align:center;
+
+    font-size:30px;
+
+    line-height:1.6;
+
+}
+
+input{
+
+    width:85%;
+
+    margin-top:30px;
+
+    padding:12px;
 
     background:transparent;
 
     color:white;
 
-    border:1px solid #8a8a8a;
+    border:none;
+
+    border-bottom:1px solid #666;
+
+    outline:none;
+
+    text-align:center;
+
+    font-size:24px;
+
+}
+
+.botao{
+
+    width:240px;
+
+    height:58px;
+
+    margin:18px auto;
+
+    display:block;
+
+    background:transparent;
+
+    color:white;
+
+    border:1px solid #888;
 
     font-size:22px;
 
@@ -51,13 +98,14 @@ body {
         0% 50%
     );
 
-    transition:.4s;
+    transition:.35s;
 
 }
 
-.botaoGuardiao:hover{
+.botao:hover{
 
     background:white;
+
     color:black;
 
 }
