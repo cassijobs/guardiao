@@ -25,15 +25,31 @@ const Palco = {
 
     },
 
-    mostrarTexto(texto) {
+   mostrarTexto(texto) {
 
-        this.elemento.innerHTML = `
-            <div class="visivel">
-                ${texto}
-            </div>
-        `;
+    return new Promise(resolve => {
 
-    },
+        this.elemento.classList.remove("visivel");
+        this.elemento.classList.add("oculto");
+
+        setTimeout(() => {
+
+            this.elemento.innerHTML = `
+                <div>
+                    ${texto}
+                </div>
+            `;
+
+            this.elemento.classList.remove("oculto");
+            this.elemento.classList.add("visivel");
+
+            resolve();
+
+        }, CONFIG.fade);
+
+    });
+
+},
 
     pedirNome(pergunta) {
 
