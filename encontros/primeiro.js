@@ -18,17 +18,20 @@ const PRIMEIRO_ENCONTRO = {
 
         {
             tipo: "texto",
-            texto: "Você veio..."
+            texto: "Você veio...",
+            pausa:5000
         },
 
         {
             tipo: "texto",
-            texto: "Imaginei que você viria."
+            texto: "Imaginei que você viria.",
+            pausa:3500
         },
 
         {
             tipo: "texto",
-            texto: "Antes de caminharmos juntos..."
+            texto: "Antes de caminharmos juntos...",
+            pausa:4500
         },
 
         {
@@ -38,12 +41,14 @@ const PRIMEIRO_ENCONTRO = {
 
         {
             tipo: "texto",
-            texto: "Obrigado, {nome}."
+            texto: "Obrigado, {nome}.",
+            pausa:3000
         },
 
         {
             tipo: "texto",
-            texto: "Agora conheço a forma como o mundo chama você."
+            texto: "Agora conheço a forma como o mundo chama você.",
+            pausa:3000
         },
 
         {
@@ -67,7 +72,8 @@ const PRIMEIRO_ENCONTRO = {
             tipo: "texto",
 
             texto:
-                "Qual foi a última escolha que fez você sentir orgulho de quem está se tornando?"
+                "Qual foi a última escolha que fez você sentir orgulho de quem está se tornando?",
+            pausa:5000
 
         },
 
@@ -92,7 +98,8 @@ const PRIMEIRO_ENCONTRO = {
             tipo: "texto",
 
             texto:
-                "Algumas respostas só aparecem depois que a vida participa da conversa."
+                "Algumas respostas só aparecem depois que a vida participa da conversa.",
+            pausa:5000
 
         },
 
