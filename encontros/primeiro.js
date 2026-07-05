@@ -67,11 +67,15 @@ const PRIMEIRO_ENCONTRO = {
             pausa: CONFIG.pausa.media
         },
 
-        {
-            tipo: "texto",
-            texto: "Qual foi a última escolha que fez você sentir orgulho de quem está se tornando?",
-            pausa: CONFIG.pausa.longa
-        },
+       {
+    tipo: "texto",
+
+    texto:
+        "Qual foi a última escolha que fez você sentir orgulho de quem está se tornando?",
+
+    pausa: 14000
+
+},
 
         {
             tipo: "silencio",
