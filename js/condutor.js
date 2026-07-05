@@ -86,19 +86,34 @@ const Condutor = {
 
     async escolha(cena) {
 
-        const resposta = await Palco.escolha(
+    // Mostra apenas a pergunta
+    await Palco.mostrarTexto(
 
-            cena.pergunta,
+        cena.pergunta
 
-            cena.positivo,
+    );
 
-            cena.negativo
+    // Tempo para a pessoa ler antes dos botões
+    await Palco.esperar(
 
-        );
+        cena.pausa ?? CONFIG.pausa.media
 
-        MEMORIA.escolhas.push(resposta);
+    );
 
-    },
+    // Agora aparecem os botões
+    const resposta = await Palco.escolha(
+
+        cena.pergunta,
+
+        cena.positivo,
+
+        cena.negativo
+
+    );
+
+    MEMORIA.escolhas.push(resposta);
+
+}
 
     //---------------------------------------
 
