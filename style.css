@@ -163,3 +163,38 @@ input{
     }
 
 }
+#areaBotoes{
+
+    margin-top:40px;
+
+}
+
+.botao{
+
+    opacity:1;
+
+    transition:
+        opacity .8s,
+        transform .8s;
+
+}
+
+.botao.oculto{
+
+    opacity:0;
+
+    transform:translateY(15px);
+
+    pointer-events:none;
+
+}
+
+.botao.visivel{
+
+    opacity:1;
+
+    transform:translateY(0);
+
+    pointer-events:auto;
+
+}
