@@ -14,13 +14,13 @@ const PRIMEIRO_ENCONTRO = {
         {
             tipo: "texto",
             texto: "Você veio...",
-            pausa: CONFIG.pausa.longa
+            pausa: 3000
         },
 
         {
             tipo: "texto",
             texto: "Imaginei que você viria.",
-            pausa: CONFIG.pausa.longa
+            pausa: 3000
         },
 
         {
@@ -64,7 +64,7 @@ const PRIMEIRO_ENCONTRO = {
         {
             tipo: "texto",
             texto: "Pergunte-se.",
-            pausa: CONFIG.pausa.media
+            pausa: 3000
         },
 
         {
@@ -75,25 +75,25 @@ const PRIMEIRO_ENCONTRO = {
 
         {
             tipo: "silencio",
-            tempo: CONFIG.pausa.silencio
+            tempo: 8000
         },
 
         {
             tipo: "texto",
             texto: "Não responda agora.",
-            pausa: CONFIG.pausa.media
+            pausa: 5000
         },
 
         {
             tipo: "texto",
             texto: "Viva primeiro.",
-            pausa: CONFIG.pausa.media
+            pausa: 5000
         },
 
         {
             tipo: "texto",
             texto: "Algumas respostas só aparecem depois que a vida participa da conversa.",
-            pausa: CONFIG.pausa.longa
+            pausa: 8000
         },
 
         {
