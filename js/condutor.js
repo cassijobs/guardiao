@@ -61,14 +61,17 @@ const Condutor = {
 
     async texto(cena) {
 
-        Palco.mostrarTexto(
-            this.substituir(cena.texto)
-        );
+    await Palco.mostrarTexto(
 
-        await Palco.esperar(CONFIG.pausa.media);
+        this.substituir(cena.texto)
 
-    },
+    );
 
+    const pausa = cena.pausa ?? CONFIG.pausa.media;
+
+    await Palco.esperar(pausa);
+
+}
     //---------------------------------------
 
     async nome(cena) {
