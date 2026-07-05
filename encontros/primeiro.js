@@ -70,7 +70,7 @@ const PRIMEIRO_ENCONTRO = {
         {
             tipo: "texto",
             texto: "Qual foi a última escolha que fez você sentir orgulho de quem está se tornando?",
-            pausa: CONFIG.pausa.longa
+            pausa: 14000
         },
 
         {
