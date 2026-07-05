@@ -202,7 +202,7 @@ const Palco = {
 
     });
 
-},
+
 },
 
     esperar(ms){
