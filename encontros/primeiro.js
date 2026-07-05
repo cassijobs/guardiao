@@ -52,17 +52,16 @@ const PRIMEIRO_ENCONTRO = {
         },
 
         {
-            tipo: "escolha",
+    tipo: "escolha",
 
-            pergunta:
-                "Você está disposto a reservar alguns instantes para refletir sobre si mesmo?",
-            pausa:5000
+    pergunta:
+        "Você está disposto a reservar alguns instantes para refletir sobre si mesmo?",
 
-            positivo: "Sim",
+    positivo: "Sim",
 
-            negativo: "Ainda não"
+    negativo: "Ainda não"
 
-        },
+},
 
         {
             tipo: "texto",
