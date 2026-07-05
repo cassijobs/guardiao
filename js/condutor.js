@@ -1,4 +1,3 @@
-
 /*
 ======================================================
 GUARDIÃO v2.0
@@ -49,30 +48,21 @@ const Condutor = {
 
     },
 
-    //---------------------------------------
-
     substituir(texto) {
-
         return texto.replaceAll("{nome}", MEMORIA.nome);
-
     },
-
-    //---------------------------------------
 
     async texto(cena) {
 
-    await Palco.mostrarTexto(
+        await Palco.mostrarTexto(
+            this.substituir(cena.texto)
+        );
 
-        this.substituir(cena.texto)
+        const pausa = cena.pausa ?? CONFIG.pausa.media;
 
-    );
+        await Palco.esperar(pausa);
 
-    const pausa = cena.pausa ?? CONFIG.pausa.media;
-
-    await Palco.esperar(pausa);
-
-}
-    //---------------------------------------
+    },
 
     async nome(cena) {
 
@@ -82,40 +72,23 @@ const Condutor = {
 
     },
 
-    //---------------------------------------
+    async escolha(cena) {
 
-   async escolha(cena) {
+        await Palco.mostrarTexto(cena.pergunta);
 
-    // Mostra somente a pergunta
-    await Palco.mostrarTexto(
+        await Palco.esperar(
+            cena.pausa ?? 7000
+        );
 
-        cena.pergunta
+        const resposta = await Palco.mostrarBotoes(
+            cena.pergunta,
+            cena.positivo,
+            cena.negativo
+        );
 
-    );
+        MEMORIA.escolhas.push(resposta);
 
-    // Dá tempo para a pessoa ler
-    await Palco.esperar(
-
-        cena.pausa ?? 7000
-
-    );
-
-    // Agora apenas os botões aparecem
-    const resposta = await Palco.mostrarBotoes(
-
-        cena.pergunta,
-
-        cena.positivo,
-
-        cena.negativo
-
-    );
-
-    MEMORIA.escolhas.push(resposta);
-
-},
-
-    //---------------------------------------
+    },
 
     async silencio(cena) {
 
@@ -124,9 +97,7 @@ const Condutor = {
         MEMORIA.toquesNoSilencio = 0;
 
         const contarToque = () => {
-
             MEMORIA.toquesNoSilencio++;
-
         };
 
         document.addEventListener("click", contarToque);
@@ -137,13 +108,13 @@ const Condutor = {
 
         if (MEMORIA.toquesNoSilencio > 0) {
 
-            Palco.mostrarTexto(
+            await Palco.mostrarTexto(
                 "Percebo que a espera não é fácil."
             );
 
             await Palco.esperar(CONFIG.pausa.media);
 
-            Palco.mostrarTexto(
+            await Palco.mostrarTexto(
                 "Reflita mais um instante."
             );
 
@@ -153,11 +124,9 @@ const Condutor = {
 
     },
 
-    //---------------------------------------
-
     async fim(cena) {
 
-        Palco.mostrarTexto(
+        await Palco.mostrarTexto(
             this.substituir(cena.texto)
         );
 
