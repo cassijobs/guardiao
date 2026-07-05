@@ -147,6 +147,52 @@ const Palco = {
         });
 
     },
+    mostrarBotoes(pergunta, positivo, negativo) {
+
+    return new Promise(resolve => {
+
+        this.elemento.innerHTML = `
+
+            <div class="pergunta">
+
+                ${pergunta}
+
+            </div>
+
+            <div id="areaBotoes" class="oculto">
+
+                <button class="botao" id="sim">
+
+                    ${positivo}
+
+                </button>
+
+                <button class="botao" id="nao">
+
+                    ${negativo}
+
+                </button>
+
+            </div>
+
+        `;
+
+        setTimeout(() => {
+
+            const area = document.getElementById("areaBotoes");
+
+            area.classList.remove("oculto");
+            area.classList.add("visivel");
+
+        }, 100);
+
+        document.getElementById("sim").onclick = () => resolve(true);
+
+        document.getElementById("nao").onclick = () => resolve(false);
+
+    });
+
+},
 
     esperar(ms){
 
