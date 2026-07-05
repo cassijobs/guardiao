@@ -14,49 +14,48 @@ const Palco = {
     elemento: null,
 
     iniciar() {
-
         this.elemento = document.getElementById("guardiao");
-
     },
 
     limpar() {
-
         this.elemento.innerHTML = "";
-
     },
 
-   mostrarTexto(texto) {
+    esperar(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    },
 
-    return new Promise(resolve => {
+    mostrarTexto(texto) {
 
-        this.elemento.classList.remove("visivel");
-        this.elemento.classList.add("oculto");
+        return new Promise(resolve => {
 
-        setTimeout(() => {
+            this.elemento.classList.remove("visivel");
+            this.elemento.classList.add("oculto");
 
-            this.elemento.innerHTML = `
-                <div>
-                    ${texto}
-                </div>
-            `;
+            setTimeout(() => {
 
-            this.elemento.classList.remove("oculto");
-            this.elemento.classList.add("visivel");
+                this.elemento.innerHTML = `
+                    <div>
+                        ${texto}
+                    </div>
+                `;
 
-            resolve();
+                this.elemento.classList.remove("oculto");
+                this.elemento.classList.add("visivel");
 
-        }, CONFIG.fade);
+                resolve();
 
-    });
+            }, CONFIG.fade);
 
-},
+        });
+
+    },
 
     pedirNome(pergunta) {
 
         return new Promise(resolve => {
 
             this.elemento.innerHTML = `
-
                 <div class="pergunta">
                     ${pergunta}
                 </div>
@@ -71,7 +70,6 @@ const Palco = {
                 <button class="botao" id="confirmar">
                     Continuar
                 </button>
-
             `;
 
             const input = document.getElementById("nome");
@@ -81,11 +79,9 @@ const Palco = {
 
                 const nome = input.value.trim();
 
-                if(nome.length===0){
-
+                if (nome.length === 0) {
                     input.focus();
                     return;
-
                 }
 
                 resolve(nome);
@@ -94,14 +90,10 @@ const Palco = {
 
             botao.addEventListener("click", confirmar);
 
-            input.addEventListener("keydown", e=>{
-
-                if(e.key==="Enter"){
-
+            input.addEventListener("keydown", e => {
+                if (e.key === "Enter") {
                     confirmar();
-
                 }
-
             });
 
             input.focus();
@@ -110,104 +102,43 @@ const Palco = {
 
     },
 
-    escolha(pergunta, positivo, negativo){
+    mostrarBotoes(pergunta, positivo, negativo) {
 
-        return new Promise(resolve=>{
+        return new Promise(resolve => {
 
-            this.elemento.innerHTML=`
-
+            this.elemento.innerHTML = `
                 <div class="pergunta">
-
                     ${pergunta}
-
                 </div>
 
-                <button class="botao" id="sim">
+                <div id="areaBotoes">
+                    <button class="botao oculto" id="sim">
+                        ${positivo}
+                    </button>
 
-                    ${positivo}
-
-                </button>
-
-                <button class="botao" id="nao">
-
-                    ${negativo}
-
-                </button>
-
+                    <button class="botao oculto" id="nao">
+                        ${negativo}
+                    </button>
+                </div>
             `;
 
-            document
-                .getElementById("sim")
-                .onclick=()=>resolve(true);
+            const btnSim = document.getElementById("sim");
+            const btnNao = document.getElementById("nao");
 
-            document
-                .getElementById("nao")
-                .onclick=()=>resolve(false);
+            setTimeout(() => {
+                btnSim.classList.remove("oculto");
+                btnSim.classList.add("visivel");
+            }, 200);
+
+            setTimeout(() => {
+                btnNao.classList.remove("oculto");
+                btnNao.classList.add("visivel");
+            }, 700);
+
+            btnSim.onclick = () => resolve(true);
+            btnNao.onclick = () => resolve(false);
 
         });
-
-    },
-   mostrarBotoes(pergunta, positivo, negativo) {
-
-    return new Promise(resolve => {
-
-        this.elemento.innerHTML = `
-
-            <div class="pergunta">
-
-                ${pergunta}
-
-            </div>
-
-            <div id="areaBotoes">
-
-                <button class="botao oculto" id="sim">
-
-                    ${positivo}
-
-                </button>
-
-                <button class="botao oculto" id="nao">
-
-                    ${negativo}
-
-                </button>
-
-            </div>
-
-        `;
-
-        const btnSim = document.getElementById("sim");
-        const btnNao = document.getElementById("nao");
-
-        // Primeiro aparece o SIM
-        setTimeout(() => {
-
-            btnSim.classList.remove("oculto");
-            btnSim.classList.add("visivel");
-
-        }, 200);
-
-        // Meio segundo depois aparece o NÃO
-        setTimeout(() => {
-
-            btnNao.classList.remove("oculto");
-            btnNao.classList.add("visivel");
-
-        }, 700);
-
-        btnSim.onclick = () => resolve(true);
-
-        btnNao.onclick = () => resolve(false);
-
-    });
-
-
-},
-
-    esperar(ms){
-
-        return new Promise(resolve=>setTimeout(resolve,ms));
 
     }
 
