@@ -147,7 +147,7 @@ const Palco = {
         });
 
     },
-    mostrarBotoes(pergunta, positivo, negativo) {
+   mostrarBotoes(pergunta, positivo, negativo) {
 
     return new Promise(resolve => {
 
@@ -159,15 +159,15 @@ const Palco = {
 
             </div>
 
-            <div id="areaBotoes" class="oculto">
+            <div id="areaBotoes">
 
-                <button class="botao" id="sim">
+                <button class="botao oculto" id="sim">
 
                     ${positivo}
 
                 </button>
 
-                <button class="botao" id="nao">
+                <button class="botao oculto" id="nao">
 
                     ${negativo}
 
@@ -177,21 +177,32 @@ const Palco = {
 
         `;
 
+        const btnSim = document.getElementById("sim");
+        const btnNao = document.getElementById("nao");
+
+        // Primeiro aparece o SIM
         setTimeout(() => {
 
-            const area = document.getElementById("areaBotoes");
+            btnSim.classList.remove("oculto");
+            btnSim.classList.add("visivel");
 
-            area.classList.remove("oculto");
-            area.classList.add("visivel");
+        }, 200);
 
-        }, 100);
+        // Meio segundo depois aparece o NÃO
+        setTimeout(() => {
 
-        document.getElementById("sim").onclick = () => resolve(true);
+            btnNao.classList.remove("oculto");
+            btnNao.classList.add("visivel");
 
-        document.getElementById("nao").onclick = () => resolve(false);
+        }, 700);
+
+        btnSim.onclick = () => resolve(true);
+
+        btnNao.onclick = () => resolve(false);
 
     });
 
+},
 },
 
     esperar(ms){
