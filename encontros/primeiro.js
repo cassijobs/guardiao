@@ -56,6 +56,7 @@ const PRIMEIRO_ENCONTRO = {
 
             pergunta:
                 "Você está disposto a reservar alguns instantes para refletir sobre si mesmo?",
+            pausa:5000
 
             positivo: "Sim",
 
