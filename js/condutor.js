@@ -113,7 +113,7 @@ const Condutor = {
 
     MEMORIA.escolhas.push(resposta);
 
-}
+},
 
     //---------------------------------------
 
