@@ -84,24 +84,24 @@ const Condutor = {
 
     //---------------------------------------
 
-    async escolha(cena) {
+   async escolha(cena) {
 
-    // Mostra apenas a pergunta
+    // Mostra somente a pergunta
     await Palco.mostrarTexto(
 
         cena.pergunta
 
     );
 
-    // Tempo para a pessoa ler antes dos botões
+    // Dá tempo para a pessoa ler
     await Palco.esperar(
 
-        cena.pausa ?? CONFIG.pausa.media
+        cena.pausa ?? 7000
 
     );
 
-    // Agora aparecem os botões
-    const resposta = await Palco.escolha(
+    // Agora apenas os botões aparecem
+    const resposta = await Palco.mostrarBotoes(
 
         cena.pergunta,
 
