@@ -61,42 +61,44 @@ const PRIMEIRO_ENCONTRO = {
             ]
         },
 
-       {
-    tipo: "texto",
-    texto: "Pergunte-se.",
-    pausa: 3000
-},
+        {
+            tipo: "texto",
+            texto: "Pergunte-se.",
+            pausa: CONFIG.pausa.media
+        },
 
-{
-    tipo: "texto",
-    texto: "Qual foi a última escolha que fez você sentir orgulho de quem está se tornando?",
-    pausa: 14000
-},
+        {
+            tipo: "texto",
+            texto: "Qual foi a última escolha que fez você sentir orgulho de quem está se tornando?",
+            pausa: CONFIG.pausa.longa
+        },
 
-{
-    tipo: "silencio",
-    tempo: 8000
-},
+        {
+            tipo: "silencio",
+            tempo: CONFIG.pausa.silencio
+        },
 
-{
-    tipo: "texto",
-    texto: "Não responda agora.",
-    pausa: 5000
-},
+        {
+            tipo: "texto",
+            texto: "Não responda agora.",
+            pausa: CONFIG.pausa.media
+        },
 
-{
-    tipo: "texto",
-    texto: "Viva primeiro.",
-    pausa: 5000
-},
+        {
+            tipo: "texto",
+            texto: "Viva primeiro.",
+            pausa: CONFIG.pausa.media
+        },
 
-{
-    tipo: "texto",
-    texto: "Algumas respostas só aparecem depois que a vida participa da conversa.",
-    pausa: 8000
-},
+        {
+            tipo: "texto",
+            texto: "Algumas respostas só aparecem depois que a vida participa da conversa.",
+            pausa: CONFIG.pausa.longa
+        },
 
-{
-    tipo: "fim",
-    texto: "O restante deste encontro acontecerá longe de mim."
-}
+        {
+            tipo: "fim",
+            texto: "O restante deste encontro acontecerá longe de mim."
+        }
+    ]
+};
