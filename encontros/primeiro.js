@@ -51,7 +51,7 @@ const PRIMEIRO_ENCONTRO = {
             pausa:3000
         },
 
-       {
+      {
     tipo: "escolha",
 
     pergunta:
