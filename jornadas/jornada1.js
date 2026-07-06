@@ -54,7 +54,7 @@ const JORNADA1 = [
                 tipo: "escolha",
                 id: "compromisso_reflexao",
                 pergunta: "Você está disposto a reservar alguns instantes para refletir sobre si mesmo?",
-                pausa: 7000,
+                pausa: 3000,
                 positivo: "Sim",
                 negativo: "Ainda não",
                 seNegativo: [
