@@ -1,47 +1,50 @@
-/*
-======================================================
-GUARDIÃO v2.0.1
-MEMÓRIA
-======================================================
-*/
-
 const MEMORIA = {
     nome: "",
     encontroAtual: 1,
-    totalEncontros: 0,
-    toquesNoSilencio: 0,
+    ultimoEncontro: "",
     escolhas: [],
 
     carregar() {
-        const dados = localStorage.getItem(CONFIG.armazenamento.chave);
+        const dados = localStorage.getItem("guardiao_memoria");
 
-        if (!dados) return;
-
-        try {
-            const memoriaSalva = JSON.parse(dados);
-            Object.assign(this, memoriaSalva);
-        } catch (erro) {
-            console.warn("Não foi possível carregar a memória do Guardião.", erro);
+        if (dados) {
+            Object.assign(this, JSON.parse(dados));
         }
     },
 
     salvar() {
-        const dados = {
+        localStorage.setItem("guardiao_memoria", JSON.stringify({
             nome: this.nome,
             encontroAtual: this.encontroAtual,
-            totalEncontros: this.totalEncontros,
+            ultimoEncontro: this.ultimoEncontro,
             escolhas: this.escolhas
-        };
-
-        localStorage.setItem(CONFIG.armazenamento.chave, JSON.stringify(dados));
+        }));
     },
 
     resetar() {
-        localStorage.removeItem(CONFIG.armazenamento.chave);
+        localStorage.removeItem("guardiao_memoria");
+
         this.nome = "";
         this.encontroAtual = 1;
-        this.totalEncontros = 0;
-        this.toquesNoSilencio = 0;
+        this.ultimoEncontro = "";
         this.escolhas = [];
+    },
+
+    hoje() {
+        return new Date().toISOString().split("T")[0];
+    },
+
+    jaFezHoje() {
+        return this.ultimoEncontro === this.hoje();
+    },
+
+    concluirEncontro(totalEncontros) {
+        this.ultimoEncontro = this.hoje();
+
+        if (this.encontroAtual < totalEncontros) {
+            this.encontroAtual++;
+        }
+
+        this.salvar();
     }
 };
