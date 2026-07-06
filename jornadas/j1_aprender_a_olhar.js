@@ -106,6 +106,191 @@ const JORNADA1 = [
             }
 
         ]
-    }
+    },
 
+{
+    id: "J1-E02",
+    titulo: "Os Primeiros Pensamentos",
+    versao: "1.0",
+
+    cenas: [
+
+        {
+            tipo: "texto",
+            texto: "Você voltou.",
+            pausa: 3000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Ontem iniciamos uma caminhada.",
+            pausa: 4000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Hoje quero apenas que observe uma coisa.",
+            pausa: 4000
+        },
+
+        {
+            tipo: "texto",
+            texto: "O que costuma ocupar seus primeiros pensamentos ao acordar?",
+            pausa: 8000
+        },
+
+        {
+            tipo: "silencio",
+            tempo: 3000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Não tente responder agora.",
+            pausa: 4000
+        },
+
+        {
+            tipo: "fim",
+            texto: "Apenas observe."
+        }
+
+    ]
+
+},
+
+{
+    id: "J1-E03",
+    titulo: "As Pequenas Escolhas",
+    versao: "1.0",
+
+    cenas: [
+
+        {
+            tipo: "texto",
+            texto: "Você voltou.",
+            pausa: 3000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Nossa vida costuma mudar em pequenos passos.",
+            pausa: 5000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Observe apenas isto.",
+            pausa: 3000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Quantas das suas atitudes de hoje foram realmente escolhidas... e quantas apenas repetidas?",
+            pausa: 8000
+        },
+
+        {
+            tipo: "silencio",
+            tempo: 3000
+        },
+
+        {
+            tipo: "fim",
+            texto: "Perceber já é um começo."
+        }
+
+    ]
+
+},
+
+{
+    id: "J1-E04",
+    titulo: "A Atenção",
+    versao: "1.0",
+
+    cenas: [
+
+        {
+            tipo: "texto",
+            texto: "Hoje observaremos outra coisa.",
+            pausa: 4000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Sua atenção.",
+            pausa: 3000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Ela é um dos seus bens mais valiosos.",
+            pausa: 5000
+        },
+
+        {
+            tipo: "texto",
+            texto: "O que mais roubou sua atenção hoje?",
+            pausa: 8000
+        },
+
+        {
+            tipo: "silencio",
+            tempo: 3000
+        },
+
+        {
+            tipo: "fim",
+            texto: "Aquilo que recebe sua atenção começa, pouco a pouco, a dirigir sua vida."
+        }
+
+    ]
+
+},
+
+{
+    id: "J1-E05",
+    titulo: "As Reações",
+    versao: "1.0",
+
+    cenas: [
+
+        {
+            tipo: "texto",
+            texto: "Hoje não observe o mundo.",
+            pausa: 4000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Observe você dentro dele.",
+            pausa: 4000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Em que momento do dia você reagiu antes de compreender a situação?",
+            pausa: 8000
+        },
+
+        {
+            tipo: "silencio",
+            tempo: 3000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Nem toda resposta precisa nascer imediatamente.",
+            pausa: 4000
+        },
+
+        {
+            tipo: "fim",
+            texto: "Hoje, permita-se compreender antes de reagir."
+        }
+
+    ]
+
+} 
 ];
