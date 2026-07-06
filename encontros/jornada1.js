@@ -5,8 +5,8 @@ PRIMEIRO ENCONTRO
 ======================================================
 */
 
-const PRIMEIRO_ENCONTRO = {
-    id: "primeiro_encontro",
+const JORNADA1 = {
+    id: "J1-E01",
     titulo: "O Primeiro Encontro",
     versao: "1.0",
 
