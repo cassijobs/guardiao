@@ -292,7 +292,7 @@ const JORNADA1 = [
 
     ]
 
-} 
+},
     {
     id: "J1-E06",
     titulo: "Ouvir",
@@ -335,7 +335,7 @@ const JORNADA1 = [
         }
 
     ]
-}
+},
 {
     id: "J1-E07",
     titulo: "O Automático",
