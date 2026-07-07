@@ -500,5 +500,219 @@ const JORNADA1 = [
         }
 
     ]
+},
+    {
+    id: "J1-E11",
+    titulo: "Olhar",
+
+    versao: "1.0",
+
+    cenas: [
+
+        {
+            tipo: "texto",
+            texto: "Na última vez em que conversamos, você observou as palavras.",
+            pausa: 5000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Hoje quero lhe propor algo diferente.",
+            pausa: 4000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Antes de olhar para os outros... experimente olhar para si mesmo com a mesma gentileza que gostaria de receber.",
+            pausa: 9000
+        },
+
+        {
+            tipo: "silencio",
+            tempo: 3000
+        },
+
+        {
+            tipo: "fim",
+            texto: "Agora permita que esta reflexão acompanhe o restante do seu dia."
+        }
+
+    ]
+},
+
+{
+    id: "J1-E12",
+    titulo: "Sem Pressa",
+
+    versao: "1.0",
+
+    cenas: [
+
+        {
+            tipo: "texto",
+            texto: "Existe uma curiosidade sobre a vida.",
+            pausa: 5000
+        },
+
+        {
+            tipo: "texto",
+            texto: "As mudanças mais importantes quase nunca fazem barulho.",
+            pausa: 7000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Elas acontecem enquanto seguimos caminhando.",
+            pausa: 6000
+        },
+
+        {
+            tipo: "fim",
+            texto: "Hoje, apenas continue caminhando."
+        }
+
+    ]
+},
+
+{
+    id: "J1-E13",
+    titulo: "O Invisível",
+
+    versao: "1.0",
+
+    cenas: [
+
+        {
+            tipo: "texto",
+            texto: "Talvez você ainda não perceba.",
+            pausa: 5000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Mas toda caminhada deixa marcas.",
+            pausa: 5000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Nem todas aparecem nos pés.",
+            pausa: 5000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Algumas aparecem na maneira como passamos a enxergar a vida.",
+            pausa: 7000
+        },
+
+        {
+            tipo: "fim",
+            texto: "Agora permita que esta reflexão acompanhe o restante do seu dia."
+        }
+
+    ]
+},
+
+{
+    id: "J1-E14",
+    titulo: "O Caminho",
+
+    versao: "1.0",
+
+    cenas: [
+
+        {
+            tipo: "texto",
+            texto: "No início desta caminhada, talvez você esperasse encontrar respostas.",
+            pausa: 7000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Espero que tenha encontrado perguntas melhores.",
+            pausa: 7000
+        },
+
+        {
+            tipo: "silencio",
+            tempo: 3000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Algumas perguntas merecem ser vividas antes de serem respondidas.",
+            pausa: 8000
+        },
+
+        {
+            tipo: "fim",
+            texto: "Agora permita que esta reflexão acompanhe o restante do seu dia."
+        }
+
+    ]
+},
+
+{
+    id: "J1-E15",
+    titulo: "O Primeiro Trecho",
+
+    versao: "1.0",
+
+    cenas: [
+
+        {
+            tipo: "texto",
+            texto: "Chegamos ao fim da primeira etapa da nossa caminhada.",
+            pausa: 7000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Antes de seguirmos adiante, reserve alguns instantes para olhar o caminho percorrido.",
+            pausa: 8000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Se pudesse conversar com a pessoa que iniciou esta jornada... o que você lhe diria hoje?",
+            pausa: 10000
+        },
+
+        {
+            tipo: "silencio",
+            tempo: 5000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Talvez a maior mudança ainda não esteja nas respostas que encontrou...",
+            pausa: 7000
+        },
+
+        {
+            tipo: "texto",
+            texto: "...mas na maneira como aprendeu a olhar para si mesmo.",
+            pausa: 7000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Você concluiu esta etapa da caminhada.",
+            pausa: 5000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Nossa caminhada continua.",
+            pausa: 5000
+        },
+
+        {
+            tipo: "fim",
+            texto: "Obrigado por chegar até aqui."
+        }
+
+    ]
 }
 ];
