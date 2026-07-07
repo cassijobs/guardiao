@@ -22,3 +22,16 @@ const CONFIG = {
         chave: "guardiao_v2_memoria"
     }
 };
+const CONFIG = {
+
+    desenvolvedor: true,
+
+    fade: 800,
+
+    pausa: {
+        curta: 3000,
+        media: 5000,
+        longa: 7000
+    }
+
+};
