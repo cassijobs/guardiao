@@ -62,7 +62,7 @@ async function iniciar() {
 
     }
 
-    if (!MEMORIA.nome) {
+    if (!CONFIG.desenvolvedor && !MEMORIA.nome) {
 
         indice = 0;
 
