@@ -6,6 +6,7 @@ const RETORNO_DO_DIA = {
     versao: "1.0",
 
     cenas: [
+
         {
             tipo: "texto",
             texto: "Nem toda pergunta espera uma resposta.",
@@ -22,6 +23,7 @@ const RETORNO_DO_DIA = {
             tipo: "fim",
             texto: "Amanhã caminharemos um pouco mais."
         }
+
     ]
 };
 
@@ -30,35 +32,58 @@ async function iniciar() {
     const parametros = new URLSearchParams(window.location.search);
 
     if (parametros.get("reset") === "1") {
+
         MEMORIA.resetar();
+
     } else {
+
         MEMORIA.carregar();
+
     }
 
     const encontros = JORNADA1;
 
     if (!CONFIG.desenvolvedor) {
 
-    if (MEMORIA.nome && MEMORIA.jaFezHoje()) {
+        if (MEMORIA.nome && MEMORIA.jaFezHoje()) {
 
-        await Condutor.executar(RETORNO_DO_DIA);
+            await Condutor.executar(RETORNO_DO_DIA);
+            return;
 
-        return;
+        }
 
     }
-
 
     let indice = MEMORIA.encontroAtual - 1;
 
+    if (CONFIG.desenvolvedor) {
+
+        indice = CONFIG.encontroTeste - 1;
+
+    }
+
     if (!MEMORIA.nome) {
+
         indice = 0;
+
     }
 
     if (indice < 0 || indice >= encontros.length) {
+
         indice = encontros.length - 1;
+
     }
 
-    await Condutor.executar(encontros[indice]);
+    await Condutor.executar(
 
-    MEMORIA.concluirEncontro(encontros.length);
+        encontros[indice]
+
+    );
+
+    if (!CONFIG.desenvolvedor) {
+
+        MEMORIA.concluirEncontro(encontros.length);
+
+    }
+
 }
