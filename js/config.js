@@ -25,6 +25,7 @@ const CONFIG = {
 const CONFIG = {
 
     desenvolvedor: true,
+     encontroTeste: 1
 
     fade: 800,
 
