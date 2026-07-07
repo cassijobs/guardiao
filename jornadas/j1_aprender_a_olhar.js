@@ -368,7 +368,7 @@ const JORNADA1 = [
 
     ]
 },
-    ,
+    
 
 {
     id: "J1-E08",
