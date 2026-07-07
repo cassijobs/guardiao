@@ -7,7 +7,7 @@ MODO DESENVOLVEDOR
 
 const DEV = {
 
-    ativo: true,
+    ativo: false,
 
     encontro: 6,
 
