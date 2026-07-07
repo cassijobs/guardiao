@@ -13,7 +13,7 @@ const CONFIG = {
 
     // Escolha aqui qual encontro abrir no modo desenvolvedor.
     // Exemplo: 1, 2, 3, 4...
-    encontroTeste: 2,
+    encontroTeste: 3,
 
     versao: "2.0.1",
 
