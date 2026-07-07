@@ -9,7 +9,7 @@ const DEV = {
 
     ativo: false,
 
-    encontro: 5,
+    encontro: 1,
 
     nome: "Cassiano",
 
