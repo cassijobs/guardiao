@@ -293,4 +293,79 @@ const JORNADA1 = [
     ]
 
 } 
+    {
+    id: "J1-E06",
+    titulo: "Ouvir",
+    versao: "1.0",
+
+    cenas: [
+
+        {
+            tipo: "texto",
+            texto: "Ontem eu lhe pedi que observasse suas reações.",
+            pausa: 5000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Hoje quero lhe mostrar outra coisa.",
+            pausa: 4000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Existe uma diferença silenciosa entre ouvir alguém... e apenas esperar a sua vez de falar.",
+            pausa: 7000
+        },
+
+        {
+            tipo: "silencio",
+            tempo: 2000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Hoje, apenas perceba quando você realmente ouviu alguém.",
+            pausa: 7000
+        },
+
+        {
+            tipo: "fim",
+            texto: "Agora permita que esta reflexão acompanhe o restante do seu dia."
+        }
+
+    ]
+}
+{
+    id: "J1-E07",
+    titulo: "O Automático",
+    versao: "1.0",
+
+    cenas: [
+
+        {
+            tipo: "texto",
+            texto: "Quanto mais observamos... mais percebemos que muitas atitudes acontecem sem que as escolhamos.",
+            pausa: 7000
+        },
+
+        {
+            tipo: "texto",
+            texto: "É como caminhar por um caminho conhecido.",
+            pausa: 5000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Hoje observe apenas um momento em que você agiu no automático.",
+            pausa: 8000
+        },
+
+        {
+            tipo: "fim",
+            texto: "Agora permita que esta reflexão acompanhe o restante do seu dia."
+        }
+
+    ]
+}
 ];
