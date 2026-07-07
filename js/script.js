@@ -43,11 +43,18 @@ async function iniciar() {
 
     const encontros = JORNADA1;
 
-    if (!CONFIG.desenvolvedor) {
+    if (DEV.ativo) {
+
+        MEMORIA.nome = DEV.nome;
+
+    }
+
+    if (!DEV.ativo || !DEV.ignorarTravaDiaria) {
 
         if (MEMORIA.nome && MEMORIA.jaFezHoje()) {
 
             await Condutor.executar(RETORNO_DO_DIA);
+
             return;
 
         }
@@ -56,13 +63,13 @@ async function iniciar() {
 
     let indice = MEMORIA.encontroAtual - 1;
 
-    if (CONFIG.desenvolvedor) {
+    if (DEV.ativo) {
 
-        indice = CONFIG.encontroTeste - 1;
+        indice = DEV.encontro - 1;
 
     }
 
-    if (!CONFIG.desenvolvedor && !MEMORIA.nome) {
+    if (!DEV.ativo && !MEMORIA.nome) {
 
         indice = 0;
 
@@ -80,7 +87,7 @@ async function iniciar() {
 
     );
 
-    if (!CONFIG.desenvolvedor) {
+    if (!DEV.ativo) {
 
         MEMORIA.concluirEncontro(encontros.length);
 
