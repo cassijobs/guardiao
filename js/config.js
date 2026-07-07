@@ -1,22 +1,13 @@
 /*
 ======================================================
-GUARDIÃO v2.0.1
-CONFIGURAÇÕES
+GUARDIÃO v3.0
+CONFIGURAÇÕES GERAIS
 ======================================================
 */
 
 const CONFIG = {
 
-    // Quando estiver testando, deixe true.
-    // Quando publicar para usuários, mude para false.
-    desenvolvedor: true,
-
-    // Escolha aqui qual encontro abrir no modo desenvolvedor.
-    // Exemplo: 1, 2, 3, 4...
-    encontroTeste: 3,
-     nomeTeste: "Cassiano",
-
-    versao: "2.0.1",
+    versao: "3.0.0",
 
     fade: 800,
 
