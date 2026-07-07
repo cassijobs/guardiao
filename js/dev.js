@@ -7,12 +7,11 @@ MODO DESENVOLVEDOR
 
 const DEV = {
 
-    ativo: false,
+    ativo: true,
 
     encontro: 1,
 
     nome: "Cassiano",
 
-    ignorarTravaDiaria: false
-
+    ignorarTravaDiaria: true
 };
