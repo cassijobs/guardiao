@@ -37,10 +37,16 @@ async function iniciar() {
 
     const encontros = JORNADA1;
 
+    if (!CONFIG.desenvolvedor) {
+
     if (MEMORIA.nome && MEMORIA.jaFezHoje()) {
+
         await Condutor.executar(RETORNO_DO_DIA);
+
         return;
+
     }
+
 
     let indice = MEMORIA.encontroAtual - 1;
 
