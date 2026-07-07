@@ -13,6 +13,6 @@ const DEV = {
 
     nome: "Cassiano",
 
-    ignorarTravaDiaria: true
+    ignorarTravaDiaria: false
 
 };
