@@ -367,5 +367,138 @@ const JORNADA1 = [
         }
 
     ]
+},
+    ,
+
+{
+    id: "J1-E08",
+    titulo: "Pensamentos que Retornam",
+    versao: "1.0",
+
+    cenas: [
+
+        {
+            tipo: "texto",
+            texto: "Há pensamentos que voltam muitas vezes.",
+            pausa: 4000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Nem sempre eles querem incomodar.",
+            pausa: 4000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Às vezes, apenas pedem para ser compreendidos.",
+            pausa: 5000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Hoje, observe qual pensamento mais retornou à sua mente.",
+            pausa: 8000
+        },
+
+        {
+            tipo: "silencio",
+            tempo: 3000
+        },
+
+        {
+            tipo: "fim",
+            texto: "Agora permita que esta reflexão acompanhe o restante do seu dia."
+        }
+
+    ]
+},
+
+{
+    id: "J1-E09",
+    titulo: "A Pequena Pausa",
+    versao: "1.0",
+
+    cenas: [
+
+        {
+            tipo: "texto",
+            texto: "Hoje não quero lhe pedir uma resposta.",
+            pausa: 4000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Quero apenas lhe oferecer uma pausa.",
+            pausa: 4000
+        },
+
+        {
+            tipo: "silencio",
+            tempo: 3000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Entre aquilo que acontece e aquilo que você faz... existe um pequeno espaço.",
+            pausa: 7000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Hoje, tente perceber esse espaço.",
+            pausa: 6000
+        },
+
+        {
+            tipo: "fim",
+            texto: "Agora permita que esta reflexão acompanhe o restante do seu dia."
+        }
+
+    ]
+},
+
+{
+    id: "J1-E10",
+    titulo: "As Palavras",
+    versao: "1.0",
+
+    cenas: [
+
+        {
+            tipo: "texto",
+            texto: "As palavras que usamos revelam muito sobre aquilo que carregamos.",
+            pausa: 6000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Algumas aproximam.",
+            pausa: 3000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Outras afastam antes mesmo de serem compreendidas.",
+            pausa: 5000
+        },
+
+        {
+            tipo: "texto",
+            texto: "Hoje, observe qual palavra saiu de você com mais força.",
+            pausa: 8000
+        },
+
+        {
+            tipo: "silencio",
+            tempo: 3000
+        },
+
+        {
+            tipo: "fim",
+            texto: "Agora permita que esta reflexão acompanhe o restante do seu dia."
+        }
+
+    ]
 }
 ];
