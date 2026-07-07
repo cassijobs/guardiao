@@ -6,33 +6,31 @@ CONFIGURAÇÕES
 */
 
 const CONFIG = {
-    versao: "2.0.1",
 
-    pausa: {
-        curta: 1800,
-        media: 3000,
-        longa: 4500,
-        leitura: 7000,
-        silencio: 6000
-    },
-
-    fade: 600,
-
-    armazenamento: {
-        chave: "guardiao_v2_memoria"
-    }
-};
-const CONFIG = {
-
+    // Quando estiver testando, deixe true.
+    // Quando publicar para usuários, mude para false.
     desenvolvedor: true,
-     encontroTeste: 1
+
+    // Escolha aqui qual encontro abrir no modo desenvolvedor.
+    // Exemplo: 1, 2, 3, 4...
+    encontroTeste: 1,
+
+    versao: "2.0.1",
 
     fade: 800,
 
     pausa: {
-        curta: 3000,
-        media: 5000,
-        longa: 7000
+
+        curta: 1800,
+
+        media: 3000,
+
+        longa: 4500,
+
+        leitura: 8000,
+
+        silencio: 3000
+
     }
 
 };
