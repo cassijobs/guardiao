@@ -126,3 +126,44 @@ input{
         width:220px;
     }
 }
+/*
+Adicione este conteúdo ao final do style.css.
+*/
+
+.tela-espera {
+    width: min(90vw, 720px);
+    margin: 0 auto;
+    text-align: center;
+}
+
+.fala-guardiao {
+    margin: 0 0 24px;
+    font-size: clamp(1.45rem, 5vw, 2.1rem);
+    line-height: 1.5;
+}
+
+.fala-secundaria {
+    font-size: clamp(1.15rem, 4vw, 1.55rem);
+    opacity: 0.9;
+}
+
+.horario-encontro {
+    margin-top: 38px;
+    font-size: clamp(1rem, 3.7vw, 1.3rem);
+    line-height: 1.5;
+    opacity: 0.78;
+}
+
+.contagem-encontro {
+    margin-top: 18px;
+    font-size: clamp(2rem, 10vw, 4rem);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.08em;
+}
+
+.data-encontro {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    opacity: 0.55;
+    text-transform: capitalize;
+}
