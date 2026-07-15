@@ -1,61 +1,149 @@
 /*
 ======================================================
-GUARDIÃO v3.0
+GUARDIÃO v3.1
 CONDUTOR
 ======================================================
 Interpreta o roteiro.
-Não controla o avanço diário.
+
+Não controla diretamente o avanço diário.
+
+Ao terminar o encontro principal, comunica ao sistema
+por meio da função:
+
+opcoes.aoConcluir()
 ======================================================
 */
 
 const Condutor = {
 
-    async executar(roteiro) {
+    /*
+    ==================================================
+    EXECUTAR ENCONTRO
+    ==================================================
+    */
+
+    async executar(roteiro, opcoes = {}) {
 
         Palco.iniciar();
 
         for (const cena of roteiro.cenas) {
 
-            const continuar = await this.executarCena(cena);
+            const continuar = await this.executarCena(
+                cena,
+                opcoes
+            );
 
+            /*
+             * Uma cena "fim" no roteiro principal
+             * representa a conclusão verdadeira do encontro.
+             */
             if (continuar === false) {
+
+                if (cena.tipo === "fim") {
+
+                    await this.concluirEncontro(
+                        opcoes
+                    );
+
+                }
+
                 return;
+
             }
 
         }
 
+        /*
+         * Segurança para roteiros que eventualmente
+         * não possuam uma cena do tipo "fim".
+         */
+        await this.concluirEncontro(
+            opcoes
+        );
+
     },
 
-    async executarCena(cena) {
+
+    /*
+    ==================================================
+    CONCLUSÃO DO ENCONTRO
+    ==================================================
+    */
+
+    async concluirEncontro(opcoes = {}) {
+
+        if (
+            typeof opcoes.aoConcluir === "function"
+        ) {
+
+            await opcoes.aoConcluir();
+
+        }
+
+    },
+
+
+    /*
+    ==================================================
+    EXECUTAR CENA
+    ==================================================
+    */
+
+    async executarCena(cena, opcoes = {}) {
 
         switch (cena.tipo) {
 
             case "texto":
+
                 await this.texto(cena);
                 return true;
 
+
             case "nome":
+
                 await this.nome(cena);
                 return true;
 
+
             case "escolha":
-                return await this.escolha(cena);
+
+                return await this.escolha(
+                    cena,
+                    opcoes
+                );
+
 
             case "silencio":
+
                 await this.silencio(cena);
                 return true;
 
+
             case "fim":
+
                 await this.fim(cena);
                 return false;
 
+
             default:
-                console.warn("Cena desconhecida:", cena);
+
+                console.warn(
+                    "Cena desconhecida:",
+                    cena
+                );
+
                 return true;
 
         }
 
     },
+
+
+    /*
+    ==================================================
+    SUBSTITUIR VARIÁVEIS
+    ==================================================
+    */
 
     substituir(texto) {
 
@@ -65,6 +153,13 @@ const Condutor = {
         );
 
     },
+
+
+    /*
+    ==================================================
+    TEXTO
+    ==================================================
+    */
 
     async texto(cena) {
 
@@ -79,9 +174,19 @@ const Condutor = {
 
     },
 
+
+    /*
+    ==================================================
+    NOME
+    ==================================================
+    */
+
     async nome(cena) {
 
-        if (MEMORIA.nome && cena.pularSeExistir) {
+        if (
+            MEMORIA.nome &&
+            cena.pularSeExistir
+        ) {
             return;
         }
 
@@ -93,21 +198,30 @@ const Condutor = {
 
     },
 
-    async escolha(cena) {
+
+    /*
+    ==================================================
+    ESCOLHA
+    ==================================================
+    */
+
+    async escolha(cena, opcoes = {}) {
 
         await Palco.mostrarTexto(
             this.substituir(cena.pergunta)
         );
 
         await Palco.esperar(
-            cena.pausa ?? CONFIG.pausa.leitura
+            cena.pausa ??
+            CONFIG.pausa.leitura
         );
 
-        const resposta = await Palco.mostrarBotoes(
-            this.substituir(cena.pergunta),
-            cena.positivo,
-            cena.negativo
-        );
+        const resposta =
+            await Palco.mostrarBotoes(
+                this.substituir(cena.pergunta),
+                cena.positivo,
+                cena.negativo
+            );
 
         MEMORIA.escolhas.push({
             id: cena.id ?? "escolha",
@@ -116,12 +230,27 @@ const Condutor = {
 
         MEMORIA.salvar();
 
-        if (!resposta && Array.isArray(cena.seNegativo)) {
 
-            for (const subCena of cena.seNegativo) {
+        /*
+        ==============================================
+        RESPOSTA NEGATIVA
+        ==============================================
+        */
+
+        if (
+            !resposta &&
+            Array.isArray(cena.seNegativo)
+        ) {
+
+            for (
+                const subCena of cena.seNegativo
+            ) {
 
                 const continuar =
-                    await this.executarCena(subCena);
+                    await this.executarCena(
+                        subCena,
+                        opcoes
+                    );
 
                 if (continuar === false) {
                     return false;
@@ -129,16 +258,35 @@ const Condutor = {
 
             }
 
+            /*
+             * Uma resposta negativa interrompe o
+             * encontro, mas não o considera concluído.
+             */
             return false;
 
         }
 
-        if (resposta && Array.isArray(cena.sePositivo)) {
 
-            for (const subCena of cena.sePositivo) {
+        /*
+        ==============================================
+        RESPOSTA POSITIVA
+        ==============================================
+        */
+
+        if (
+            resposta &&
+            Array.isArray(cena.sePositivo)
+        ) {
+
+            for (
+                const subCena of cena.sePositivo
+            ) {
 
                 const continuar =
-                    await this.executarCena(subCena);
+                    await this.executarCena(
+                        subCena,
+                        opcoes
+                    );
 
                 if (continuar === false) {
                     return false;
@@ -152,6 +300,13 @@ const Condutor = {
 
     },
 
+
+    /*
+    ==================================================
+    SILÊNCIO
+    ==================================================
+    */
+
     async silencio(cena) {
 
         Palco.limpar();
@@ -159,7 +314,9 @@ const Condutor = {
         MEMORIA.toquesNoSilencio = 0;
 
         const contarToque = () => {
+
             MEMORIA.toquesNoSilencio++;
+
         };
 
         document.addEventListener(
@@ -173,7 +330,8 @@ const Condutor = {
         );
 
         await Palco.esperar(
-            cena.tempo ?? CONFIG.pausa.silencio
+            cena.tempo ??
+            CONFIG.pausa.silencio
         );
 
         document.removeEventListener(
@@ -186,7 +344,9 @@ const Condutor = {
             contarToque
         );
 
-        if (MEMORIA.toquesNoSilencio > 0) {
+        if (
+            MEMORIA.toquesNoSilencio > 0
+        ) {
 
             await Palco.mostrarTexto(
                 "Percebo que a espera não é fácil."
@@ -207,6 +367,13 @@ const Condutor = {
         }
 
     },
+
+
+    /*
+    ==================================================
+    FIM
+    ==================================================
+    */
 
     async fim(cena) {
 
