@@ -23,5 +23,5 @@ const CONFIG = {
      * 5 minutos:   5 * 60 * 1000
      * Produção:    24 * 60 * 60 * 1000
      */
-    intervaloEntreEncontros: 24 * 60 * 60 * 1000
+    intervaloEntreEncontros: 1 * 60 * 1000
 };
