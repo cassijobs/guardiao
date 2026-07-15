@@ -2,22 +2,25 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
     <title>Guardião</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main id="guardiao" aria-live="polite"></main>
 
-    <script src="js/config.js"></script>
-    <script src="js/dev.js"></script>
-    <script src="js/memoria.js"></script>
-    <script src="js/palco.js"></script>
-    <script src="js/condutor.js"></script>
+    <div id="app"></div>
 
-   <script src="jornadas/j1_aprender_a_olhar.js"></script>
-    
+    <!-- A ordem é importante. -->
+    <script src="config.js"></script>
+    <script src="memoria.js"></script>
+    <script src="palco.js"></script>
+    <script src="encontros/jornada1.js"></script>
+    <script src="condutor.js"></script>
+    <script src="agenda.js"></script>
+    <script src="script.js"></script>
 
-    <script src="js/script.js"></script>
 </body>
 </html>
