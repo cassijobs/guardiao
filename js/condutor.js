@@ -149,7 +149,7 @@ const Condutor = {
 
         return texto.replaceAll(
             "{nome}",
-            MEMORIA.nome || ""
+            Memoria.nome || ""
         );
 
     },
@@ -184,17 +184,17 @@ const Condutor = {
     async nome(cena) {
 
         if (
-            MEMORIA.nome &&
+            Memoria.nome &&
             cena.pularSeExistir
         ) {
             return;
         }
 
-        MEMORIA.nome = await Palco.pedirNome(
+        Memoria.nome = await Palco.pedirNome(
             cena.pergunta
         );
 
-        MEMORIA.salvar();
+        Memoria.salvar();
 
     },
 
@@ -223,12 +223,12 @@ const Condutor = {
                 cena.negativo
             );
 
-        MEMORIA.escolhas.push({
+        Memoria.escolhas.push({
             id: cena.id ?? "escolha",
             resposta
         });
 
-        MEMORIA.salvar();
+        Memoria.salvar();
 
 
         /*
@@ -311,11 +311,11 @@ const Condutor = {
 
         Palco.limpar();
 
-        MEMORIA.toquesNoSilencio = 0;
+        Memoria.toquesNoSilencio = 0;
 
         const contarToque = () => {
 
-            MEMORIA.toquesNoSilencio++;
+            Memoria.toquesNoSilencio++;
 
         };
 
@@ -345,7 +345,7 @@ const Condutor = {
         );
 
         if (
-            MEMORIA.toquesNoSilencio > 0
+            Memoria.toquesNoSilencio > 0
         ) {
 
             await Palco.mostrarTexto(
