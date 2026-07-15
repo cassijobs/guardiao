@@ -1,96 +1,75 @@
-window.addEventListener("load", iniciar);
+/*
+======================================================
+GUARDIÃO v2.1 — INICIALIZAÇÃO
+Encontro seguinte marcado 24 horas após a conclusão
+======================================================
 
-const RETORNO_DO_DIA = {
-    id: "retorno_do_dia",
-    titulo: "Retorno do Dia",
-    versao: "1.0",
+Este arquivo pressupõe a estrutura já usada no projeto:
 
-    cenas: [
+- CONFIG
+- Memoria
+- AgendaGuardiao
+- JORNADA1
+- Condutor
 
-        {
-            tipo: "texto",
-            texto: "Nem toda pergunta espera uma resposta.",
-            pausa: 4000
+O Condutor deve expor:
+    Condutor.executar(encontro, opcoes)
+
+E chamar:
+    opcoes.aoConcluir()
+
+somente depois da última cena do encontro.
+======================================================
+*/
+
+const app = document.getElementById("app");
+
+async function iniciarGuardiao() {
+    AgendaGuardiao.pararRelogio();
+
+    const memoria = Memoria.carregar();
+    const total = JORNADA1.length;
+
+    if (memoria.encontroAtual >= total) {
+        AgendaGuardiao.jornadaConcluida(app);
+        return;
+    }
+
+    if (!Memoria.podeIniciarAgora(memoria)) {
+        AgendaGuardiao.mostrarEspera(
+            app,
+            iniciarGuardiao
+        );
+        return;
+    }
+
+    const encontro = JORNADA1[memoria.encontroAtual];
+
+    /*
+     * Marcar "em andamento" não avança a jornada.
+     * Se a página for fechada no meio, o mesmo encontro será
+     * apresentado novamente.
+     */
+    Memoria.iniciarEncontro();
+
+    await Condutor.executar(encontro, {
+        nome: memoria.nome,
+
+        aoSalvarNome(nome) {
+            Memoria.salvarNome(nome);
         },
 
-        {
-            tipo: "texto",
-            texto: "Algumas esperam uma transformação.",
-            pausa: 5000
-        },
-
-        {
-            tipo: "fim",
-            texto: "Amanhã caminharemos um pouco mais."
+        aoConcluir() {
+            /*
+             * O horário é marcado neste ponto:
+             * exatamente quando o encontro termina.
+             */
+            Memoria.concluirEncontro(total);
         }
-
-    ]
-};
-
-async function iniciar() {
-
-    const parametros = new URLSearchParams(window.location.search);
-
-    if (parametros.get("reset") === "1") {
-
-        MEMORIA.resetar();
-
-    } else {
-
-        MEMORIA.carregar();
-
-    }
-
-    const encontros = JORNADA1;
-
-    if (DEV.ativo) {
-
-        MEMORIA.nome = DEV.nome;
-
-    }
-
-    if (!DEV.ativo || !DEV.ignorarTravaDiaria) {
-
-        if (MEMORIA.nome && MEMORIA.jaFezHoje()) {
-
-            await Condutor.executar(RETORNO_DO_DIA);
-
-            return;
-
-        }
-
-    }
-
-    let indice = MEMORIA.encontroAtual - 1;
-
-    if (DEV.ativo) {
-
-        indice = DEV.encontro - 1;
-
-    }
-
-    if (!DEV.ativo && !MEMORIA.nome) {
-
-        indice = 0;
-
-    }
-
-    if (indice < 0 || indice >= encontros.length) {
-
-        indice = encontros.length - 1;
-
-    }
-
-    await Condutor.executar(
-
-        encontros[indice]
-
-    );
-
-    if (!DEV.ativo) {
-
-        MEMORIA.concluirEncontro(encontros.length);
-
-    }
-
+    });
 }
+
+document.addEventListener(
+    "DOMContentLoaded",
+    iniciarGuardiao
+);
