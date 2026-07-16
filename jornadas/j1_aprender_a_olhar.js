@@ -67,7 +67,7 @@ const JORNADA1 = [
 
             {
                 tipo: "texto",
-                texto: "Pergunte-se.",
+                texto: "Pergunte-se:",
                 pausa: 3000
             },
 
