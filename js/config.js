@@ -10,7 +10,7 @@ const CONFIG = {
         curta: 2000,
         media: 4000,
         longa: 6000,
-        leitura: 4000,
+        leitura: 6000,
         silencio: 3000
     },
 
