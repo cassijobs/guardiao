@@ -1,6 +1,6 @@
 /*
 ======================================================
-GUARDIÃO v3.1
+GUARDIÃO v3.2
 MEMÓRIA
 ======================================================
 Arquivo: memoria.js
@@ -10,21 +10,37 @@ Objeto global: Memoria
 
 const Memoria = (() => {
 
-    const CHAVE = "guardiao_memoria_v3_1";
+    const CHAVE = "guardiao_memoria_v3_2";
 
     const PADRAO = {
         nome: "",
         encontroAtual: 0,
         escolhas: [],
         toquesNoSilencio: 0,
+
         proximoEncontroEm: 0,
         ultimoEncontroConcluidoEm: 0,
         encontroEmAndamento: false,
-        versao: "3.1"
+
+        /*
+         * Quantas vezes a pessoa chegou antes
+         * do horário marcado.
+         */
+        visitasAntecipadas: 0,
+
+        /*
+         * Indica que a pessoa chegou cedo e depois
+         * permaneceu ou voltou quando chegou a hora.
+         */
+        aguardouEncontro: false,
+
+        versao: "3.2"
     };
 
     function lerMemoriaAntiga() {
+
         const chavesAntigas = [
+            "guardiao_memoria_v3_1",
             "guardiao_memoria_v2_1",
             "guardiao_memoria",
             "guardiaoMemoria",
@@ -32,32 +48,40 @@ const Memoria = (() => {
         ];
 
         for (const chave of chavesAntigas) {
+
             try {
-                const valor = localStorage.getItem(chave);
+
+                const valor =
+                    localStorage.getItem(chave);
 
                 if (valor) {
                     return JSON.parse(valor);
                 }
+
             } catch (erro) {
+
                 console.warn(
                     "Não foi possível ler a memória antiga:",
                     chave
                 );
+
             }
+
         }
 
         return {};
+
     }
 
     function normalizar(dados = {}) {
+
         const memoria = {
             ...PADRAO,
             ...dados
         };
 
-        memoria.nome = String(
-            memoria.nome || ""
-        ).trim();
+        memoria.nome =
+            String(memoria.nome || "").trim();
 
         memoria.encontroAtual = Math.max(
             0,
@@ -69,11 +93,10 @@ const Memoria = (() => {
             ) || 0
         );
 
-        memoria.escolhas = Array.isArray(
-            memoria.escolhas
-        )
-            ? memoria.escolhas
-            : [];
+        memoria.escolhas =
+            Array.isArray(memoria.escolhas)
+                ? memoria.escolhas
+                : [];
 
         memoria.toquesNoSilencio =
             Number.parseInt(
@@ -92,10 +115,23 @@ const Memoria = (() => {
         memoria.encontroEmAndamento =
             Boolean(memoria.encontroEmAndamento);
 
+        memoria.visitasAntecipadas = Math.max(
+            0,
+            Number.parseInt(
+                memoria.visitasAntecipadas,
+                10
+            ) || 0
+        );
+
+        memoria.aguardouEncontro =
+            Boolean(memoria.aguardouEncontro);
+
         return memoria;
+
     }
 
     function salvar(dados) {
+
         const memoria = normalizar(dados);
 
         localStorage.setItem(
@@ -104,21 +140,28 @@ const Memoria = (() => {
         );
 
         return memoria;
+
     }
 
     function carregar() {
+
         let salva = {};
 
         try {
-            const valor = localStorage.getItem(CHAVE);
+
+            const valor =
+                localStorage.getItem(CHAVE);
 
             if (valor) {
                 salva = JSON.parse(valor);
             }
+
         } catch (erro) {
+
             console.warn(
                 "A memória salva estava inválida e foi ignorada."
             );
+
         }
 
         if (!Object.keys(salva).length) {
@@ -126,22 +169,28 @@ const Memoria = (() => {
         }
 
         return salvar(salva);
+
     }
 
     function atualizar(alteracoes = {}) {
+
         return salvar({
             ...carregar(),
             ...alteracoes
         });
+
     }
 
     function salvarNome(nome) {
+
         return atualizar({
             nome: String(nome || "").trim()
         });
+
     }
 
     function registrarEscolha(escolha) {
+
         const dados = carregar();
 
         return atualizar({
@@ -150,40 +199,57 @@ const Memoria = (() => {
                 escolha
             ]
         });
+
     }
 
     function definirToquesNoSilencio(quantidade) {
+
         return atualizar({
             toquesNoSilencio:
-                Number.parseInt(quantidade, 10) || 0
+                Number.parseInt(
+                    quantidade,
+                    10
+                ) || 0
         });
+
     }
 
     function podeIniciarAgora(
         dados = carregar()
     ) {
+
         return (
             !dados.proximoEncontroEm ||
-            Date.now() >= dados.proximoEncontroEm
+            Date.now() >=
+                dados.proximoEncontroEm
         );
+
     }
 
     function tempoRestante(
         dados = carregar()
     ) {
+
         return Math.max(
             0,
-            dados.proximoEncontroEm - Date.now()
+            dados.proximoEncontroEm -
+                Date.now()
         );
+
     }
 
     function iniciarEncontro() {
+
         return atualizar({
             encontroEmAndamento: true
         });
+
     }
 
-    function concluirEncontro(totalDeEncontros) {
+    function concluirEncontro(
+        totalDeEncontros
+    ) {
+
         const dados = carregar();
         const agora = Date.now();
 
@@ -194,41 +260,84 @@ const Memoria = (() => {
 
         return atualizar({
             encontroAtual: proximoIndice,
-            ultimoEncontroConcluidoEm: agora,
+            ultimoEncontroConcluidoEm:
+                agora,
             proximoEncontroEm:
-                proximoIndice < totalDeEncontros
+                proximoIndice <
+                totalDeEncontros
                     ? agora +
-                      CONFIG.intervaloEntreEncontros
+                      CONFIG
+                          .intervaloEntreEncontros
                     : 0,
-            encontroEmAndamento: false
+            encontroEmAndamento: false,
+            aguardouEncontro: false
         });
+
+    }
+
+    function registrarVisitaAntecipada() {
+
+        const dados = carregar();
+
+        return atualizar({
+            visitasAntecipadas:
+                dados.visitasAntecipadas + 1,
+            aguardouEncontro: true
+        });
+
+    }
+
+    function consumirEsperaCumprida() {
+
+        const dados = carregar();
+
+        if (!dados.aguardouEncontro) {
+            return false;
+        }
+
+        atualizar({
+            aguardouEncontro: false
+        });
+
+        return true;
+
     }
 
     function liberarAgora() {
+
         return atualizar({
             proximoEncontroEm: 0
         });
+
     }
 
     function irParaEncontro(numero) {
+
         const indice = Math.max(
             0,
-            Number.parseInt(numero, 10) - 1
+            Number.parseInt(
+                numero,
+                10
+            ) - 1
         );
 
         return atualizar({
             encontroAtual: indice,
             proximoEncontroEm: 0,
-            encontroEmAndamento: false
+            encontroEmAndamento: false,
+            aguardouEncontro: false
         });
+
     }
 
     function resetar() {
+
         localStorage.removeItem(CHAVE);
 
         return salvar({
             ...PADRAO
         });
+
     }
 
     return {
@@ -242,6 +351,8 @@ const Memoria = (() => {
         tempoRestante,
         iniciarEncontro,
         concluirEncontro,
+        registrarVisitaAntecipada,
+        consumirEsperaCumprida,
         liberarAgora,
         irParaEncontro,
         resetar

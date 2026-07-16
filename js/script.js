@@ -1,7 +1,9 @@
 /*
 ======================================================
-GUARDIÃO v3.1
+GUARDIÃO v3.2
 INICIALIZAÇÃO
+======================================================
+Reconhece quando a pessoa chegou cedo e esperou.
 ======================================================
 */
 
@@ -9,6 +11,7 @@ const app =
     document.getElementById("guardiao");
 
 async function iniciarGuardiao() {
+
     if (!app) {
         throw new Error(
             "Elemento #guardiao não encontrado."
@@ -26,26 +29,75 @@ async function iniciarGuardiao() {
         );
     }
 
-    const memoria = Memoria.carregar();
-    const total = JORNADA1.length;
+    const memoria =
+        Memoria.carregar();
 
-    if (memoria.encontroAtual >= total) {
+    const total =
+        JORNADA1.length;
+
+    if (
+        memoria.encontroAtual >= total
+    ) {
         AgendaGuardiao.jornadaConcluida(
             app
         );
         return;
     }
 
-    if (!Memoria.podeIniciarAgora(memoria)) {
+    if (
+        !Memoria.podeIniciarAgora(
+            memoria
+        )
+    ) {
+
+        const memoriaAtualizada =
+            Memoria
+                .registrarVisitaAntecipada();
+
         AgendaGuardiao.mostrarEspera(
             app,
-            iniciarGuardiao
+            iniciarGuardiao,
+            memoriaAtualizada
+                .visitasAntecipadas
         );
+
         return;
+
+    }
+
+    /*
+     * Se a pessoa chegou cedo e agora
+     * chegou o momento do encontro,
+     * o Guardião reconhece a espera.
+     */
+    if (
+        Memoria.consumirEsperaCumprida()
+    ) {
+
+        Palco.iniciar();
+
+        await Palco.mostrarTexto(
+            "Você esperou."
+        );
+
+        await Palco.esperar(
+            CONFIG.pausa.media
+        );
+
+        await Palco.mostrarTexto(
+            "Obrigado."
+        );
+
+        await Palco.esperar(
+            CONFIG.pausa.media
+        );
+
     }
 
     const encontro =
-        JORNADA1[memoria.encontroAtual];
+        JORNADA1[
+            memoria.encontroAtual
+        ];
 
     Memoria.iniciarEncontro();
 
@@ -59,6 +111,7 @@ async function iniciarGuardiao() {
             }
         }
     );
+
 }
 
 document.addEventListener(
