@@ -1,16 +1,38 @@
 /*
 ======================================================
-GUARDIÃO v3.2
+GUARDIÃO v3.3
 INICIALIZAÇÃO
 ======================================================
-Reconhece quando a pessoa chegou cedo e esperou.
+Impede o encontro de começar quando o endereço
+contiver ?dev.
 ======================================================
 */
 
 const app =
     document.getElementById("guardiao");
 
+/*
+ * Esta verificação acontece imediatamente,
+ * antes de registrar o início do encontro.
+ */
+const PARAMETROS =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const MODO_DEV =
+    PARAMETROS.has("dev");
+
+
 async function iniciarGuardiao() {
+
+    /*
+     * Segurança adicional:
+     * no modo desenvolvedor, o encontro nunca começa.
+     */
+    if (MODO_DEV) {
+        return;
+    }
 
     if (!app) {
         throw new Error(
@@ -41,6 +63,7 @@ async function iniciarGuardiao() {
         AgendaGuardiao.jornadaConcluida(
             app
         );
+
         return;
     }
 
@@ -49,10 +72,8 @@ async function iniciarGuardiao() {
             memoria
         )
     ) {
-
         const memoriaAtualizada =
-            Memoria
-                .registrarVisitaAntecipada();
+            Memoria.registrarVisitaAntecipada();
 
         AgendaGuardiao.mostrarEspera(
             app,
@@ -62,18 +83,11 @@ async function iniciarGuardiao() {
         );
 
         return;
-
     }
 
-    /*
-     * Se a pessoa chegou cedo e agora
-     * chegou o momento do encontro,
-     * o Guardião reconhece a espera.
-     */
     if (
         Memoria.consumirEsperaCumprida()
     ) {
-
         Palco.iniciar();
 
         await Palco.mostrarTexto(
@@ -91,7 +105,6 @@ async function iniciarGuardiao() {
         await Palco.esperar(
             CONFIG.pausa.media
         );
-
     }
 
     const encontro =
@@ -111,10 +124,16 @@ async function iniciarGuardiao() {
             }
         }
     );
-
 }
 
-document.addEventListener(
-    "DOMContentLoaded",
-    iniciarGuardiao
-);
+
+/*
+ * O evento só é registrado quando não estamos
+ * no modo desenvolvedor.
+ */
+if (!MODO_DEV) {
+    document.addEventListener(
+        "DOMContentLoaded",
+        iniciarGuardiao
+    );
+}
