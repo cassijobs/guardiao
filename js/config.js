@@ -22,5 +22,5 @@ const CONFIG = {
      * Depois dos testes, use:
      * 24 * 60 * 60 * 1000
      */
-    intervaloEntreEncontros: 1 * 60 * 1000
+    intervaloEntreEncontros: 24 * 60* 60 * 1000
 };
