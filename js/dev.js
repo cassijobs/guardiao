@@ -1,40 +1,157 @@
 /*
 ======================================================
-GUARDIÃO v3.1
-FERRAMENTAS DE TESTE
+GUARDIÃO v3.3
+MODO DESENVOLVEDOR
 ======================================================
-Use somente no console do navegador (F12).
+Ativação:
+https://cassijobs.github.io/guardiao/?dev
 ======================================================
 */
 
 const DEV = {
 
-    mostrarMemoria() {
-        const dados = Memoria.carregar();
-        console.table(dados);
-        return dados;
+    ativo: false,
+
+    iniciar() {
+
+        const parametros =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        if (parametros.has("dev")) {
+
+            this.ativo = true;
+
+            localStorage.setItem(
+                "guardiao_modo_dev",
+                "true"
+            );
+
+            this.mostrarPainel();
+
+            return;
+
+        }
+
+        this.ativo =
+            localStorage.getItem(
+                "guardiao_modo_dev"
+            ) === "true";
+
+    },
+
+    mostrarPainel() {
+
+        const elemento =
+            document.getElementById(
+                "guardiao"
+            );
+
+        if (!elemento) {
+            return;
+        }
+
+        elemento.innerHTML = `
+            <section class="tela-espera">
+
+                <p class="fala-guardiao">
+                    Ferramentas do Guardião
+                </p>
+
+                <button
+                    class="botao"
+                    onclick="DEV.resetar()"
+                >
+                    Reiniciar caminhada
+                </button>
+
+                <button
+                    class="botao"
+                    onclick="DEV.liberarAgora()"
+                >
+                    Liberar encontro
+                </button>
+
+                <button
+                    class="botao"
+                    onclick="DEV.irParaEncontro()"
+                >
+                    Ir para encontro
+                </button>
+
+                <button
+                    class="botao"
+                    onclick="DEV.sair()"
+                >
+                    Sair das ferramentas
+                </button>
+
+            </section>
+        `;
+
     },
 
     resetar() {
+
         Memoria.resetar();
-        location.reload();
+
+        window.location.href =
+            window.location.pathname;
+
     },
 
     liberarAgora() {
+
         Memoria.liberarAgora();
-        location.reload();
+
+        window.location.href =
+            window.location.pathname;
+
     },
 
-    irParaEncontro(numero) {
+    irParaEncontro() {
+
+        const numero = prompt(
+            "Digite o número do encontro:"
+        );
+
+        if (!numero) {
+            return;
+        }
+
         Memoria.irParaEncontro(numero);
-        location.reload();
+
+        window.location.href =
+            window.location.pathname;
+
+    },
+
+    mostrarMemoria() {
+
+        const dados =
+            Memoria.carregar();
+
+        console.table(dados);
+
+        return dados;
+
+    },
+
+    sair() {
+
+        localStorage.removeItem(
+            "guardiao_modo_dev"
+        );
+
+        window.location.href =
+            window.location.pathname;
+
     }
 
 };
 
-console.info(
-    "Guardião v3.1 carregado. " +
-    "Comandos: DEV.mostrarMemoria(), " +
-    "DEV.resetar(), DEV.liberarAgora(), " +
-    "DEV.irParaEncontro(1)"
+document.addEventListener(
+    "DOMContentLoaded",
+    () => DEV.iniciar()
 );
