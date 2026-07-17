@@ -1,195 +1,152 @@
 /*
 ======================================================
-GUARDIÃO v3.9
+GUARDIÃO v4.2
 JORNADA 2 — CAMINHAR AO LADO
+======================================================
+
+Compatível com o Condutor atual:
+
+- cenas
+- texto
+- pausa
+- silencio com tempo
+- fim
 ======================================================
 */
 
 const JORNADA2 = [
 
     {
-        id: 16,
+        id: "J2-E16",
         titulo: "É bom revê-lo",
+        versao: "4.2",
 
-        roteiro: [
+        cenas: [
 
             {
                 tipo: "texto",
-                conteudo: "É bom revê-lo."
-            },
-
-            {
-                tipo: "silencio",
-                duracao: "media"
+                texto: "É bom revê-lo.",
+                pausa: CONFIG.pausa.media
             },
 
             {
                 tipo: "texto",
-                conteudo: "Obrigado por reservar mais alguns instantes para você."
-            },
-
-            {
-                tipo: "silencio",
-                duracao: "curta"
+                texto: "Obrigado por reservar mais alguns instantes para você.",
+                pausa: CONFIG.pausa.media
             },
 
             {
                 tipo: "texto",
-                conteudo: "Já caminhamos um pequeno trecho juntos."
-            },
-
-            {
-                tipo: "silencio",
-                duracao: "curta"
+                texto: "Já caminhamos um pequeno trecho juntos.",
+                pausa: CONFIG.pausa.curta
             },
 
             {
                 tipo: "texto",
-                conteudo: "Talvez você ainda não tenha percebido, mas cada encontro deixa uma pequena marca."
-            },
-
-            {
-                tipo: "silencio",
-                duracao: "media"
+                texto: "Talvez você ainda não tenha percebido, mas cada encontro deixa uma pequena marca.",
+                pausa: CONFIG.pausa.longa
             },
 
             {
                 tipo: "texto",
-                conteudo: "A partir de hoje, nossa caminhada muda um pouco."
-            },
-
-            {
-                tipo: "silencio",
-                duracao: "curta"
+                texto: "A partir de hoje, nossa caminhada muda um pouco.",
+                pausa: CONFIG.pausa.media
             },
 
             {
                 tipo: "texto",
-                conteudo: "Continuarei fazendo perguntas."
-            },
-
-            {
-                tipo: "silencio",
-                duracao: "curta"
+                texto: "Continuarei fazendo perguntas.",
+                pausa: CONFIG.pausa.curta
             },
 
             {
                 tipo: "texto",
-                conteudo: "Mas, às vezes, apenas conversaremos."
-            },
-
-            {
-                tipo: "silencio",
-                duracao: "media"
+                texto: "Mas, às vezes, apenas conversaremos.",
+                pausa: CONFIG.pausa.media
             },
 
             {
                 tipo: "texto",
-                conteudo: "Antes de ir, leve apenas esta pergunta com você."
-            },
-
-            {
-                tipo: "silencio",
-                duracao: "curta"
+                texto: "Antes de ir, leve apenas esta pergunta com você.",
+                pausa: CONFIG.pausa.media
             },
 
             {
                 tipo: "texto",
-                conteudo: "O que mudou em você desde o nosso primeiro encontro?"
+                texto: "O que mudou em você desde o nosso primeiro encontro?",
+                pausa: CONFIG.pausa.longa
             },
 
             {
                 tipo: "silencio",
-                duracao: "longa"
+                tempo: CONFIG.pausa.silencio
+            },
+
+            {
+                tipo: "fim",
+                texto: "Até nosso próximo encontro."
             }
 
         ]
     },
 
     {
-        id: 17,
+        id: "J2-E17",
         titulo: "Caminhar ao seu lado",
+        versao: "4.2",
 
-        roteiro: [
+        cenas: [
 
             {
                 tipo: "texto",
-                conteudo: "Ontem eu disse que nossa caminhada seria um pouco diferente."
-            },
-
-            {
-                tipo: "silencio",
-                duracao: "media"
+                texto: "Ontem eu disse que nossa caminhada seria um pouco diferente.",
+                pausa: CONFIG.pausa.media
             },
 
             {
                 tipo: "texto",
-                conteudo: "Hoje quero lhe contar apenas uma coisa."
-            },
-
-            {
-                tipo: "silencio",
-                duracao: "curta"
+                texto: "Hoje quero lhe contar apenas uma coisa.",
+                pausa: CONFIG.pausa.curta
             },
 
             {
                 tipo: "texto",
-                conteudo: "Eu não caminho à sua frente para mostrar o caminho."
-            },
-
-            {
-                tipo: "silencio",
-                duracao: "curta"
+                texto: "Eu não caminho à sua frente para mostrar o caminho.",
+                pausa: CONFIG.pausa.media
             },
 
             {
                 tipo: "texto",
-                conteudo: "Também não caminho atrás para empurrá-lo."
-            },
-
-            {
-                tipo: "silencio",
-                duracao: "curta"
+                texto: "Também não caminho atrás para empurrá-lo.",
+                pausa: CONFIG.pausa.media
             },
 
             {
                 tipo: "texto",
-                conteudo: "Caminho ao seu lado, porque algumas jornadas ficam mais leves quando não são percorridas sozinho."
+                texto: "Caminho ao seu lado, porque algumas jornadas ficam mais leves quando não são percorridas sozinho.",
+                pausa: CONFIG.pausa.longa
             },
 
             {
                 tipo: "silencio",
-                duracao: "media"
+                tempo: CONFIG.pausa.silencio
             },
 
             {
                 tipo: "texto",
-                conteudo: "Não espere de mim respostas para todas as perguntas."
-            },
-
-            {
-                tipo: "silencio",
-                duracao: "curta"
+                texto: "Não espere de mim respostas para todas as perguntas.",
+                pausa: CONFIG.pausa.media
             },
 
             {
                 tipo: "texto",
-                conteudo: "Mas espero estar presente enquanto você encontra as suas."
+                texto: "Mas espero estar presente enquanto você encontra as suas.",
+                pausa: CONFIG.pausa.longa
             },
 
             {
-                tipo: "silencio",
-                duracao: "media"
-            },
-
-            {
-                tipo: "texto",
-                conteudo: "Até nosso próximo encontro."
-            },
-
-            {
-                tipo: "silencio",
-                duracao: "longa"
+                tipo: "fim",
+                texto: "Até nosso próximo encontro."
             }
 
         ]
