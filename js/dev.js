@@ -1,187 +1,418 @@
 /*
 ======================================================
-GUARDIÃO v3.8
-MODO DESENVOLVEDOR
+GUARDIÃO v4.1
+FERRAMENTAS DO DESENVOLVEDOR
 ======================================================
-Ativação:
-https://cassijobs.github.io/guardiao/?dev
+
+Abra o site acrescentando:
+
+?dev
+
+Exemplo:
+https://seusite.github.io/guardiao/?dev
 ======================================================
 */
 
-/*
- * Esta verificação precisa acontecer imediatamente,
- * antes do carregamento do script.js.
- */
-const parametrosDev =
-    new URLSearchParams(
-        window.location.search
-    );
+window.GUARDIAO_DEV_ATIVO = false;
 
-window.GUARDIAO_MODO_DEV =
-    parametrosDev.has("dev");
+const FerramentasDev = (() => {
 
+    function modoDevSolicitado() {
 
-const DEV = {
-
-    ativo: window.GUARDIAO_MODO_DEV,
-
-
-    iniciar() {
-
-        if (!this.ativo) {
-            return;
-        }
-
-        this.mostrarPainel();
-
-    },
-
-
-    mostrarPainel() {
-
-        const elemento =
-            document.getElementById(
-                "guardiao"
+        const parametros =
+            new URLSearchParams(
+                window.location.search
             );
 
-        if (!elemento) {
-            return;
+        return parametros.has("dev");
+
+    }
+
+    function obterAreaPrincipal() {
+
+        let guardiao =
+            document.getElementById("guardiao");
+
+        if (guardiao) {
+            return guardiao;
+        }
+
+        const app =
+            document.getElementById("app");
+
+        if (!app) {
+            throw new Error(
+                "Não foi encontrado #guardiao nem #app."
+            );
+        }
+
+        guardiao =
+            document.createElement("main");
+
+        guardiao.id = "guardiao";
+
+        app.innerHTML = "";
+        app.appendChild(guardiao);
+
+        return guardiao;
+
+    }
+
+    function obterEncontros() {
+
+        const jornadas = [];
+
+        if (
+            typeof JORNADA1 !== "undefined" &&
+            Array.isArray(JORNADA1)
+        ) {
+            jornadas.push(JORNADA1);
         }
 
         if (
-            typeof AgendaGuardiao !==
-            "undefined"
+            typeof JORNADA2 !== "undefined" &&
+            Array.isArray(JORNADA2)
         ) {
-            AgendaGuardiao.pararRelogio();
+            jornadas.push(JORNADA2);
         }
 
-        elemento.classList.remove(
-            "oculto"
-        );
+        if (
+            typeof JORNADA3 !== "undefined" &&
+            Array.isArray(JORNADA3)
+        ) {
+            jornadas.push(JORNADA3);
+        }
 
-        elemento.classList.add(
-            "visivel"
-        );
+        if (
+            typeof JORNADA4 !== "undefined" &&
+            Array.isArray(JORNADA4)
+        ) {
+            jornadas.push(JORNADA4);
+        }
 
-        elemento.innerHTML = `
-            <section class="tela-espera">
+        return jornadas.flat();
 
-                <p class="fala-guardiao">
-                    Ferramentas do Guardião
-                </p>
+    }
 
-                <button
-                    class="botao"
-                    onclick="DEV.resetar()"
-                >
-                    Reiniciar caminhada
-                </button>
+    function abrirEncontro(numero) {
 
-                <button
-                    class="botao"
-                    onclick="DEV.liberarAgora()"
-                >
-                    Liberar encontro
-                </button>
+        const encontros =
+            obterEncontros();
 
-                <button
-                    class="botao"
-                    onclick="DEV.irParaEncontro()"
-                >
-                    Ir para encontro
-                </button>
+        const indice =
+            Number.parseInt(numero, 10) - 1;
 
-                <button
-                    class="botao"
-                    onclick="DEV.sair()"
-                >
-                    Sair das ferramentas
-                </button>
+        if (
+            !Number.isInteger(indice) ||
+            indice < 0 ||
+            indice >= encontros.length
+        ) {
 
-            </section>
-        `;
+            alert(
+                `O encontro ${numero} ainda não existe. ` +
+                `Atualmente há ${encontros.length} encontro(s) carregado(s).`
+            );
 
-    },
-
-
-    resetar() {
-
-        Memoria.resetar();
-
-        this.abrirNormal();
-
-    },
-
-
-    liberarAgora() {
-
-        Memoria.liberarAgora();
-
-        this.abrirNormal();
-
-    },
-
-
-    irParaEncontro() {
-
-        const numero = prompt(
-            "Digite o número do encontro:"
-        );
-
-        if (!numero) {
             return;
+
         }
 
-        Memoria.irParaEncontro(
-            numero
-        );
+        Memoria.atualizar({
+            encontroAtual: indice,
+            proximoEncontroEm: 0,
+            encontroEmAndamento: false
+        });
 
-        this.abrirNormal();
+        const endereco =
+            new URL(window.location.href);
 
-    },
-
-
-    mostrarMemoria() {
-
-        const dados =
-            Memoria.carregar();
-
-        console.table(dados);
-
-        return dados;
-
-    },
-
-
-    sair() {
-
-        this.abrirNormal();
-
-    },
-
-
-    abrirNormal() {
+        endereco.searchParams.delete("dev");
 
         window.location.replace(
-            window.location.pathname
+            endereco.toString()
         );
 
     }
 
-};
+    function reiniciarJornada1() {
 
+        Memoria.resetar();
 
-if (
-    document.readyState === "loading"
-) {
+        const endereco =
+            new URL(window.location.href);
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        () => DEV.iniciar()
-    );
+        endereco.searchParams.delete("dev");
 
-} else {
+        window.location.replace(
+            endereco.toString()
+        );
 
-    DEV.iniciar();
+    }
 
-}
+    function limparMemoria() {
+
+        const confirmou =
+            window.confirm(
+                "Apagar o nome e todo o progresso salvo?"
+            );
+
+        if (!confirmou) {
+            return;
+        }
+
+        Memoria.resetar();
+
+        alert(
+            "A memória foi apagada."
+        );
+
+        desenhar();
+
+    }
+
+    function sair() {
+
+        const endereco =
+            new URL(window.location.href);
+
+        endereco.searchParams.delete("dev");
+
+        window.location.replace(
+            endereco.toString()
+        );
+
+    }
+
+    function desenhar() {
+
+        const area =
+            obterAreaPrincipal();
+
+        const encontros =
+            obterEncontros();
+
+        const memoria =
+            Memoria.carregar();
+
+        const opcoes =
+            encontros.map(
+                (encontro, indice) => {
+
+                    const numero =
+                        indice + 1;
+
+                    const titulo =
+                        encontro?.titulo ||
+                        `Encontro ${numero}`;
+
+                    return `
+                        <option value="${numero}">
+                            ${numero} — ${titulo}
+                        </option>
+                    `;
+
+                }
+            ).join("");
+
+        area.classList.remove(
+            "oculto"
+        );
+
+        area.classList.add(
+            "visivel"
+        );
+
+        area.innerHTML = `
+            <section
+                style="
+                    width:min(92vw,560px);
+                    margin:0 auto;
+                    padding:28px 20px;
+                    box-sizing:border-box;
+                    text-align:left;
+                "
+            >
+                <h1
+                    style="
+                        margin:0 0 8px;
+                        text-align:center;
+                        font-size:1.6rem;
+                    "
+                >
+                    Ferramentas do Guardião
+                </h1>
+
+                <p
+                    style="
+                        margin:0 0 28px;
+                        text-align:center;
+                        opacity:.75;
+                    "
+                >
+                    ${encontros.length} encontro(s) carregado(s)
+                </p>
+
+                <div
+                    style="
+                        margin-bottom:24px;
+                        line-height:1.7;
+                    "
+                >
+                    <strong>Memória atual</strong><br>
+                    Nome: ${memoria.nome || "não informado"}<br>
+                    Próximo encontro: ${memoria.encontroAtual + 1}
+                </div>
+
+                <label
+                    for="dev-encontro"
+                    style="
+                        display:block;
+                        margin-bottom:8px;
+                    "
+                >
+                    Escolha um encontro
+                </label>
+
+                <select
+                    id="dev-encontro"
+                    style="
+                        width:100%;
+                        padding:12px;
+                        margin-bottom:12px;
+                        border-radius:10px;
+                        font-size:1rem;
+                    "
+                >
+                    ${opcoes}
+                </select>
+
+                <button
+                    id="dev-abrir"
+                    class="botao"
+                    style="
+                        width:100%;
+                        margin-bottom:12px;
+                    "
+                >
+                    Abrir encontro
+                </button>
+
+                <button
+                    id="dev-reiniciar"
+                    class="botao"
+                    style="
+                        width:100%;
+                        margin-bottom:12px;
+                    "
+                >
+                    Reiniciar Jornada 1
+                </button>
+
+                <button
+                    id="dev-limpar"
+                    class="botao"
+                    style="
+                        width:100%;
+                        margin-bottom:12px;
+                    "
+                >
+                    Apagar memória
+                </button>
+
+                <button
+                    id="dev-sair"
+                    class="botao"
+                    style="
+                        width:100%;
+                    "
+                >
+                    Sair das ferramentas
+                </button>
+            </section>
+        `;
+
+        const seletor =
+            document.getElementById(
+                "dev-encontro"
+            );
+
+        if (
+            memoria.encontroAtual <
+            encontros.length
+        ) {
+            seletor.value =
+                String(
+                    memoria.encontroAtual + 1
+                );
+        }
+
+        document
+            .getElementById("dev-abrir")
+            .addEventListener(
+                "click",
+                () => abrirEncontro(
+                    seletor.value
+                )
+            );
+
+        document
+            .getElementById("dev-reiniciar")
+            .addEventListener(
+                "click",
+                reiniciarJornada1
+            );
+
+        document
+            .getElementById("dev-limpar")
+            .addEventListener(
+                "click",
+                limparMemoria
+            );
+
+        document
+            .getElementById("dev-sair")
+            .addEventListener(
+                "click",
+                sair
+            );
+
+    }
+
+    function iniciar() {
+
+        if (!modoDevSolicitado()) {
+            return false;
+        }
+
+        window.GUARDIAO_DEV_ATIVO = true;
+
+        if (
+            document.readyState === "loading"
+        ) {
+
+            document.addEventListener(
+                "DOMContentLoaded",
+                desenhar,
+                { once: true }
+            );
+
+        } else {
+
+            desenhar();
+
+        }
+
+        return true;
+
+    }
+
+    return {
+        iniciar,
+        desenhar,
+        abrirEncontro,
+        reiniciarJornada1
+    };
+
+})();
+
+FerramentasDev.iniciar();

@@ -1,19 +1,39 @@
 /*
 ======================================================
-GUARDIÃO v4.0
-INICIALIZAÇÃO DE TODAS AS JORNADAS
-======================================================
-Une automaticamente as jornadas carregadas pelo loader.
-
-Encontro 1  = JORNADA1[0]
-Encontro 15 = JORNADA1[14]
-Encontro 16 = primeiro encontro da JORNADA2
+GUARDIÃO v4.1
+INICIALIZAÇÃO DAS JORNADAS
 ======================================================
 */
 
-const app =
-    document.getElementById("guardiao") ||
-    document.getElementById("app");
+function obterAreaGuardiao() {
+
+    let guardiao =
+        document.getElementById("guardiao");
+
+    if (guardiao) {
+        return guardiao;
+    }
+
+    const app =
+        document.getElementById("app");
+
+    if (!app) {
+        throw new Error(
+            "Não foi encontrado #guardiao nem #app."
+        );
+    }
+
+    guardiao =
+        document.createElement("main");
+
+    guardiao.id = "guardiao";
+
+    app.innerHTML = "";
+    app.appendChild(guardiao);
+
+    return guardiao;
+
+}
 
 function obterTodosOsEncontros() {
 
@@ -53,13 +73,20 @@ function obterTodosOsEncontros() {
 
 async function iniciarGuardiao() {
 
-    try {
+    /*
+     * Quando ?dev está presente, dev.js é responsável
+     * pela tela. O encontro normal não deve iniciar.
+     */
+    if (
+        window.GUARDIAO_DEV_ATIVO === true
+    ) {
+        return;
+    }
 
-        if (!app) {
-            throw new Error(
-                "Não foi encontrado o elemento #guardiao nem #app."
-            );
-        }
+    const app =
+        obterAreaGuardiao();
+
+    try {
 
         AgendaGuardiao.pararRelogio();
 
@@ -71,7 +98,7 @@ async function iniciarGuardiao() {
 
         if (total === 0) {
             throw new Error(
-                "Nenhuma jornada foi carregada."
+                "Nenhum encontro foi carregado."
             );
         }
 
@@ -116,9 +143,9 @@ async function iniciarGuardiao() {
         ) {
 
             throw new Error(
-                `O encontro ${
+                `Encontro ${
                     memoria.encontroAtual + 1
-                } não foi encontrado ou não possui cenas.`
+                } inválido ou sem cenas.`
             );
 
         }
@@ -151,21 +178,17 @@ async function iniciarGuardiao() {
             erro
         );
 
-        if (app) {
+        app.innerHTML = `
+            <main class="tela-espera">
+                <p class="fala-guardiao">
+                    Não foi possível abrir esse encontro.
+                </p>
 
-            app.innerHTML = `
-                <main class="tela-espera">
-                    <p class="fala-guardiao">
-                        Não foi possível abrir este encontro.
-                    </p>
-
-                    <p class="fala-guardiao fala-secundaria">
-                        Abra as ferramentas do navegador para consultar o erro.
-                    </p>
-                </main>
-            `;
-
-        }
+                <p class="fala-guardiao fala-secundaria">
+                    Use <strong>?dev</strong> para abrir as ferramentas.
+                </p>
+            </main>
+        `;
 
     }
 
