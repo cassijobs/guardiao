@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -12,63 +10,31 @@
 
     <title>Guardião</title>
 
-    <link
-        rel="stylesheet"
-        href="style.css?v=3.5"
-    >
-
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <main id="guardiao"></main>
+    <div id="app">
+        <main id="guardiao"></main>
+    </div>
 
-    <!-- ======================================================
-         CONFIGURAÇÃO
-    ======================================================= -->
+    <!--
+        CARREGAMENTO AUTOMÁTICO
 
-    <script src="js/config.js?v=3.5"></script>
+        Date.now() cria um identificador diferente a cada abertura.
+        Assim, o navegador não reutiliza versões antigas dos arquivos.
 
-    <!-- ======================================================
-         MEMÓRIA
-    ======================================================= -->
-
-    <script src="js/memoria.js?v=3.5"></script>
-
-    <!-- ======================================================
-         INTERFACE
-    ======================================================= -->
-
-    <script src="js/palco.js?v=3.5"></script>
-
-    <!-- ======================================================
-         JORNADA
-    ======================================================= -->
-
-    <script src="jornadas/j1_aprender_a_olhar.js?v=3.5"></script>
-    <script src="jornadas/j2_caminhar_ao_lado.js?v=3.9"></script>
-
-    <!-- ======================================================
-         LÓGICA
-    ======================================================= -->
-
-   <script src="js/condutor.js?v=3.9"></script>
-<script src="js/agenda.js?v=3.8"></script>
-
-    <!-- ======================================================
-         MODO DESENVOLVEDOR
-         (deve carregar antes do script principal)
-    ======================================================= -->
-
-    <script src="js/dev.js?v=3.8"></script>
-
-    <!-- ======================================================
-         INICIALIZAÇÃO
-         (sempre por último)
-    ======================================================= -->
-
-    <script src="js/script.js?v=3.9"></script>
+        Você não precisa mais alterar números como:
+        ?v=3.8, ?v=3.9, ?v=4.0...
+    -->
+    <script>
+        document.write(
+            '<script src="js/loader.js?v=' +
+            Date.now() +
+            '"><\/script>'
+        );
+    </script>
 
 </body>
-
 </html>
