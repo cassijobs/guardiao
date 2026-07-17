@@ -1,268 +1,188 @@
 /*
 ======================================================
-GUARDIÃO v3.7
-INICIALIZAÇÃO DAS JORNADAS
+GUARDIÃO v4.0
+INICIALIZAÇÃO DE TODAS AS JORNADAS
 ======================================================
-Une todas as jornadas carregadas em uma única sequência.
+Une automaticamente as jornadas carregadas pelo loader.
 
-Para acrescentar uma nova jornada futuramente:
-
-1. Adicione o arquivo no index.html.
-2. Acrescente a jornada na lista JORNADAS:
-
-const JORNADAS = [
-    JORNADA1,
-    JORNADA2,
-    JORNADA3
-];
+Encontro 1  = JORNADA1[0]
+Encontro 15 = JORNADA1[14]
+Encontro 16 = primeiro encontro da JORNADA2
 ======================================================
 */
 
 const app =
-    document.getElementById("guardiao");
-
-
-/*
-======================================================
-JORNADAS DISPONÍVEIS
-======================================================
-A ordem abaixo é a ordem da caminhada.
-======================================================
-*/
-
-const JORNADAS = [
-    JORNADA1,
-    JORNADA2
-];
-
-
-/*
-======================================================
-VALIDAÇÃO
-======================================================
-*/
-
-function validarJornadas() {
-
-    if (!Array.isArray(JORNADAS)) {
-        throw new Error(
-            "A lista JORNADAS não é válida."
-        );
-    }
-
-    JORNADAS.forEach(
-        (jornada, indice) => {
-
-            if (!Array.isArray(jornada)) {
-
-                throw new Error(
-                    `A Jornada ${indice + 1} não foi encontrada ou não é um array.`
-                );
-
-            }
-
-        }
-    );
-
-}
-
-
-/*
-======================================================
-TODOS OS ENCONTROS
-======================================================
-Transforma várias jornadas em uma sequência única.
-======================================================
-*/
+    document.getElementById("guardiao") ||
+    document.getElementById("app");
 
 function obterTodosOsEncontros() {
 
-    validarJornadas();
+    const jornadas = [];
 
-    return JORNADAS.flat();
+    if (
+        typeof JORNADA1 !== "undefined" &&
+        Array.isArray(JORNADA1)
+    ) {
+        jornadas.push(JORNADA1);
+    }
+
+    if (
+        typeof JORNADA2 !== "undefined" &&
+        Array.isArray(JORNADA2)
+    ) {
+        jornadas.push(JORNADA2);
+    }
+
+    if (
+        typeof JORNADA3 !== "undefined" &&
+        Array.isArray(JORNADA3)
+    ) {
+        jornadas.push(JORNADA3);
+    }
+
+    if (
+        typeof JORNADA4 !== "undefined" &&
+        Array.isArray(JORNADA4)
+    ) {
+        jornadas.push(JORNADA4);
+    }
+
+    return jornadas.flat();
 
 }
-
-
-/*
-======================================================
-INICIAR GUARDIÃO
-======================================================
-*/
 
 async function iniciarGuardiao() {
 
-    /*
-     * Quando as ferramentas estão abertas,
-     * nenhum encontro deve começar.
-     */
-    if (
-        window.GUARDIAO_MODO_DEV === true
-    ) {
-        return;
-    }
+    try {
 
-    if (!app) {
+        if (!app) {
+            throw new Error(
+                "Não foi encontrado o elemento #guardiao nem #app."
+            );
+        }
 
-        throw new Error(
-            "Elemento #guardiao não encontrado."
-        );
+        AgendaGuardiao.pararRelogio();
 
-    }
+        const encontros =
+            obterTodosOsEncontros();
 
-    AgendaGuardiao.pararRelogio();
+        const total =
+            encontros.length;
 
-    const todosOsEncontros =
-        obterTodosOsEncontros();
+        if (total === 0) {
+            throw new Error(
+                "Nenhuma jornada foi carregada."
+            );
+        }
 
-    const memoria =
-        Memoria.carregar();
+        const memoria =
+            Memoria.carregar();
 
-    const total =
-        todosOsEncontros.length;
+        if (
+            memoria.encontroAtual >= total
+        ) {
 
+            AgendaGuardiao.jornadaConcluida(
+                app
+            );
 
-    /*
-    ==================================================
-    FIM DE TODAS AS JORNADAS CARREGADAS
-    ==================================================
-    */
-
-    if (
-        memoria.encontroAtual >= total
-    ) {
-
-        AgendaGuardiao.jornadaConcluida(
-            app
-        );
-
-        return;
-
-    }
-
-
-    /*
-    ==================================================
-    CHEGADA ANTECIPADA
-    ==================================================
-    */
-
-    if (
-        !Memoria.podeIniciarAgora(
-            memoria
-        )
-    ) {
-
-        const memoriaAtualizada =
-            Memoria
-                .registrarVisitaAntecipada();
-
-        AgendaGuardiao.mostrarEspera(
-            app,
-            iniciarGuardiao,
-            memoriaAtualizada
-                .visitasAntecipadas
-        );
-
-        return;
-
-    }
-
-
-    /*
-    ==================================================
-    RECONHECER QUE A PESSOA ESPEROU
-    ==================================================
-    */
-
-    if (
-        Memoria.consumirEsperaCumprida()
-    ) {
-
-        Palco.iniciar();
-
-        await Palco.mostrarTexto(
-            "Você esperou."
-        );
-
-        await Palco.esperar(
-            CONFIG.pausa.media
-        );
-
-        await Palco.mostrarTexto(
-            "Obrigado."
-        );
-
-        await Palco.esperar(
-            CONFIG.pausa.media
-        );
-
-    }
-
-
-    /*
-    ==================================================
-    ENCONTRO ATUAL
-    ==================================================
-    */
-
-    const encontro =
-        todosOsEncontros[
-            memoria.encontroAtual
-        ];
-
-    if (!encontro) {
-
-        throw new Error(
-            `O encontro ${memoria.encontroAtual + 1} não foi encontrado.`
-        );
-
-    }
-
-    Memoria.iniciarEncontro();
-
-    await Condutor.executar(
-        encontro,
-        {
-
-            aoConcluir() {
-
-                Memoria.concluirEncontro(
-                    total
-                );
-
-            }
+            return;
 
         }
-    );
+
+        if (
+            !Memoria.podeIniciarAgora(
+                memoria
+            )
+        ) {
+
+            AgendaGuardiao.mostrarEspera(
+                app,
+                iniciarGuardiao
+            );
+
+            return;
+
+        }
+
+        const encontro =
+            encontros[
+                memoria.encontroAtual
+            ];
+
+        if (
+            !encontro ||
+            !Array.isArray(encontro.cenas)
+        ) {
+
+            throw new Error(
+                `O encontro ${
+                    memoria.encontroAtual + 1
+                } não foi encontrado ou não possui cenas.`
+            );
+
+        }
+
+        Memoria.iniciarEncontro();
+
+        await Condutor.executar(
+            encontro,
+            {
+
+                aoSalvarNome(nome) {
+                    Memoria.salvarNome(
+                        nome
+                    );
+                },
+
+                aoConcluir() {
+                    Memoria.concluirEncontro(
+                        total
+                    );
+                }
+
+            }
+        );
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao iniciar o Guardião:",
+            erro
+        );
+
+        if (app) {
+
+            app.innerHTML = `
+                <main class="tela-espera">
+                    <p class="fala-guardiao">
+                        Não foi possível abrir este encontro.
+                    </p>
+
+                    <p class="fala-guardiao fala-secundaria">
+                        Abra as ferramentas do navegador para consultar o erro.
+                    </p>
+                </main>
+            `;
+
+        }
+
+    }
 
 }
 
-
-/*
-======================================================
-CARREGAMENTO
-======================================================
-*/
-
 if (
-    window.GUARDIAO_MODO_DEV !== true
+    document.readyState === "loading"
 ) {
 
-    if (
-        document.readyState ===
-        "loading"
-    ) {
+    document.addEventListener(
+        "DOMContentLoaded",
+        iniciarGuardiao,
+        { once: true }
+    );
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            iniciarGuardiao
-        );
+} else {
 
-    } else {
-
-        iniciarGuardiao();
-
-    }
+    iniciarGuardiao();
 
 }
