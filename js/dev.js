@@ -1,6 +1,6 @@
 /*
 ======================================================
-GUARDIÃO v3.3
+GUARDIÃO v3.8
 MODO DESENVOLVEDOR
 ======================================================
 Ativação:
@@ -8,38 +8,34 @@ https://cassijobs.github.io/guardiao/?dev
 ======================================================
 */
 
+/*
+ * Esta verificação precisa acontecer imediatamente,
+ * antes do carregamento do script.js.
+ */
+const parametrosDev =
+    new URLSearchParams(
+        window.location.search
+    );
+
+window.GUARDIAO_MODO_DEV =
+    parametrosDev.has("dev");
+
+
 const DEV = {
 
-    ativo: false,
+    ativo: window.GUARDIAO_MODO_DEV,
+
 
     iniciar() {
 
-        const parametros =
-            new URLSearchParams(
-                window.location.search
-            );
-
-        if (parametros.has("dev")) {
-
-            this.ativo = true;
-
-            localStorage.setItem(
-                "guardiao_modo_dev",
-                "true"
-            );
-
-            this.mostrarPainel();
-
+        if (!this.ativo) {
             return;
-
         }
 
-        this.ativo =
-            localStorage.getItem(
-                "guardiao_modo_dev"
-            ) === "true";
+        this.mostrarPainel();
 
     },
+
 
     mostrarPainel() {
 
@@ -51,6 +47,21 @@ const DEV = {
         if (!elemento) {
             return;
         }
+
+        if (
+            typeof AgendaGuardiao !==
+            "undefined"
+        ) {
+            AgendaGuardiao.pararRelogio();
+        }
+
+        elemento.classList.remove(
+            "oculto"
+        );
+
+        elemento.classList.add(
+            "visivel"
+        );
 
         elemento.innerHTML = `
             <section class="tela-espera">
@@ -92,23 +103,24 @@ const DEV = {
 
     },
 
+
     resetar() {
 
         Memoria.resetar();
 
-        window.location.href =
-            window.location.pathname;
+        this.abrirNormal();
 
     },
+
 
     liberarAgora() {
 
         Memoria.liberarAgora();
 
-        window.location.href =
-            window.location.pathname;
+        this.abrirNormal();
 
     },
+
 
     irParaEncontro() {
 
@@ -120,12 +132,14 @@ const DEV = {
             return;
         }
 
-        Memoria.irParaEncontro(numero);
+        Memoria.irParaEncontro(
+            numero
+        );
 
-        window.location.href =
-            window.location.pathname;
+        this.abrirNormal();
 
     },
+
 
     mostrarMemoria() {
 
@@ -138,20 +152,36 @@ const DEV = {
 
     },
 
+
     sair() {
 
-        localStorage.removeItem(
-            "guardiao_modo_dev"
-        );
+        this.abrirNormal();
 
-        window.location.href =
-            window.location.pathname;
+    },
+
+
+    abrirNormal() {
+
+        window.location.replace(
+            window.location.pathname
+        );
 
     }
 
 };
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => DEV.iniciar()
-);
+
+if (
+    document.readyState === "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        () => DEV.iniciar()
+    );
+
+} else {
+
+    DEV.iniciar();
+
+}
