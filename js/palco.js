@@ -33,10 +33,15 @@ const Palco = {
     },
 
     esperar(ms) {
-        return new Promise(
-            resolve => setTimeout(resolve, ms)
-        );
-    },
+    const tempo = window.GUARDIAO_MODO_RAPIDO
+        ? Math.min(ms, 150)
+        : ms;
+
+    return new Promise(
+        resolve => setTimeout(resolve, tempo)
+    );
+},
+
 
     mostrarTexto(texto) {
         this.garantirElemento();
