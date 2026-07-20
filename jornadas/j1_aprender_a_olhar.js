@@ -11,7 +11,7 @@ const JORNADA1 = [
     {
         id: "J1-E01",
         titulo: "O Primeiro Encontro",
-        versao: "1.0",
+        versao: "2.1",
 
         cenas: [
 
@@ -24,12 +24,12 @@ const JORNADA1 = [
             {
                 tipo: "texto",
                 texto: "Imaginei que você viria.",
-                pausa: 3000
+                pausa: 4000
             },
 
             {
                 tipo: "texto",
-                texto: "Antes de caminharmos juntos...",
+                texto: "Confesso que estava curioso para saber como o mundo chama você.",
                 pausa: CONFIG.pausa.longa
             },
 
@@ -40,69 +40,66 @@ const JORNADA1 = [
 
             {
                 tipo: "texto",
-                texto: "Obrigado, {nome}.",
+                texto: "{nome}...",
                 pausa: CONFIG.pausa.media
             },
 
             {
                 tipo: "texto",
-                texto: "Agora conheço a forma como o mundo chama você.",
+                texto: "É bom conhecer a forma como o mundo chama você.",
                 pausa: CONFIG.pausa.longa
             },
 
             {
-                tipo: "escolha",
-                id: "compromisso_reflexao",
-                pergunta: "Você está disposto a reservar alguns instantes para refletir sobre si mesmo?",
-                pausa: 3000,
-                positivo: "Sim",
-                negativo: "Ainda não",
-                seNegativo: [
-                    {
-                        tipo: "fim",
-                        texto: "Tudo tem seu tempo."
-                    }
-                ]
+                tipo: "texto",
+                texto: "Fico feliz que tenha vindo.",
+                pausa: CONFIG.pausa.media
             },
 
             {
                 tipo: "texto",
-                texto: "Pergunte-se:",
-                pausa: 3000
+                texto: "Não preciso saber nada sobre você hoje.",
+                pausa: CONFIG.pausa.media
             },
 
             {
                 tipo: "texto",
-                texto: "Qual foi a última escolha que fez você sentir orgulho de quem está se tornando?",
-                pausa: 8000
+                texto: "Cada história tem seu próprio tempo para ser contada.",
+                pausa: CONFIG.pausa.longa
             },
 
             {
                 tipo: "silencio",
-                tempo: 3000
+                tempo: 2500
             },
 
             {
                 tipo: "texto",
-                texto: "Não responda agora.",
-                pausa: 5000
+                texto: "Por enquanto...",
+                pausa: CONFIG.pausa.curta
             },
 
             {
                 tipo: "texto",
-                texto: "Viva primeiro.",
-                pausa: 5000
+                texto: "basta estarmos aqui.",
+                pausa: CONFIG.pausa.longa
             },
 
             {
                 tipo: "texto",
-                texto: "Algumas respostas só aparecem depois que a vida participa da conversa.",
-                pausa: 8000
+                texto: "Sem pressa.",
+                pausa: CONFIG.pausa.media
+            },
+
+            {
+                tipo: "texto",
+                texto: "Amanhã nos encontraremos novamente.",
+                pausa: CONFIG.pausa.longa
             },
 
             {
                 tipo: "fim",
-                texto: "O restante deste encontro acontecerá longe de mim."
+                texto: "Até lá... cuide de si."
             }
 
         ]
