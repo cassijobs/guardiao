@@ -33,6 +33,7 @@ dela na lista ARQUIVOS, antes de js/condutor.js.
         "js/memoria.js",
         "js/supabase.js",
         "js/api.js",
+        "js/fornecedor-encontros.js",
         "js/palco.js",
         "js/supabase.js",
 
