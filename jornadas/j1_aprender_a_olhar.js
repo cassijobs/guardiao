@@ -10,7 +10,7 @@ const JORNADA1 = [
     {
         id: "J1-E01",
         titulo: "O Primeiro Encontro",
-        versao: "2.2",
+        versao: 3,
 
         cenas: [
 
@@ -115,7 +115,7 @@ const JORNADA1 = [
     {
         id: "J1-E02",
         titulo: "Os Primeiros Pensamentos",
-        versao: "2.2",
+        versao: 2,
 
         cenas: [
 
@@ -159,7 +159,7 @@ const JORNADA1 = [
     {
         id: "J1-E03",
         titulo: "As Pequenas Escolhas",
-        versao: "2.2",
+        versao: 2,
 
         cenas: [
 
@@ -215,7 +215,7 @@ const JORNADA1 = [
     {
         id: "J1-E04",
         titulo: "A Atenção",
-        versao: "2.2",
+        versao: 2,
 
         cenas: [
 
@@ -295,7 +295,7 @@ const JORNADA1 = [
     {
         id: "J1-E05",
         titulo: "As Reações",
-        versao: "2.2",
+        versao: 2,
 
         cenas: [
 
@@ -345,7 +345,7 @@ const JORNADA1 = [
     {
         id: "J1-E06",
         titulo: "Ouvir",
-        versao: "2.2",
+        versao: 2,
 
         cenas: [
 
@@ -395,7 +395,7 @@ const JORNADA1 = [
     {
         id: "J1-E07",
         titulo: "O Automático",
-        versao: "2.2",
+        versao: 2,
 
         cenas: [
 
@@ -440,7 +440,7 @@ const JORNADA1 = [
     {
         id: "J1-E08",
         titulo: "Pensamentos que Retornam",
-        versao: "2.2",
+        versao: 2,
 
         cenas: [
 
@@ -490,7 +490,7 @@ const JORNADA1 = [
     {
         id: "J1-E09",
         titulo: "A Pequena Pausa",
-        versao: "2.2",
+        versao: 2,
 
         cenas: [
 
@@ -540,7 +540,7 @@ const JORNADA1 = [
     {
         id: "J1-E10",
         titulo: "As Palavras",
-        versao: "2.2",
+        versao: 2,
 
         cenas: [
 
@@ -590,7 +590,7 @@ const JORNADA1 = [
     {
         id: "J1-E11",
         titulo: "O Olhar",
-        versao: "2.2",
+        versao: 2,
 
         cenas: [
 
@@ -640,7 +640,7 @@ const JORNADA1 = [
     {
         id: "J1-E12",
         titulo: "Sem Pressa",
-        versao: "2.2",
+        versao: 2,
 
         cenas: [
 
@@ -679,7 +679,7 @@ const JORNADA1 = [
     {
         id: "J1-E13",
         titulo: "O Invisível",
-        versao: "2.2",
+        versao: 2,
 
         cenas: [
 
@@ -724,7 +724,7 @@ const JORNADA1 = [
     {
         id: "J1-E14",
         titulo: "O Caminho",
-        versao: "2.2",
+        versao: 2,
 
         cenas: [
 
@@ -768,7 +768,7 @@ const JORNADA1 = [
     {
         id: "J1-E15",
         titulo: "O Primeiro Trecho",
-        versao: "2.2",
+        versao: 2,
 
         cenas: [
 
