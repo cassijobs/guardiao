@@ -132,10 +132,11 @@ async function iniciarGuardiao() {
 
         }
 
-        const encontro =
-            encontros[
-                memoria.encontroAtual
-            ];
+       const encontro =
+    await FornecedorEncontros.buscar(
+        memoria.encontroAtual,
+        encontros
+    );
 
         if (
             !encontro ||
