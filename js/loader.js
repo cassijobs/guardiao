@@ -31,6 +31,8 @@ dela na lista ARQUIVOS, antes de js/condutor.js.
 
         "js/config.js",
         "js/memoria.js",
+        "js/supabase.js",
+        "js/api.js",
         "js/palco.js",
         "js/supabase.js",
 
