@@ -1,6 +1,6 @@
 /*
 ======================================================
-GUARDIÃO v2.1
+GUARDIÃO v2.2
 JORNADA I — O ENCONTRO CONSIGO MESMO
 ======================================================
 */
@@ -10,9 +10,27 @@ const JORNADA1 = [
     {
         id: "J1-E01",
         titulo: "O Primeiro Encontro",
-        versao: "2.1",
+        versao: "2.2",
 
         cenas: [
+
+            {
+                tipo: "texto",
+                texto: "Artefato reconhecido.",
+                pausa: 3000
+            },
+
+            {
+                tipo: "texto",
+                texto: "A chave foi ativada.",
+                pausa: 3000
+            },
+
+            {
+                tipo: "texto",
+                texto: "O vínculo pode começar.",
+                pausa: 4000
+            },
 
             {
                 tipo: "texto",
@@ -93,10 +111,11 @@ const JORNADA1 = [
         ]
     },
 
+
     {
         id: "J1-E02",
         titulo: "Os Primeiros Pensamentos",
-        versao: "2.1",
+        versao: "2.2",
 
         cenas: [
 
@@ -140,7 +159,7 @@ const JORNADA1 = [
     {
         id: "J1-E03",
         titulo: "As Pequenas Escolhas",
-        versao: "2.1",
+        versao: "2.2",
 
         cenas: [
 
@@ -196,7 +215,7 @@ const JORNADA1 = [
     {
         id: "J1-E04",
         titulo: "A Atenção",
-        versao: "2.1",
+        versao: "2.2",
 
         cenas: [
 
@@ -276,7 +295,7 @@ const JORNADA1 = [
     {
         id: "J1-E05",
         titulo: "As Reações",
-        versao: "2.1",
+        versao: "2.2",
 
         cenas: [
 
@@ -326,7 +345,7 @@ const JORNADA1 = [
     {
         id: "J1-E06",
         titulo: "Ouvir",
-        versao: "2.1",
+        versao: "2.2",
 
         cenas: [
 
@@ -376,7 +395,7 @@ const JORNADA1 = [
     {
         id: "J1-E07",
         titulo: "O Automático",
-        versao: "2.1",
+        versao: "2.2",
 
         cenas: [
 
@@ -421,7 +440,7 @@ const JORNADA1 = [
     {
         id: "J1-E08",
         titulo: "Pensamentos que Retornam",
-        versao: "2.1",
+        versao: "2.2",
 
         cenas: [
 
@@ -471,7 +490,7 @@ const JORNADA1 = [
     {
         id: "J1-E09",
         titulo: "A Pequena Pausa",
-        versao: "2.1",
+        versao: "2.2",
 
         cenas: [
 
@@ -521,7 +540,7 @@ const JORNADA1 = [
     {
         id: "J1-E10",
         titulo: "As Palavras",
-        versao: "2.1",
+        versao: "2.2",
 
         cenas: [
 
@@ -571,7 +590,7 @@ const JORNADA1 = [
     {
         id: "J1-E11",
         titulo: "O Olhar",
-        versao: "2.1",
+        versao: "2.2",
 
         cenas: [
 
@@ -621,7 +640,7 @@ const JORNADA1 = [
     {
         id: "J1-E12",
         titulo: "Sem Pressa",
-        versao: "2.1",
+        versao: "2.2",
 
         cenas: [
 
@@ -660,7 +679,7 @@ const JORNADA1 = [
     {
         id: "J1-E13",
         titulo: "O Invisível",
-        versao: "2.1",
+        versao: "2.2",
 
         cenas: [
 
@@ -705,7 +724,7 @@ const JORNADA1 = [
     {
         id: "J1-E14",
         titulo: "O Caminho",
-        versao: "2.1",
+        versao: "2.2",
 
         cenas: [
 
@@ -749,7 +768,7 @@ const JORNADA1 = [
     {
         id: "J1-E15",
         titulo: "O Primeiro Trecho",
-        versao: "2.1",
+        versao: "2.2",
 
         cenas: [
 
