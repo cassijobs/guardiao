@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Artefatos — Mega Kraft Studio</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { overflow:auto; }
+        .painel { width:min(92vw,760px); margin:0 auto; padding:32px 16px 70px; box-sizing:border-box; }
+        .cartao { border:1px solid rgba(255,255,255,.16); border-radius:16px; padding:20px; margin:18px 0; background:rgba(255,255,255,.04); }
+        label { display:block; margin:14px 0 7px; opacity:.85; }
+        input, textarea { width:100%; box-sizing:border-box; padding:13px; border-radius:10px; border:1px solid rgba(255,255,255,.22); background:#111; color:#fff; font:inherit; }
+        textarea { min-height:150px; resize:vertical; }
+        .acoes { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+        button { min-height:46px; padding:0 18px; border-radius:999px; cursor:pointer; }
+        code { overflow-wrap:anywhere; }
+        .aviso { opacity:.72; line-height:1.6; }
+    </style>
+</head>
+<body>
+    <main class="painel">
+        <h1>Gerador de Artefatos</h1>
+        <p class="aviso">Mega Kraft Studio · padrão GRD-MKS-XXXX-XXXX</p>
+
+        <section class="cartao">
+            <label for="base-url">Endereço publicado do Guardião</label>
+            <input id="base-url" type="url" placeholder="https://usuario.github.io/guardiao/">
+
+            <label for="codigo">Código do Artefato</label>
+            <input id="codigo" type="text" readonly>
+
+            <label for="link">Link para gravar no NFC Tools</label>
+            <textarea id="link" readonly></textarea>
+
+            <div class="acoes">
+                <button id="gerar">Gerar novo</button>
+                <button id="copiar-link">Copiar link</button>
+                <button id="copiar-codigo">Copiar código</button>
+            </div>
+        </section>
+
+        <section class="cartao">
+            <h2>SQL para cadastrar</h2>
+            <textarea id="sql" readonly></textarea>
+            <div class="acoes">
+                <button id="copiar-sql">Copiar SQL</button>
+            </div>
+            <p class="aviso">Execute esse SQL no Supabase antes de entregar o Artefato.</p>
+        </section>
+    </main>
+
+    <script src="js/artefato.js"></script>
+    <script>
+        const codigoEl = document.getElementById("codigo");
+        const linkEl = document.getElementById("link");
+        const sqlEl = document.getElementById("sql");
+        const baseEl = document.getElementById("base-url");
+
+        const baseSugerida = new URL("./", window.location.href);
+        baseSugerida.pathname = baseSugerida.pathname.replace(/admin-artefatos\.html$/, "");
+        baseEl.value = baseSugerida.toString();
+
+        function atualizar() {
+            const codigo = ArtefatoGuardiao.gerarCodigo();
+            const link = ArtefatoGuardiao.criarLink(codigo, baseEl.value);
+
+            codigoEl.value = codigo;
+            linkEl.value = link;
+            sqlEl.value = `insert into artefatos (codigo, status)\nvalues ('${codigo}', 'ativo');`;
+        }
+
+        async function copiar(elemento) {
+            await navigator.clipboard.writeText(elemento.value);
+        }
+
+        document.getElementById("gerar").addEventListener("click", atualizar);
+        document.getElementById("copiar-link").addEventListener("click", () => copiar(linkEl));
+        document.getElementById("copiar-codigo").addEventListener("click", () => copiar(codigoEl));
+        document.getElementById("copiar-sql").addEventListener("click", () => copiar(sqlEl));
+        baseEl.addEventListener("change", () => {
+            if (codigoEl.value) {
+                linkEl.value = ArtefatoGuardiao.criarLink(codigoEl.value, baseEl.value);
+            }
+        });
+
+        atualizar();
+    </script>
+</body>
+</html>
