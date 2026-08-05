@@ -1,0 +1,2 @@
+Guardião Master 6.0
+Fluxo único: App → leitor → jornada

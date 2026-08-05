@@ -1,0 +1,52 @@
+REVISÃO DE INTEGRAÇÃO — GUARDIÃO
+
+CORREÇÕES APLICADAS
+
+1. APP/PWA integrado
+- Criada a pasta app/ para instalar o Guardião sem substituir a página principal.
+- Criados manifest.webmanifest, service-worker.js e ícones na raiz.
+- O ícone instalado abre diretamente AR/?origem=app.
+- O conteúdo dinâmico (config, rotas, targets, jornadas e JS) não fica preso no cache.
+
+2. Progresso da caminhada
+- Corrigido o fluxo que recriava uma memória vazia em todo acesso para artefatos das rotas.
+- Agora uma caminhada existente é retomada; uma nova só é criada no primeiro acesso.
+- carregarProgresso agora informa explicitamente se já havia progresso salvo.
+
+3. Leitura dos lotes
+- O leitor não fica mais preso ao primeiro lote de config.json.
+- Quando o código esperado é conhecido (primeira ativação), o lote correto é localizado e aberto diretamente.
+- Na leitura livre, o leitor percorre os lotes publicados, começando pelo mais recente.
+- Observação: muitos lotes separados aumentam o tempo da leitura livre porque cada .mind precisa ser carregado por vez. Para escala grande, recomenda-se futuramente um índice de lotes ou compilação agrupada por coleções maiores.
+
+4. Ativação sem leitura duplicada
+- Uma leitura normal pelo leitor também registra o símbolo como reconhecido neste aparelho.
+- Ao chegar ao Guardião, o usuário não precisa escanear o mesmo símbolo novamente.
+
+5. Compatibilidade dos códigos
+- O redirecionamento do 404 foi alinhado ao padrão atual MKS-[A-Z0-9]{5}.
+- Isso evita rejeitar códigos válidos que contenham caracteres aceitos pelo Escriba.
+
+6. Conferências executadas
+- Todos os arquivos JavaScript passaram na verificação de sintaxe.
+- config.json, arquivo .mind, rotas, quantidade, índices e imagens do lote-001 foram conferidos.
+- lote-001 possui 25 rotas, índices de 0 a 24 e todos os arquivos referenciados existem.
+
+TESTE DO APP
+
+1. Publique o conteúdo completo deste ZIP no repositório guardiao.
+2. Abra no Chrome do Android:
+   https://cassijobs.github.io/guardiao/app/
+3. Toque em INSTALAR GUARDIÃO.
+4. Abra o novo ícone.
+5. Ele deverá abrir diretamente o leitor AR.
+6. Leia um símbolo e confirme se a jornada abre sem solicitar uma segunda leitura.
+
+IMPORTANTE
+- Apague a pasta APP antiga, se ainda existir, para evitar confusão com a nova pasta app/.
+- Não apague a pasta AR.
+- Novos lotes devem continuar sendo publicados pelo Escriba em AR/config.json, AR/targets e AR/rotas.
+
+CORREÇÃO 1.1 — leitura única no aplicativo
+- O leitor inclui ativado=1 no retorno.
+- A página principal aceita essa confirmação e não solicita o símbolo novamente.
