@@ -39,7 +39,7 @@ async function montarCena(lote, rotas) {
   alvoReconhecido = false;
 
   const alvoMind = urlSemCache(lote.targets);
-  definirStatus(`Carregando reconhecimento — ${lote.nome}…`, "preparando");
+  definirStatus("Preparando o leitor…", "preparando");
 
   UI.cena.innerHTML = `
     <a-scene
@@ -64,7 +64,7 @@ async function montarCena(lote, rotas) {
 
   await new Promise((resolve, reject) => {
     const limite = setTimeout(
-      () => reject(new Error("O MindAR demorou demais para carregar o arquivo do lote.")),
+      () => reject(new Error("O leitor demorou demais para ficar pronto.")),
       30000
     );
 
@@ -77,24 +77,24 @@ async function montarCena(lote, rotas) {
       iniciado = true;
 
       try {
-        definirStatus("Arquivo .mind carregado. Iniciando a câmera…", "preparando");
+        definirStatus("Preparando a câmera…", "preparando");
         await sistema.start();
         clearTimeout(limite);
-        definirStatus(`Leitor pronto — ${lote.nome}. Aponte para o símbolo.`, "procurando");
+        definirStatus("Leitor pronto. Aponte para o símbolo.", "procurando");
         resolve();
       } catch (erro) {
         clearTimeout(limite);
-        reject(new Error(`Falha ao iniciar o MindAR: ${erro?.message || erro}`));
+        reject(new Error("Não foi possível iniciar o leitor."));
       }
     };
 
     cenaAtual.addEventListener("arReady", () => {
-      definirStatus(`Leitor pronto — ${lote.nome}. Aponte para o símbolo.`, "procurando");
+      definirStatus("Leitor pronto. Aponte para o símbolo.", "procurando");
     });
 
     cenaAtual.addEventListener("arError", event => {
       clearTimeout(limite);
-      reject(new Error(`Erro do MindAR ao carregar o lote: ${event?.detail?.message || "arquivo incompatível"}`));
+      reject(new Error("Não foi possível carregar os dados de reconhecimento."));
     }, { once: true });
 
     if (cenaAtual.hasLoaded) iniciarSistema();

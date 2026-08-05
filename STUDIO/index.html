@@ -10,7 +10,7 @@
 <script defer src="./escriba/escriba.js"></script>
 <script defer src="./js/simbolo.js"></script>
 <script defer src="./js/auth-studio.js"></script>
-<script defer src="./js/studio-10.5.js"></script>
+<script defer src="./js/studio-10.7.js"></script>
 <script defer src="./js/interface-9.js"></script>
 </head>
 <body class="studio-bloqueado">
@@ -329,16 +329,18 @@
               <p class="validacao-resumo">Importe o arquivo <code>targets.mind</code> para iniciar a conferência.</p>
               <div id="validacaoItens" class="validacao-itens"></div>
             </div>
-            <button id="publicarTudo" class="botao-publicar" disabled>GERAR PASTA AR COMPLETA E VALIDADA</button>
+            <button id="publicarTudo" class="botao-publicar" disabled>GERAR PASTA AR COMPLETA (TODOS OS LOTES)</button>
             <div class="progresso"><div id="barra"></div></div>
             <p id="status">Aguardando.</p>
             <aside class="lembrete-publicacao10" aria-label="Como publicar no GitHub">
               <strong>PUBLICAÇÃO NO GITHUB</strong>
+              <p><b>Para acrescentar um novo lote:</b></p>
               <ol>
-                <li>Exclua manualmente a pasta <code>AR</code> antiga do repositório.</li>
-                <li>Envie a nova pasta <code>AR</code> gerada pelo Studio.</li>
-                <li>Confirme o commit e aguarde o GitHub Pages atualizar.</li>
+                <li>Use <b>Gerar atualização do lote ativo</b>.</li>
+                <li>Copie o conteúdo da pasta <code>AR</code> gerada sobre a pasta <code>AR</code> existente.</li>
+                <li>Escolha substituir somente os arquivos com o mesmo nome. Não apague os lotes anteriores.</li>
               </ol>
+              <p><b>Para reconstruir tudo:</b> use <b>Gerar pasta AR completa</b>. Esse pacote contém todos os lotes guardados no Studio e pode substituir a pasta <code>AR</code> inteira.</p>
               <p>O botão <b>Apagar todos os dados</b> limpa somente este navegador. Ele não apaga arquivos já publicados no GitHub.</p>
             </aside>
           </div>
@@ -348,7 +350,7 @@
       <details class="ferramentas-avancadas">
         <summary>Ferramentas avançadas</summary>
         <div class="ferramentas-grade">
-          <button id="gerarLote" class="botao-secundario">GERAR SOMENTE ATUALIZAÇÃO DO LOTE</button>
+          <button id="gerarLote" class="botao-secundario">GERAR ATUALIZAÇÃO DO LOTE ATIVO</button>
           <button id="gerarConfig" class="botao-secundario">GERAR CONFIG.JSON GERAL</button>
         </div>
       </details>
