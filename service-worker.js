@@ -1,4 +1,4 @@
-const CACHE = "guardiao-master-v6-0";
+const CACHE = "guardiao-master-v6-1";
 const APP_SHELL = [
   "./app/",
   "./app/logo-guardiao.png",

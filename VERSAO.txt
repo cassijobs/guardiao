@@ -1,2 +1,3 @@
-Guardião Master 6.0
-Fluxo único: App → leitor → jornada
+GUARDIÃO MASTER 6.1
+Fluxo único: app → tela de encontrar símbolo → câmera → jornada.
+O leitor AR é o único módulo autorizado a abrir a câmera.
