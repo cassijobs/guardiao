@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Ferramentas do desenvolvedor — Guardião</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body{overflow:auto}
+.admin-conteudo{display:none}
+.admin-conteudo.visivel{display:block}
+.admin-estado{width:min(92vw,720px);margin:0 auto;padding:70px 18px;text-align:center;box-sizing:border-box}
+.admin-estado.erro{color:#fff}
+.admin-estado p{line-height:1.6;opacity:.82}
+.painel{width:min(92vw,850px);margin:0 auto;padding:26px 16px 64px;box-sizing:border-box;text-align:center}
+.cartao{border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:18px;margin:16px 0;background:rgba(255,255,255,.04);text-align:center}
+.acoes{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px}
+button,a.botao{cursor:pointer;text-decoration:none;min-width:150px;min-height:46px;padding:8px 18px;font-size:1rem}
+.perigo{border-color:#d66}
+.saida{white-space:pre-wrap;overflow-wrap:anywhere;background:#0b0b0b;border-radius:10px;padding:14px;min-height:70px;line-height:1.45;text-align:left;margin:14px auto 0;max-width:680px}
+.saida:empty{display:none}
+.aviso{opacity:.72;line-height:1.6;margin-left:auto;margin-right:auto}
+.campo-admin{width:min(100%,360px);min-height:46px;box-sizing:border-box;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:#111;color:#fff;padding:10px 14px;font:inherit;text-align:center;text-transform:uppercase;margin:6px}
+.grupo-campos{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;align-items:end}
+.grupo-campo{display:flex;flex-direction:column;align-items:center;min-width:min(100%,280px)}
+.grupo-campo label{font-size:.92rem;opacity:.76;margin-bottom:3px}
+.perigo-forte{border-color:#e66;background:rgba(170,30,30,.16)}
+@media(max-width:600px){
+  .painel{width:min(96vw,850px);padding:20px 10px 48px}
+  .cartao{padding:16px 12px;margin:12px 0}
+  .acoes{gap:7px}
+  button,a.botao{min-width:145px;min-height:46px;padding:8px 15px;font-size:.98rem}
+}
+</style>
+</head>
+<body>
+<div id="admin-estado" class="admin-estado"><h1>Ferramentas do desenvolvedor</h1><p>Verificando seu acesso…</p></div>
+<main id="admin-conteudo" class="painel admin-conteudo">
+<h1>Ferramentas do desenvolvedor</h1><p class="aviso">Uso exclusivo durante testes e manutenção.</p>
+<section class="cartao"><h2>Navegação</h2><div class="acoes"><a class="botao" href="admin-artefatos.html">Artefatos</a><a class="botao" href="index.html">Abrir Guardião</a><button id="sair">Sair</button></div></section>
+<section class="cartao">
+<h2>Manutenção de caminhada</h2>
+<p class="aviso">Estas ações alteram os dados do Supabase e são exclusivas do administrador.</p>
+<div class="grupo-campos">
+  <div class="grupo-campo">
+    <label for="codigo-zerar">Artefato que voltará ao Encontro 1</label>
+    <input id="codigo-zerar" class="campo-admin" type="text" placeholder="MKS-7ZKC4" maxlength="17" autocomplete="off" spellcheck="false">
+  </div>
+</div>
+<div class="acoes"><button id="zerar-artefato" class="perigo-forte">Zerar caminhada</button></div>
+<hr style="border:0;border-top:1px solid rgba(255,255,255,.12);margin:24px 0">
+<p class="aviso">Use quando o usuário perdeu o pingente e comprou outro. O Artefato antigo será marcado como transferido.</p>
+<div class="grupo-campos">
+  <div class="grupo-campo">
+    <label for="codigo-antigo">Código original do usuário</label>
+    <input id="codigo-antigo" class="campo-admin" type="text" placeholder="MKS-ANTIGO" maxlength="17" autocomplete="off" spellcheck="false">
+  </div>
+  <div class="grupo-campo">
+    <label for="codigo-novo">Novo Artefato habilitado</label>
+    <input id="codigo-novo" class="campo-admin" type="text" placeholder="MKS-NOVO" maxlength="17" autocomplete="off" spellcheck="false">
+  </div>
+</div>
+<div class="acoes"><button id="recuperar-continuidade">Recuperar continuidade</button></div>
+<pre id="saida-manutencao" class="saida"></pre>
+</section>
+<section class="cartao"><h2>Limpeza deste navegador</h2><p class="aviso">Não apaga dados do Supabase. Atua apenas neste navegador e neste domínio.</p><div class="acoes"><button id="limpar-local">Limpar localStorage</button><button id="limpar-sessao">Limpar sessionStorage</button><button id="limpar-tudo" class="perigo">Simular primeiro acesso</button></div></section>
+<section class="cartao"><h2>Diagnóstico</h2><div class="acoes"><button id="testar-supabase">Testar Supabase</button><button id="mostrar-info">Informações do navegador</button></div><pre id="saida" class="saida"></pre></section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script><script src="js/supabase.js"></script><script src="js/admin-auth.js"></script>
+<script>
+const estado=document.getElementById('admin-estado');
+const conteudo=document.getElementById('admin-conteudo');
+const saida=document.getElementById('saida');
+const saidaManutencao=document.getElementById('saida-manutencao');
+const cliente=window.GuardiaoSupabase || window.supabaseClient;
+
+(async()=>{
+  try{
+    const acesso=await GuardiaoAdmin.verificarAcesso();
+    if(!acesso)return;
+    estado.style.display='none';
+    conteudo.classList.add('visivel');
+  }catch(e){
+    console.error('Falha ao abrir as ferramentas:',e);
+    estado.classList.add('erro');
+    estado.innerHTML=`<h1>Não foi possível abrir as ferramentas</h1><p>${String(e?.message||e)}</p><div class="acoes" style="justify-content:center;margin-top:22px"><button id="tentar-novamente">Tentar novamente</button><a class="botao" href="admin-login.html">Voltar ao login</a></div>`;
+    document.getElementById('tentar-novamente')?.addEventListener('click',()=>location.reload());
+  }
+})();
+function confirmar(msg){return window.confirm(msg)}
+
+function normalizarCodigoCampo(campo){
+  campo.value=String(campo.value||'').trim().toUpperCase().replace(/\s+/g,'');
+  return campo.value;
+}
+['codigo-zerar','codigo-antigo','codigo-novo'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input',evento=>normalizarCodigoCampo(evento.target));
+});
+async function executarRpcAdministrativa(nome,parametros){
+  if(!cliente || typeof cliente.rpc!=='function') throw new Error('Conexão com o Supabase indisponível.');
+  const {data,error}=await cliente.rpc(nome,parametros);
+  if(error) throw error;
+  const dados=typeof data==='string'?(()=>{try{return JSON.parse(data)}catch{return data}})():data;
+  if(!dados?.ok) throw new Error(dados?.mensagem || dados?.motivo || 'A operação não pôde ser concluída.');
+  return dados;
+}
+document.getElementById('zerar-artefato').onclick=async()=>{
+  const campo=document.getElementById('codigo-zerar');
+  const codigo=normalizarCodigoCampo(campo);
+  if(!codigo){saidaManutencao.textContent='Informe o código do Artefato que deseja zerar.';campo.focus();return;}
+  if(!confirmar(`Zerar a caminhada de ${codigo}?\n\nO nome, o progresso e as datas serão apagados. O Artefato voltará ao Encontro 1.`))return;
+  const botao=document.getElementById('zerar-artefato');
+  botao.disabled=true;botao.textContent='Zerando…';saidaManutencao.textContent='Zerando a caminhada no Supabase…';
+  try{
+    const r=await executarRpcAdministrativa('zerar_caminhada_admin',{p_codigo:codigo});
+    saidaManutencao.textContent=`Caminhada zerada com sucesso.\n\nArtefato: ${r.codigo||codigo}\nPróximo encontro: ${r.encontro_atual||1}`;
+  }catch(e){saidaManutencao.textContent='Não foi possível zerar a caminhada:\n'+(e?.message||e);}
+  finally{botao.disabled=false;botao.textContent='Zerar caminhada';}
+};
+document.getElementById('recuperar-continuidade').onclick=async()=>{
+  const campoAntigo=document.getElementById('codigo-antigo');
+  const campoNovo=document.getElementById('codigo-novo');
+  const antigo=normalizarCodigoCampo(campoAntigo),novo=normalizarCodigoCampo(campoNovo);
+  if(!antigo||!novo){saidaManutencao.textContent='Informe o código original e o código do novo Artefato.';(!antigo?campoAntigo:campoNovo).focus();return;}
+  if(antigo===novo){saidaManutencao.textContent='Os códigos antigo e novo precisam ser diferentes.';return;}
+  if(!confirmar(`Transferir a caminhada de ${antigo} para ${novo}?\n\nO Artefato antigo será desativado como transferido. O novo continuará do ponto em que o usuário parou.`))return;
+  const botao=document.getElementById('recuperar-continuidade');
+  botao.disabled=true;botao.textContent='Recuperando…';saidaManutencao.textContent='Recuperando a continuidade no Supabase…';
+  try{
+    const r=await executarRpcAdministrativa('transferir_caminhada_admin',{p_codigo_antigo:antigo,p_codigo_novo:novo});
+    saidaManutencao.textContent=`Continuidade recuperada com sucesso.\n\nArtefato original: ${r.codigo_antigo||antigo} — transferido\nNovo Artefato: ${r.codigo_novo||novo} — ativado\nPróximo encontro: ${r.encontro_atual||'mantido'}`;
+  }catch(e){saidaManutencao.textContent='Não foi possível recuperar a continuidade:\n'+(e?.message||e);}
+  finally{botao.disabled=false;botao.textContent='Recuperar continuidade';}
+};
+
+document.getElementById('sair').onclick=()=>GuardiaoAdmin.sair();
+document.getElementById('limpar-local').onclick=()=>{if(confirmar('Apagar os dados locais do Guardião neste navegador?')){localStorage.clear();saida.textContent='localStorage limpo.';}};
+document.getElementById('limpar-sessao').onclick=()=>{if(confirmar('Apagar os dados temporários da sessão?')){sessionStorage.clear();saida.textContent='sessionStorage limpo.';}};
+document.getElementById('limpar-tudo').onclick=async()=>{if(!confirmar('Simular primeiro acesso? Isso limpará dados locais, sessão, caches e bancos IndexedDB deste domínio.'))return;localStorage.clear();sessionStorage.clear();if('caches'in window){for(const n of await caches.keys())await caches.delete(n);}if(indexedDB.databases){for(const db of await indexedDB.databases())if(db.name)indexedDB.deleteDatabase(db.name);}saida.textContent='Dados locais apagados. Abra o Guardião para testar como primeiro acesso.';};
+document.getElementById('testar-supabase').onclick=async()=>{const inicio=performance.now();try{const {data,error}=await (window.GuardiaoSupabase || window.supabaseClient).rpc('verificar_admin_guardiao');if(error)throw error;saida.textContent=`Supabase: conectado\nAdministrador autorizado: ${data?.autorizado?'sim':'não'}\nTempo aproximado: ${Math.round(performance.now()-inicio)} ms`; }catch(e){saida.textContent='Erro no Supabase:\n'+e.message;}};
+document.getElementById('mostrar-info').onclick=()=>{saida.textContent=`Versão do Guardião: 5.1.14\nNavegador: ${navigator.userAgent}\nTela: ${screen.width} × ${screen.height}\nJanela: ${innerWidth} × ${innerHeight}\nOnline: ${navigator.onLine?'sim':'não'}\nData: ${new Date().toLocaleString('pt-BR')}`;};
+</script>
+</body></html>

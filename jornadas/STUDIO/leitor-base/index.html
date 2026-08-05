@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="theme-color" content="#1a1009">
+  <title>Guardião</title>
+  <link rel="stylesheet" href="./leitor.css?v=620">
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <script type="module" src="./js/app.js?v=620"></script>
+</head>
+<body>
+  <main id="telaInicial" class="tela-inicial">
+    <section class="portal">
+      <div class="marca">GUARDIÃO</div>
+      <div class="sinal" aria-hidden="true"><i></i><i></i><i></i></div>
+      <p id="mensagemInicial">Antes do primeiro encontro, há algo que precisa ser encontrado.<br><br>O símbolo que acompanha este artefato permitirá que a caminhada comece.</p>
+      <button id="iniciarLeitor" type="button">ENCONTRAR O SÍMBOLO</button>
+      <small id="notaInicial">A câmera será aberta somente depois que você tocar no botão.</small>
+    </section>
+  </main>
+
+  <section id="interface" class="interface oculto" aria-live="polite">
+    <div id="status" class="status">Preparando a câmera…</div>
+    <div id="moldura" class="moldura" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+      <div class="linha-leitura"></div>
+    </div>
+    <p class="instrucao">Mantenha o sigilo dentro da moldura</p>
+  </section>
+
+  <section id="ritual" class="ritual oculto" aria-live="assertive">
+    <div class="nevoa"></div>
+    <div class="circulo circulo-externo"></div>
+    <div class="circulo circulo-interno"></div>
+    <div class="traco-luz traco-a"></div>
+    <div class="traco-luz traco-b"></div>
+    <div class="sigilo-wrap">
+      <img id="ritualSelo" alt="Sigilo reconhecido">
+      <div class="nucleo"></div>
+    </div>
+    <div class="revelacao">
+      <span id="ritualEstado">ARTEFATO RECONHECIDO</span>
+      <strong id="ritualCodigo">—</strong>
+      <p id="ritualMensagem">A jornada está pronta.</p>
+      <div id="ritualIdentidade" class="identidade oculto"></div>
+    </div>
+  </section>
+
+  <div id="erro" class="erro oculto" role="alert"></div>
+  <div id="cena"></div>
+</body>
+</html>

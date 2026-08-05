@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#1a1009">
+  <title>Recuperar o Guardião</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { width: 100%; min-height: 100%; margin: 0; }
+    body {
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 24px;
+      overflow: hidden;
+      color: #efd5a0;
+      text-align: center;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(ellipse at 50% 38%, rgba(218,166,82,.13), transparent 58%),
+        linear-gradient(180deg, #160d07, #29180e 54%, #3a281a);
+    }
+    main { width: min(650px, 94vw); opacity: 0; animation: entrar 1.4s ease forwards; }
+    h1 {
+      margin: 0;
+      color: #d4a55a;
+      font-size: clamp(1rem, 3.5vw, 1.22rem);
+      font-weight: normal;
+      letter-spacing: .28em;
+    }
+    .estrela { margin: 18px 0 22px; color: #d4a55a; font-size: 1.75rem; }
+    p { margin: 0 auto; font-size: clamp(1.45rem, 5.4vw, 2.15rem); line-height: 1.45; text-wrap: balance; }
+    small { display: block; margin: 20px auto 0; color: rgba(239,213,160,.65); font-size: 1rem; line-height: 1.45; }
+    a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 56px;
+      margin-top: 32px;
+      padding: 14px 26px;
+      border: 1px solid rgba(212,165,90,.72);
+      border-radius: 999px;
+      color: #efd5a0;
+      background: rgba(83,52,27,.58);
+      text-decoration: none;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    @keyframes entrar { to { opacity: 1; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>GUARDIÃO</h1>
+    <div class="estrela" aria-hidden="true">✦</div>
+    <p>O símbolo guardado pode reencontrar o caminho do seu artefato.</p>
+    <a href="../AR/?modo=recuperacao">Abrir recuperação</a>
+    <small>Tenha em mãos o cartão com o símbolo que acompanhava o Guardião.</small>
+  </main>
+</body>
+</html>

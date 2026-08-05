@@ -1,0 +1,37 @@
+PAINEL DE LOTES — GUARDIÃO
+
+OBJETIVO
+Gerenciar até 20 artefatos por lote e criar:
+- 1 arquivo targets.mind por lote;
+- 1 leitor MindAR por lote;
+- 1 rotas.json;
+- todos os selos PNG;
+- 1 ZIP completo.
+
+COMO USAR
+1. Abra index.html em um navegador com internet.
+2. Informe o nome do lote, por exemplo lote-001.
+3. Informe o código do artefato.
+4. Clique em ADICIONAR AO LOTE.
+5. Repita até no máximo 20 artefatos.
+6. Clique em GERAR PACOTE COMPLETO DO LOTE.
+7. Aguarde a compilação.
+8. Extraia o ZIP e publique.
+
+ESTRUTURA GERADA
+leitor/
+  index.html
+  rotas.json
+  targets/
+    lote-001.mind
+
+selos/
+  selo-CODIGO.png
+
+IMPORTANTE
+- A ordem dos símbolos define targetIndex 0, 1, 2...
+- Remover um item reorganiza os índices.
+- Depois de publicar um lote, evite mudar sua ordem.
+- Crie lote-002 para os próximos 20 artefatos.
+- O navegador precisa de internet para carregar MindAR, A-Frame e JSZip.
+- O estado do lote fica salvo no navegador por localStorage.
