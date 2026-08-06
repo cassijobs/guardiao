@@ -1,0 +1,13 @@
+{
+  "versao": 1785979172681,
+  "sistema": "O Escriba Studio 10.8 — Biblioteca completa",
+  "geradoEm": "2026-08-06T01:19:32.681Z",
+  "lotes": [
+    {
+      "nome": "lote-001",
+      "quantidade": 25,
+      "targets": "./targets/lote-001.mind",
+      "rotas": "./rotas/lote-001.json"
+    }
+  ]
+}

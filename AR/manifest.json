@@ -1,0 +1,180 @@
+{
+  "versao": 8,
+  "studio": "10.8",
+  "validado": true,
+  "geradoEm": "2026-08-06T01:19:32.681Z",
+  "artefatos": 25,
+  "lotes": [
+    {
+      "nome": "lote-001",
+      "quantidade": 25,
+      "targets": "./targets/lote-001.mind",
+      "rotas": "./rotas/lote-001.json",
+      "ordemEsperada": [
+        {
+          "targetIndex": 0,
+          "codigo": "MKS-XWWG4",
+          "assinatura": "59E4-3353"
+        },
+        {
+          "targetIndex": 1,
+          "codigo": "MKS-YKUZC",
+          "assinatura": "425A-C630"
+        },
+        {
+          "targetIndex": 2,
+          "codigo": "MKS-C85UN",
+          "assinatura": "4285-AEA9"
+        },
+        {
+          "targetIndex": 3,
+          "codigo": "MKS-MMJZG",
+          "assinatura": "2786-DE12"
+        },
+        {
+          "targetIndex": 4,
+          "codigo": "MKS-SSJZV",
+          "assinatura": "04CC-6A54"
+        },
+        {
+          "targetIndex": 5,
+          "codigo": "MKS-CSXED",
+          "assinatura": "267D-43F1"
+        },
+        {
+          "targetIndex": 6,
+          "codigo": "MKS-48SXW",
+          "assinatura": "2837-F64E"
+        },
+        {
+          "targetIndex": 7,
+          "codigo": "MKS-4FGD8",
+          "assinatura": "BDFB-C241"
+        },
+        {
+          "targetIndex": 8,
+          "codigo": "MKS-EEFNX",
+          "assinatura": "CAB6-DB9B"
+        },
+        {
+          "targetIndex": 9,
+          "codigo": "MKS-X2AZ9",
+          "assinatura": "558F-622D"
+        },
+        {
+          "targetIndex": 10,
+          "codigo": "MKS-YKS3A",
+          "assinatura": "675D-C29F"
+        },
+        {
+          "targetIndex": 11,
+          "codigo": "MKS-RF97D",
+          "assinatura": "EE38-3F1B"
+        },
+        {
+          "targetIndex": 12,
+          "codigo": "MKS-WBNMF",
+          "assinatura": "661A-D643"
+        },
+        {
+          "targetIndex": 13,
+          "codigo": "MKS-ZFA5D",
+          "assinatura": "AE5B-BD10"
+        },
+        {
+          "targetIndex": 14,
+          "codigo": "MKS-BQBTR",
+          "assinatura": "D3CB-E232"
+        },
+        {
+          "targetIndex": 15,
+          "codigo": "MKS-PJ6G4",
+          "assinatura": "63AB-951C"
+        },
+        {
+          "targetIndex": 16,
+          "codigo": "MKS-MDS5B",
+          "assinatura": "F7E2-B2FC"
+        },
+        {
+          "targetIndex": 17,
+          "codigo": "MKS-NAQRX",
+          "assinatura": "46E2-09FB"
+        },
+        {
+          "targetIndex": 18,
+          "codigo": "MKS-8KCFT",
+          "assinatura": "0B92-5192"
+        },
+        {
+          "targetIndex": 19,
+          "codigo": "MKS-MUVKA",
+          "assinatura": "6E02-2AEC"
+        },
+        {
+          "targetIndex": 20,
+          "codigo": "MKS-7PACX",
+          "assinatura": "A405-5B35"
+        },
+        {
+          "targetIndex": 21,
+          "codigo": "MKS-GTZZK",
+          "assinatura": "3A72-5773"
+        },
+        {
+          "targetIndex": 22,
+          "codigo": "MKS-G7325",
+          "assinatura": "83BE-5310"
+        },
+        {
+          "targetIndex": 23,
+          "codigo": "MKS-SQVBQ",
+          "assinatura": "7A7E-92A9"
+        },
+        {
+          "targetIndex": 24,
+          "codigo": "MKS-WRG2R",
+          "assinatura": "6FAD-5E7B"
+        }
+      ]
+    }
+  ],
+  "arquivos": [
+    "index.html",
+    "leitor.css",
+    "config.json",
+    "js/app.js",
+    "js/config.js",
+    "js/identidade.js",
+    "js/reconhecimento.js",
+    "js/ritual.js",
+    "js/ui.js",
+    "targets/lote-001.mind",
+    "rotas/lote-001.json",
+    "selos/selo-MKS-XWWG4.png",
+    "selos/selo-MKS-YKUZC.png",
+    "selos/selo-MKS-C85UN.png",
+    "selos/selo-MKS-MMJZG.png",
+    "selos/selo-MKS-SSJZV.png",
+    "selos/selo-MKS-CSXED.png",
+    "selos/selo-MKS-48SXW.png",
+    "selos/selo-MKS-4FGD8.png",
+    "selos/selo-MKS-EEFNX.png",
+    "selos/selo-MKS-X2AZ9.png",
+    "selos/selo-MKS-YKS3A.png",
+    "selos/selo-MKS-RF97D.png",
+    "selos/selo-MKS-WBNMF.png",
+    "selos/selo-MKS-ZFA5D.png",
+    "selos/selo-MKS-BQBTR.png",
+    "selos/selo-MKS-PJ6G4.png",
+    "selos/selo-MKS-MDS5B.png",
+    "selos/selo-MKS-NAQRX.png",
+    "selos/selo-MKS-8KCFT.png",
+    "selos/selo-MKS-MUVKA.png",
+    "selos/selo-MKS-7PACX.png",
+    "selos/selo-MKS-GTZZK.png",
+    "selos/selo-MKS-G7325.png",
+    "selos/selo-MKS-SQVBQ.png",
+    "selos/selo-MKS-WRG2R.png"
+  ]
+}
