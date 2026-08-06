@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#090704">
-<title>O Escriba Studio 10.6 — Acesso Protegido</title>
+<title>O Escriba Studio 10.7 — Fluxo Profissional</title>
 <link rel="stylesheet" href="./css/studio.css">
 <script src="./vendor/jszip.min.js"></script>
 <script defer src="./escriba/escriba.js"></script>
@@ -45,17 +45,29 @@
     <div class="selo-marca">
       <canvas id="marcaCanvas" width="150" height="150" aria-hidden="true"></canvas>
       <strong>GUARDIÃO</strong>
-      <span>STUDIO 10.6</span>
+      <span>STUDIO 10.7</span>
     </div>
-    <nav class="nav9">
-      <button class="nav-ativo" data-modulo="inicio">⌂ Início</button>
-      <button data-modulo="criacao">▤ Cartões e símbolos</button>
-      <button data-modulo="biblioteca">▣ Artefatos</button>
-      <button data-modulo="lotesModulo">◫ Lotes</button>
-      <button data-modulo="publicacao">⌘ Publicar</button>
-      <button data-modulo="historicoModulo">◷ Histórico</button>
-      <button data-modulo="backup">⬡ Backup</button>
-      <button data-modulo="escrita">⌁ A Escrita</button>
+    <nav class="nav9 nav-profissional" aria-label="Etapas do Studio">
+      <div class="nav-grupo">
+        <span class="nav-grupo-titulo">VISÃO GERAL</span>
+        <button class="nav-ativo" data-modulo="inicio"><i>⌂</i><span>Início</span></button>
+      </div>
+      <div class="nav-grupo">
+        <span class="nav-grupo-titulo">1 · BIBLIOTECA</span>
+        <button data-modulo="biblioteca"><i>▣</i><span>Artefatos</span></button>
+        <button data-modulo="lotesModulo"><i>◫</i><span>Lotes</span></button>
+        <button data-modulo="criacao"><i>▤</i><span>Cartões e símbolos</span></button>
+      </div>
+      <div class="nav-grupo">
+        <span class="nav-grupo-titulo">2–4 · PRODUÇÃO E PUBLICAÇÃO</span>
+        <button data-modulo="publicacao"><i>⌘</i><span>Validar e publicar</span></button>
+        <button data-modulo="historicoModulo"><i>◷</i><span>Histórico</span></button>
+      </div>
+      <div class="nav-grupo">
+        <span class="nav-grupo-titulo">5 · FERRAMENTAS</span>
+        <button data-modulo="backup"><i>⬡</i><span>Backup e restauração</span></button>
+        <button data-modulo="escrita"><i>⌁</i><span>A Escrita</span></button>
+      </div>
     </nav>
     <div class="frase-lateral">
       <div class="mini-sigilo">◉</div>
@@ -75,8 +87,8 @@
       <div class="inicio9-topo">
         <div>
           <span class="etiqueta9">O ESCRIBA</span>
-          <h1>PREPARE UM NOVO GUARDIÃO</h1>
-          <p>Crie artefatos, organize os símbolos e publique o lote seguindo uma etapa de cada vez.</p>
+          <h1>CENTRAL DE PRODUÇÃO DO GUARDIÃO</h1>
+          <p>Organize a biblioteca, produza novos lotes, valide o MindAR e publique com segurança em um fluxo único.</p>
         </div>
         <div id="estadoGeral9" class="estado9"><i></i><span>Verificando o trabalho...</span></div>
       </div>
@@ -93,7 +105,35 @@
         </div>
       </div>
 
-      <div class="cards9">
+      <section class="fluxo-profissional" aria-labelledby="fluxoProfissionalTitulo">
+        <div class="fluxo-profissional-cabecalho">
+          <div>
+            <span class="etiqueta9">FLUXO DE TRABALHO</span>
+            <h2 id="fluxoProfissionalTitulo">Cinco etapas. Um caminho claro.</h2>
+            <p>Siga a sequência abaixo para criar, validar e publicar cada lote sem perder os anteriores.</p>
+          </div>
+          <span class="fluxo-status">Studio 10.7</span>
+        </div>
+        <div class="etapas-profissionais">
+          <button type="button" data-modulo="biblioteca" class="etapa-profissional">
+            <b>1</b><div><small>BIBLIOTECA</small><strong>Organizar identidades</strong><span>Consulte artefatos, lotes e cartões já registrados.</span></div><em>ABRIR →</em>
+          </button>
+          <button type="button" data-modulo="lotesModulo" class="etapa-profissional">
+            <b>2</b><div><small>PRODUÇÃO</small><strong>Criar e exportar o lote</strong><span>Gere 25 símbolos e baixe a sequência ordenada para o MindAR.</span></div><em>PRODUZIR →</em>
+          </button>
+          <button type="button" data-modulo="publicacao" class="etapa-profissional">
+            <b>3</b><div><small>IMPORTAÇÃO</small><strong>Importar o arquivo .mind</strong><span>Associe o arquivo compilado ao lote correto e confira a ordem.</span></div><em>VALIDAR →</em>
+          </button>
+          <button type="button" data-modulo="publicacao" class="etapa-profissional destaque-etapa">
+            <b>4</b><div><small>PUBLICAÇÃO</small><strong>Publicar com segurança</strong><span>Acrescente somente o lote novo ou reconstrua o Guardião completo.</span></div><em>PUBLICAR →</em>
+          </button>
+          <button type="button" data-modulo="backup" class="etapa-profissional">
+            <b>5</b><div><small>FERRAMENTAS</small><strong>Proteger o trabalho</strong><span>Faça backup, restaure a biblioteca e consulte o histórico.</span></div><em>PROTEGER →</em>
+          </button>
+        </div>
+      </section>
+
+      <div class="cards9 cards9-secundarios">
         <button data-modulo="biblioteca" class="card9"><b>▣</b><strong>Artefatos</strong><span>Consultar, pesquisar e revisar os Guardiões registrados.</span><em id="cardTotal9">0 registrados</em></button>
         <button data-modulo="lotesModulo" class="card9"><b>◫</b><strong>Lotes</strong><span>Ver quais símbolos pertencem a cada compilação.</span><em id="cardLotes9">0 lotes</em></button>
         <button data-modulo="publicacao" class="card9 destaque"><b>⌘</b><strong>Publicação</strong><span>O Studio mostra exatamente qual é o próximo passo.</span><em id="cardPublicacao9">Verificar lote</em></button>
