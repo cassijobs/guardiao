@@ -1,2 +1,3 @@
-GUARDIÃO MASTER 6.4
-Studio 10.8 — publicação simples por biblioteca
+Guardião Master 6.6
+Escriba Studio 10.9
+Correção: símbolos congelados e reutilizados sem redesenho
