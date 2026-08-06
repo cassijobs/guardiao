@@ -1,0 +1,13 @@
+GUARDIÃO — PACOTE AR COMPLETO E VALIDADO
+
+ESTE É O PACOTE COMPLETO, COM TODOS OS LOTES SALVOS NO STUDIO.
+
+1. Use este pacote quando desejar reconstruir toda a pasta AR.
+2. Confirme que a lista abaixo inclui todos os lotes anteriores e o novo.
+3. Faça backup da pasta AR atual.
+4. Substitua a pasta AR pelo conteúdo completo deste pacote.
+5. Faça Commit e Push pelo GitHub Desktop.
+6. Teste /guardiao/AR/config.json e depois /guardiao/AR/.
+
+Artefatos: 25
+Lotes: 1
