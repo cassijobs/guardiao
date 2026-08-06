@@ -1,0 +1,15 @@
+GUARDIÃO MASTER 6.4 — PUBLICAÇÃO SIMPLIFICADA
+
+No Studio, abra PUBLICAR.
+
+PUBLICAR NOVO LOTE
+- uso normal ao acrescentar 25 novos símbolos;
+- não apague a pasta AR existente;
+- copie o conteúdo da AR gerada sobre a AR do projeto.
+
+PUBLICAR GUARDIÃO COMPLETO
+- reúne todos os lotes guardados na biblioteca do Studio;
+- pode substituir integralmente a pasta AR;
+- recomendado para reconstrução ou conferência geral.
+
+Faça backup JSON da biblioteca regularmente.
