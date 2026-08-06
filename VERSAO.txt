@@ -1,0 +1,3 @@
+Guardião Master 6.6
+Escriba Studio 10.9
+Correção: símbolos congelados e reutilizados sem redesenho

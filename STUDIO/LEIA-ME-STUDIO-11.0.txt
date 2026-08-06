@@ -1,0 +1,7 @@
+GUARDIÃO — O ESCRIBA STUDIO 11.0
+
+NOVIDADES
+1. Cartões impressos agora usam o molde místico CARD(2), com o símbolo congelado correspondente a cada artefato.
+2. O símbolo de exemplo do molde é substituído automaticamente, sem alterar o PNG usado no MindAR.
+3. Sistema de versionamento do ecossistema: Studio 11.0, AR 1.0.0, Leitor 1.0.0 e App 1.0.0.
+4. Toda publicação AR inclui version.json e metadados de compatibilidade em config.json e manifest.json.

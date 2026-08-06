@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#1a1009">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Guardião — App 1.0.0</title>
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="icon" href="../icons/guardiao-192.png">
+  <link rel="apple-touch-icon" href="../icons/guardiao-192.png">
+  <style>
+    :root{color-scheme:dark;--ouro:#d7a85d;--texto:#efd7aa;--fundo:#160d07}
+    *{box-sizing:border-box}
+    html,body{width:100%;min-height:100%;margin:0;background:#160d07}
+    body{display:grid;place-items:center;padding:max(24px,env(safe-area-inset-top)) 20px max(24px,env(safe-area-inset-bottom));overflow:auto;background:radial-gradient(circle at 50% 38%,#4a2c16 0,#24140b 38%,#0d0805 100%);color:var(--texto);font-family:Georgia,"Times New Roman",serif;text-align:center}
+    main{width:min(560px,100%);padding:34px 24px;border:1px solid rgba(215,168,93,.34);border-radius:28px;background:rgba(18,10,6,.76);box-shadow:0 26px 80px rgba(0,0,0,.48)}
+    .logo{display:block;width:min(230px,58vw);height:auto;margin:0 auto 12px;filter:drop-shadow(0 0 22px rgba(215,168,93,.28));animation:respirar 2.8s ease-in-out infinite}
+    h1{margin:0;color:var(--ouro);font-size:clamp(1.7rem,8vw,3rem);font-weight:400;letter-spacing:.2em;text-indent:.2em}
+    p{font-size:1.12rem;line-height:1.55;margin:22px auto;max-width:29rem}
+    button,a{width:100%;min-height:58px;border:1px solid rgba(215,168,93,.68);border-radius:999px;padding:14px 20px;font:inherit;font-weight:700;letter-spacing:.06em;text-decoration:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+    #instalar{background:linear-gradient(180deg,#74471f,#4a2c16);color:#fff3d2}
+    #instalar[hidden]{display:none}
+    small{display:block;margin-top:20px;color:rgba(239,215,170,.64);line-height:1.45}
+    .splash{border:0;background:transparent;box-shadow:none;animation:surgir .75s ease both}
+    .splash .logo{width:min(300px,72vw)}
+    .splash p{margin-top:4px;letter-spacing:.08em;color:rgba(239,215,170,.75)}
+    @keyframes respirar{0%,100%{transform:scale(.985);opacity:.86}50%{transform:scale(1.025);opacity:1}}
+    @keyframes surgir{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+    @media(max-height:620px){main{padding:20px}.logo{width:min(170px,42vw)}p{margin:14px auto}}
+  </style>
+</head>
+<body>
+  <main id="painel">
+    <img class="logo" src="./logo-guardiao.png" alt="Símbolo do Guardião">
+    <h1>GUARDIÃO</h1>
+    <p>Instale o Guardião para abrir o leitor diretamente pelo ícone do celular.</p>
+    <button id="instalar" type="button">INSTALAR GUARDIÃO</button>
+    <small id="estado">Preparando a instalação…</small>
+    <small style="margin-top:8px;opacity:.55">App 1.0.0 · Leitor 1.0.0 · AR 1.0.0</small>
+  </main>
+  <script>
+    const painel = document.getElementById("painel");
+    const parametros = new URLSearchParams(location.search);
+    const modoInstalado = parametros.get("instalado") === "1" || matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+
+    if (modoInstalado) {
+      // O ícone instalado deve entrar diretamente no leitor. A tela de
+      // instalação nunca participa do fluxo de reconhecimento.
+      window.location.replace("../AR/?origem=app");
+    } else {
+      let eventoInstalacao = null;
+      const instalar = document.getElementById("instalar");
+      const estado = document.getElementById("estado");
+
+      instalar.disabled = true;
+
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("../service-worker.js", { scope: "../" })
+          .catch(() => {
+            estado.textContent = "Não foi possível preparar a instalação neste navegador.";
+          });
+      }
+
+      addEventListener("beforeinstallprompt", evento => {
+        evento.preventDefault();
+        eventoInstalacao = evento;
+        instalar.disabled = false;
+        estado.textContent = "Toque no botão para instalar o Guardião.";
+      });
+
+      instalar.addEventListener("click", async () => {
+        if (!eventoInstalacao) {
+          estado.textContent = "No menu do navegador, escolha ‘Instalar aplicativo’ ou ‘Adicionar à tela inicial’.";
+          return;
+        }
+
+        instalar.disabled = true;
+        await eventoInstalacao.prompt();
+        const escolha = await eventoInstalacao.userChoice;
+
+        if (escolha.outcome === "accepted") {
+          painel.innerHTML = `
+            <img class="logo" src="./logo-guardiao.png" alt="Símbolo do Guardião">
+            <h1>GUARDIÃO</h1>
+            <p>Guardião instalado.</p>
+            <small>Procure o símbolo do Guardião na tela inicial ou na lista de aplicativos do celular e abra por ele.</small>
+          `;
+        } else {
+          estado.textContent = "A instalação foi cancelada.";
+          instalar.disabled = false;
+        }
+
+        eventoInstalacao = null;
+      });
+
+      addEventListener("appinstalled", () => {
+        painel.innerHTML = `
+          <img class="logo" src="./logo-guardiao.png" alt="Símbolo do Guardião">
+          <h1>GUARDIÃO</h1>
+          <p>Guardião instalado.</p>
+          <small>Agora abra pelo novo ícone na tela inicial ou na lista de aplicativos do celular.</small>
+        `;
+      });
+
+      // Alguns navegadores não disparam imediatamente o evento de instalação.
+      // Após alguns segundos, o único botão continua sendo o de instalar e
+      // orienta o usuário a usar o menu nativo do navegador quando necessário.
+      setTimeout(() => {
+        if (!eventoInstalacao && instalar.isConnected) {
+          instalar.disabled = false;
+          estado.textContent = "Toque em Instalar. Se o navegador não abrir a confirmação, use o menu e escolha ‘Instalar aplicativo’.";
+        }
+      }, 1800);
+    }
+  </script>
+</body>
+</html>
