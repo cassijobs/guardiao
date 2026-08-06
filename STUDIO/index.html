@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#090704">
-<title>O Escriba Studio 11.1 — Fluxo Profissional</title>
+<title>O Escriba Studio 12.0 — Produção Gráfica</title>
 <link rel="stylesheet" href="./css/studio.css">
 <script src="./vendor/jszip.min.js"></script>
 <script defer src="./escriba/escriba.js"></script>
 <script defer src="./js/simbolo.js"></script>
 <script defer src="./js/auth-studio.js"></script>
-<script defer src="./js/studio-11.1.js"></script>
+<script defer src="./js/studio-12.0.js"></script>
 <script defer src="./js/interface-9.js"></script>
 </head>
 <body class="studio-bloqueado">
@@ -45,29 +45,18 @@
     <div class="selo-marca">
       <canvas id="marcaCanvas" width="150" height="150" aria-hidden="true"></canvas>
       <strong>GUARDIÃO</strong>
-      <span>STUDIO 11.0</span>
+      <span>STUDIO 12.0</span>
     </div>
-    <nav class="nav9 nav-profissional" aria-label="Etapas do Studio">
-      <div class="nav-grupo">
-        <span class="nav-grupo-titulo">VISÃO GERAL</span>
-        <button class="nav-ativo" data-modulo="inicio"><i>⌂</i><span>Início</span></button>
-      </div>
-      <div class="nav-grupo">
-        <span class="nav-grupo-titulo">1 · BIBLIOTECA</span>
-        <button data-modulo="biblioteca"><i>▣</i><span>Artefatos</span></button>
-        <button data-modulo="lotesModulo"><i>◫</i><span>Lotes</span></button>
-        <button data-modulo="criacao"><i>▤</i><span>Cartões e símbolos</span></button>
-      </div>
-      <div class="nav-grupo">
-        <span class="nav-grupo-titulo">2–4 · PRODUÇÃO E PUBLICAÇÃO</span>
-        <button data-modulo="publicacao"><i>⌘</i><span>Validar e publicar</span></button>
-        <button data-modulo="historicoModulo"><i>◷</i><span>Histórico</span></button>
-      </div>
-      <div class="nav-grupo">
-        <span class="nav-grupo-titulo">5 · FERRAMENTAS</span>
-        <button data-modulo="backup"><i>⬡</i><span>Backup e restauração</span></button>
-        <button data-modulo="escrita"><i>⌁</i><span>A Escrita</span></button>
-      </div>
+    <nav class="nav9">
+      <button class="nav-ativo" data-modulo="inicio">⌂ Início</button>
+      <button data-modulo="criacao">▤ Cartões e símbolos</button>
+      <button data-modulo="biblioteca">▣ Artefatos</button>
+      <button data-modulo="lotesModulo">◫ Lotes</button>
+      <button data-modulo="producao">🖨 Produção gráfica</button>
+      <button data-modulo="publicacao">⌘ Publicar</button>
+      <button data-modulo="historicoModulo">◷ Histórico</button>
+      <button data-modulo="backup">⬡ Backup</button>
+      <button data-modulo="escrita">⌁ A Escrita</button>
     </nav>
     <div class="frase-lateral">
       <div class="mini-sigilo">◉</div>
@@ -87,8 +76,8 @@
       <div class="inicio9-topo">
         <div>
           <span class="etiqueta9">O ESCRIBA</span>
-          <h1>CENTRAL DE PRODUÇÃO DO GUARDIÃO</h1>
-          <p>Organize a biblioteca, produza novos lotes, valide o MindAR e publique com segurança em um fluxo único.</p>
+          <h1>PREPARE UM NOVO GUARDIÃO</h1>
+          <p>Crie artefatos, organize os símbolos e publique o lote seguindo uma etapa de cada vez.</p>
         </div>
         <div id="estadoGeral9" class="estado9"><i></i><span>Verificando o trabalho...</span></div>
       </div>
@@ -105,35 +94,7 @@
         </div>
       </div>
 
-      <section class="fluxo-profissional" aria-labelledby="fluxoProfissionalTitulo">
-        <div class="fluxo-profissional-cabecalho">
-          <div>
-            <span class="etiqueta9">FLUXO DE TRABALHO</span>
-            <h2 id="fluxoProfissionalTitulo">Cinco etapas. Um caminho claro.</h2>
-            <p>Siga a sequência abaixo para criar, validar e publicar cada lote sem perder os anteriores.</p>
-          </div>
-          <span class="fluxo-status">Studio 11.1</span>
-        </div>
-        <div class="etapas-profissionais">
-          <button type="button" data-modulo="biblioteca" class="etapa-profissional">
-            <b>1</b><div><small>BIBLIOTECA</small><strong>Organizar identidades</strong><span>Consulte artefatos, lotes e cartões já registrados.</span></div><em>ABRIR →</em>
-          </button>
-          <button type="button" data-modulo="lotesModulo" class="etapa-profissional">
-            <b>2</b><div><small>PRODUÇÃO</small><strong>Criar e exportar o lote</strong><span>Gere 25 símbolos e baixe a sequência ordenada para o MindAR.</span></div><em>PRODUZIR →</em>
-          </button>
-          <button type="button" data-modulo="publicacao" class="etapa-profissional">
-            <b>3</b><div><small>IMPORTAÇÃO</small><strong>Importar o arquivo .mind</strong><span>Associe o arquivo compilado ao lote correto e confira a ordem.</span></div><em>VALIDAR →</em>
-          </button>
-          <button type="button" data-modulo="publicacao" class="etapa-profissional destaque-etapa">
-            <b>4</b><div><small>PUBLICAÇÃO</small><strong>Publicar com segurança</strong><span>Acrescente somente o lote novo ou reconstrua o Guardião completo.</span></div><em>PUBLICAR →</em>
-          </button>
-          <button type="button" data-modulo="backup" class="etapa-profissional">
-            <b>5</b><div><small>FERRAMENTAS</small><strong>Proteger o trabalho</strong><span>Faça backup, restaure a biblioteca e consulte o histórico.</span></div><em>PROTEGER →</em>
-          </button>
-        </div>
-      </section>
-
-      <div class="cards9 cards9-secundarios">
+      <div class="cards9">
         <button data-modulo="biblioteca" class="card9"><b>▣</b><strong>Artefatos</strong><span>Consultar, pesquisar e revisar os Guardiões registrados.</span><em id="cardTotal9">0 registrados</em></button>
         <button data-modulo="lotesModulo" class="card9"><b>◫</b><strong>Lotes</strong><span>Ver quais símbolos pertencem a cada compilação.</span><em id="cardLotes9">0 lotes</em></button>
         <button data-modulo="publicacao" class="card9 destaque"><b>⌘</b><strong>Publicação</strong><span>O Studio mostra exatamente qual é o próximo passo.</span><em id="cardPublicacao9">Verificar lote</em></button>
@@ -227,12 +188,24 @@
         </dl>
         
         <button id="salvar" class="botao-salvar">SALVAR DADOS DO CARTÃO</button>
-        <button id="imprimirExplicacao" class="botao-imprimir pequeno">IMPRIMIR CARTÃO 10 × 15</button>
-        <button id="baixarPNG" class="botao-secundario pequeno">BAIXAR CARTÃO PNG</button>
+        <button id="imprimirExplicacao" class="botao-imprimir pequeno">IMPRIMIR CARTÃO 63 × 99 mm</button>
+        <button id="imprimirFolhaA4" class="botao-imprimir pequeno">IMPRIMIR FOLHA A4 (6 CARTÕES)</button>
+        <button id="baixarPNG" class="botao-secundario pequeno">BAIXAR CARTÃO PNG 300 DPI</button>
         <button id="baixarSigiloPNG" class="botao-secundario pequeno">BAIXAR SÍMBOLO PNG</button>
         <button id="gerarTodosCartoes" class="botao-magico pequeno">GERAR TODOS OS CARTÕES DO LOTE</button>
         
       </aside>
+    </section>
+
+
+    <section id="producao" class="painel">
+      <div class="cabecalho-fluxo9"><button type="button" data-modulo="inicio" class="voltar9">← Início</button><div><span>PRODUÇÃO GRÁFICA</span><h1>CARTÕES PRONTOS PARA IMPRESSÃO</h1><p>Gere cartões individuais ou folhas A4 no tamanho final de 63 × 99 mm.</p></div></div>
+      <div class="producao-grafica12">
+        <article><h2>Cartão individual</h2><p>Imprime o artefato selecionado em 63 × 99 mm.</p><button id="producaoImprimirIndividual" class="botao-magico">IMPRIMIR CARTÃO</button></article>
+        <article><h2>Folha A4</h2><p>Organiza até 6 cartões por página, com marcas de corte.</p><button id="producaoImprimirA4" class="botao-magico">IMPRIMIR FOLHA A4</button></article>
+        <article><h2>Lote completo</h2><p>Gera todos os cartões do lote em PNG 300 DPI.</p><button id="producaoGerarLote" class="botao-magico">GERAR LOTE COMPLETO</button></article>
+        <article class="ficha-tecnica12"><h2>Especificação</h2><p><strong>Tamanho final:</strong> 63 × 99 mm<br><strong>Resolução:</strong> 300 DPI<br><strong>Folha:</strong> A4, 6 cartões por página<br><strong>Modelo:</strong> CARD(3) aprovado</p></article>
+      </div>
     </section>
 
     <section id="explicacao" class="painel explicacao-painel">
@@ -241,7 +214,7 @@
           <h2>EXPLICAÇÃO PARA A EMBALAGEM</h2>
           <p>O texto abaixo é criado a partir dos elementos que realmente aparecem no sigilo atual.</p>
         </div>
-        <button id="imprimirExplicacaoTopo" class="botao-imprimir">GERAR CARTÃO 10 × 15</button>
+        <button id="imprimirExplicacaoTopo" class="botao-imprimir">IMPRIMIR CARTÃO 63 × 99 mm</button>
       </div>
       <div class="explicacao-conteudo">
         <div class="explicacao-miniatura"><img id="explicacaoImagem" alt="Sigilo do artefato"></div>
@@ -369,31 +342,17 @@
               <p class="validacao-resumo">Importe o arquivo <code>targets.mind</code> para iniciar a conferência.</p>
               <div id="validacaoItens" class="validacao-itens"></div>
             </div>
-            <div class="escolha-publicacao" aria-label="Escolha o modo de publicação">
-              <article class="opcao-publicacao">
-                <div>
-                  <span class="opcao-etiqueta">USO NORMAL</span>
-                  <h4>Publicar novo lote</h4>
-                  <p>Gera somente os arquivos do lote selecionado e um <code>config.json</code> atualizado. Copie sobre a pasta <code>AR</code> existente, sem apagá-la.</p>
-                </div>
-                <button id="gerarLote" class="botao-publicar">PUBLICAR NOVO LOTE</button>
-              </article>
-              <article class="opcao-publicacao">
-                <div>
-                  <span class="opcao-etiqueta">RECONSTRUÇÃO</span>
-                  <h4>Publicar Guardião completo</h4>
-                  <p>Reconstrói a pasta <code>AR</code> com todos os lotes armazenados na biblioteca do Studio. Pode substituir a pasta <code>AR</code> inteira.</p>
-                </div>
-                <button id="publicarTudo" class="botao-publicar" disabled>PUBLICAR GUARDIÃO COMPLETO</button>
-              </article>
-            </div>
+            <button id="publicarTudo" class="botao-publicar" disabled>GERAR PASTA AR COMPLETA E VALIDADA</button>
             <div class="progresso"><div id="barra"></div></div>
             <p id="status">Aguardando.</p>
             <aside class="lembrete-publicacao10" aria-label="Como publicar no GitHub">
-              <strong>COMO USAR</strong>
-              <p><b>Novo lote:</b> extraia o ZIP e copie o conteúdo da pasta <code>AR</code> sobre a pasta <code>AR</code> do projeto. Não apague a pasta antiga.</p>
-              <p><b>Guardião completo:</b> o pacote contém todos os lotes guardados no Studio e pode substituir integralmente a pasta <code>AR</code>.</p>
-              <p>A biblioteca do Studio é a fonte principal. Faça um backup JSON sempre que criar ou importar novos lotes.</p>
+              <strong>PUBLICAÇÃO NO GITHUB</strong>
+              <ol>
+                <li>Exclua manualmente a pasta <code>AR</code> antiga do repositório.</li>
+                <li>Envie a nova pasta <code>AR</code> gerada pelo Studio.</li>
+                <li>Confirme o commit e aguarde o GitHub Pages atualizar.</li>
+              </ol>
+              <p>O botão <b>Apagar todos os dados</b> limpa somente este navegador. Ele não apaga arquivos já publicados no GitHub.</p>
             </aside>
           </div>
         </article>
@@ -402,7 +361,8 @@
       <details class="ferramentas-avancadas">
         <summary>Ferramentas avançadas</summary>
         <div class="ferramentas-grade">
-          <button id="gerarConfig" class="botao-secundario">BAIXAR CONFIG.JSON GERAL</button>
+          <button id="gerarLote" class="botao-secundario">GERAR SOMENTE ATUALIZAÇÃO DO LOTE</button>
+          <button id="gerarConfig" class="botao-secundario">GERAR CONFIG.JSON GERAL</button>
         </div>
       </details>
     </section>

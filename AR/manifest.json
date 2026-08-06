@@ -1,6 +1,6 @@
 {
   "versao": 8,
-  "studio": "11.0",
+  "studio": "10.2.2",
   "validado": true,
   "geradoEm": "2026-08-04T15:25:49.599Z",
   "artefatos": 25,
@@ -176,8 +176,5 @@
     "selos/selo-MKS-ANMF2.png",
     "selos/selo-MKS-AYKDQ.png",
     "selos/selo-MKS-6ZFXQ.png"
-  ],
-  "ar": "1.0.0",
-  "leitor": "1.0.0",
-  "app": "1.0.0"
+  ]
 }

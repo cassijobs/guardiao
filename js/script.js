@@ -1,7 +1,7 @@
 /*
 ======================================================
-GUARDIÃO MASTER 6.1
-INICIALIZAÇÃO DAS JORNADAS — FLUXO ÚNICO
+GUARDIÃO v5.0
+INICIALIZAÇÃO DAS JORNADAS
 ======================================================
 */
 

@@ -1,5 +1,2 @@
-Guardião Master 6.8
-Studio 11.1
-AR 1.0.0
-Leitor 1.0.0
-App 1.0.0
+Guardião Master 6.0
+Fluxo único: App → leitor → jornada

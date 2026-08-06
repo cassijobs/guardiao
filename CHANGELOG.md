@@ -103,3 +103,13 @@
 - Adicionada a página `redefinir-senha.html`.
 - O pedido de recuperação aponta automaticamente para a página publicada no mesmo diretório.
 - Validação de senha mínima e confirmação antes de salvar.
+
+## Studio 12.0 — Produção gráfica
+- Novo cartão oficial no modelo CARD(3).
+- Tamanho final de impressão: 63 × 99 mm.
+- Exportação PNG em 300 DPI (744 × 1169 px).
+- Impressão individual em tamanho real.
+- Folha A4 com 6 cartões e marcas de corte.
+- Casa, essência e código dinâmicos por artefato.
+- Nova área de Produção gráfica.
+- Versionamento do ecossistema em `STUDIO/version.json` e `AR/version.json`.

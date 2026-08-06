@@ -377,39 +377,5 @@ body.studio-bloqueado #studioAplicacao{visibility:hidden;pointer-events:none;use
 #sairStudio:hover{border-color:#c69748;color:#f1d798}
 @media(max-width:600px){.login-studio-caixa{padding:25px 20px}.login-studio h1{font-size:1.65rem}.topo-acoes{gap:5px}#sairStudio,#backupTopo{padding:8px 10px;font-size:.75rem}}
 
-
-/* Studio 10.8 — escolhas de publicação visíveis */
-.escolha-publicacao{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:22px 0 16px}
-.opcao-publicacao{display:flex;flex-direction:column;justify-content:space-between;gap:18px;padding:20px;border:1px solid rgba(173,132,69,.45);border-radius:18px;background:rgba(29,20,12,.5);box-shadow:inset 0 0 0 1px rgba(255,255,255,.025)}
-.opcao-publicacao h4{font-size:1.1rem;margin:6px 0 8px;color:#f0d7a1}
-.opcao-publicacao p{margin:0;line-height:1.55;color:#cdbd9e}
-.opcao-etiqueta{display:inline-block;font-size:.68rem;letter-spacing:.16em;color:#9f8352;border:1px solid rgba(159,131,82,.45);border-radius:999px;padding:5px 9px}
-.opcao-publicacao .botao-publicar{width:100%;margin:0;min-height:52px}
-@media(max-width:760px){.escolha-publicacao{grid-template-columns:1fr}.opcao-publicacao{padding:17px}}
-
-/* ===== Studio 10.7 — organização profissional por etapas ===== */
-.nav-profissional{display:flex;flex-direction:column;gap:14px;padding:4px 10px 18px}
-.nav-profissional .nav-grupo{display:flex;flex-direction:column;gap:4px}
-.nav-profissional .nav-grupo-titulo{font-size:9px;letter-spacing:.22em;color:#8e7658;padding:8px 12px 5px;border-bottom:1px solid rgba(206,166,103,.12)}
-.nav-profissional button{display:flex;align-items:center;gap:10px;width:100%;text-align:left}
-.nav-profissional button i{width:22px;text-align:center;font-style:normal;color:#d4ab6b}
-.nav-profissional button span{min-width:0}
-
-.fluxo-profissional{margin:26px 0 30px;padding:24px;border:1px solid rgba(205,164,99,.28);background:linear-gradient(145deg,rgba(45,28,18,.9),rgba(14,10,8,.96));box-shadow:0 20px 55px rgba(0,0,0,.28)}
-.fluxo-profissional-cabecalho{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:20px}
-.fluxo-profissional-cabecalho h2{margin:6px 0 6px;font-size:clamp(23px,2.4vw,34px);font-family:Georgia,serif;color:#e8c98f}
-.fluxo-profissional-cabecalho p{margin:0;max-width:720px;color:#b9a98f;line-height:1.55}
-.fluxo-status{white-space:nowrap;border:1px solid rgba(212,171,107,.38);padding:8px 12px;color:#d4ab6b;font-size:11px;letter-spacing:.12em}
-.etapas-profissionais{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
-.etapa-profissional{appearance:none;border:1px solid rgba(205,164,99,.2);background:rgba(9,7,5,.72);color:inherit;padding:16px 14px;min-height:180px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;cursor:pointer;transition:.2s ease;position:relative}
-.etapa-profissional:hover{transform:translateY(-3px);border-color:rgba(226,184,112,.6);background:rgba(50,31,19,.82)}
-.etapa-profissional>b{width:34px;height:34px;display:grid;place-items:center;border:1px solid rgba(212,171,107,.45);border-radius:50%;color:#e5bd7a;font-family:Georgia,serif;margin-bottom:14px}
-.etapa-profissional div{display:flex;flex-direction:column;gap:7px}
-.etapa-profissional small{font-size:9px;letter-spacing:.18em;color:#a88a64}
-.etapa-profissional strong{font-family:Georgia,serif;color:#ead2a6;font-size:17px;line-height:1.2}
-.etapa-profissional span{font-size:12px;line-height:1.45;color:#a99b88}
-.etapa-profissional em{margin-top:auto;padding-top:14px;font-style:normal;font-size:10px;letter-spacing:.13em;color:#d4ab6b}
-.etapa-profissional.destaque-etapa{border-color:rgba(221,176,96,.58);background:linear-gradient(160deg,rgba(92,54,23,.62),rgba(15,10,7,.9))}
-.cards9-secundarios{margin-top:0}
-@media(max-width:1150px){.etapas-profissionais{grid-template-columns:repeat(2,minmax(0,1fr))}.etapa-profissional:last-child{grid-column:1/-1;min-height:150px}}
-@media(max-width:720px){.fluxo-profissional{padding:18px 14px}.fluxo-profissional-cabecalho{flex-direction:column}.etapas-profissionais{grid-template-columns:1fr}.etapa-profissional:last-child{grid-column:auto}.etapa-profissional{min-height:145px}}
+/* Studio 12.0 — produção gráfica */
+.producao-grafica12{display:grid;grid-template-columns:repeat(2,minmax(260px,1fr));gap:18px;padding:22px}.producao-grafica12 article{border:1px solid #60451f;background:linear-gradient(145deg,#171007,#0c0905);padding:22px;border-radius:14px}.producao-grafica12 h2{margin:0 0 8px;color:#d9a94f}.producao-grafica12 p{line-height:1.55;color:#d8c8aa}.ficha-tecnica12{grid-column:1/-1}@media(max-width:900px){.producao-grafica12{grid-template-columns:1fr}}

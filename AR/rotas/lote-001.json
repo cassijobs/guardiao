@@ -1,252 +1,252 @@
 [
   {
-    "codigo": "MKS-47LX4",
+    "codigo": "MKS-2ES73",
     "targetIndex": 0,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-47LX4",
-    "imagem": "./selos/selo-MKS-47LX4.png",
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-2ES73",
+    "imagem": "./selos/selo-MKS-2ES73.png",
     "casa": "Horizonte",
-    "essencia": "transformação",
-    "assinatura": "DE72-5879",
+    "essencia": "passagem",
+    "assinatura": "F256-1140",
     "qualidade": 78
   },
   {
-    "codigo": "MKS-ZLTEH",
+    "codigo": "MKS-9FYAF",
     "targetIndex": 1,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-ZLTEH",
-    "imagem": "./selos/selo-MKS-ZLTEH.png",
-    "casa": "Horizonte",
-    "essencia": "transformação",
-    "assinatura": "304B-87FA",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-AD4XS",
-    "targetIndex": 2,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-AD4XS",
-    "imagem": "./selos/selo-MKS-AD4XS.png",
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-9FYAF",
+    "imagem": "./selos/selo-MKS-9FYAF.png",
     "casa": "Caminho",
-    "essencia": "memória",
-    "assinatura": "8866-28E4",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-CHY4W",
-    "targetIndex": 3,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-CHY4W",
-    "imagem": "./selos/selo-MKS-CHY4W.png",
-    "casa": "Silêncio",
     "essencia": "origem",
-    "assinatura": "42AB-589A",
+    "assinatura": "988B-9808",
     "qualidade": 78
   },
   {
-    "codigo": "MKS-NAA4B",
+    "codigo": "MKS-G4EPH",
+    "targetIndex": 2,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-G4EPH",
+    "imagem": "./selos/selo-MKS-G4EPH.png",
+    "casa": "Caminho",
+    "essencia": "origem",
+    "assinatura": "76E3-6865",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-Y8WD9",
+    "targetIndex": 3,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-Y8WD9",
+    "imagem": "./selos/selo-MKS-Y8WD9.png",
+    "casa": "Montanha",
+    "essencia": "memória",
+    "assinatura": "01B3-E209",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-UAH7B",
     "targetIndex": 4,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-NAA4B",
-    "imagem": "./selos/selo-MKS-NAA4B.png",
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-UAH7B",
+    "imagem": "./selos/selo-MKS-UAH7B.png",
+    "casa": "Água",
+    "essencia": "memória",
+    "assinatura": "13A1-DF2A",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-CY995",
+    "targetIndex": 5,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-CY995",
+    "imagem": "./selos/selo-MKS-CY995.png",
+    "casa": "Caminho",
+    "essencia": "transformação",
+    "assinatura": "EF94-8F78",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-MJ9P3",
+    "targetIndex": 6,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-MJ9P3",
+    "imagem": "./selos/selo-MKS-MJ9P3.png",
+    "casa": "Montanha",
+    "essencia": "origem",
+    "assinatura": "35D3-3347",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-E25JA",
+    "targetIndex": 7,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-E25JA",
+    "imagem": "./selos/selo-MKS-E25JA.png",
+    "casa": "Silêncio",
+    "essencia": "transformação",
+    "assinatura": "D95E-9EB4",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-LZUWF",
+    "targetIndex": 8,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-LZUWF",
+    "imagem": "./selos/selo-MKS-LZUWF.png",
+    "casa": "Lua",
+    "essencia": "origem",
+    "assinatura": "A671-2237",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-UHU53",
+    "targetIndex": 9,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-UHU53",
+    "imagem": "./selos/selo-MKS-UHU53.png",
     "casa": "Aurora",
     "essencia": "transformação",
-    "assinatura": "2083-EA72",
+    "assinatura": "85F0-8187",
     "qualidade": 78
   },
   {
-    "codigo": "MKS-E2WSJ",
-    "targetIndex": 5,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-E2WSJ",
-    "imagem": "./selos/selo-MKS-E2WSJ.png",
-    "casa": "Água",
-    "essencia": "transformação",
-    "assinatura": "5119-238F",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-BGY99",
-    "targetIndex": 6,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-BGY99",
-    "imagem": "./selos/selo-MKS-BGY99.png",
-    "casa": "Lua",
-    "essencia": "memória",
-    "assinatura": "F3B3-F065",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-7YQF8",
-    "targetIndex": 7,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-7YQF8",
-    "imagem": "./selos/selo-MKS-7YQF8.png",
-    "casa": "Horizonte",
-    "essencia": "memória",
-    "assinatura": "79C8-08A7",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-PDERK",
-    "targetIndex": 8,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-PDERK",
-    "imagem": "./selos/selo-MKS-PDERK.png",
-    "casa": "Água",
-    "essencia": "passagem",
-    "assinatura": "58B0-955D",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-6KPTX",
-    "targetIndex": 9,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-6KPTX",
-    "imagem": "./selos/selo-MKS-6KPTX.png",
-    "casa": "Silêncio",
-    "essencia": "origem",
-    "assinatura": "C315-1A3D",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-57LNC",
+    "codigo": "MKS-E6ALV",
     "targetIndex": 10,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-57LNC",
-    "imagem": "./selos/selo-MKS-57LNC.png",
-    "casa": "Caminho",
-    "essencia": "memória",
-    "assinatura": "8EA7-9392",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-NNBCK",
-    "targetIndex": 11,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-NNBCK",
-    "imagem": "./selos/selo-MKS-NNBCK.png",
-    "casa": "Água",
-    "essencia": "transformação",
-    "assinatura": "A26A-C0A7",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-YM4WF",
-    "targetIndex": 12,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-YM4WF",
-    "imagem": "./selos/selo-MKS-YM4WF.png",
-    "casa": "Montanha",
-    "essencia": "transformação",
-    "assinatura": "C88E-42E4",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-KV8RB",
-    "targetIndex": 13,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-KV8RB",
-    "imagem": "./selos/selo-MKS-KV8RB.png",
-    "casa": "Caminho",
-    "essencia": "escolha",
-    "assinatura": "DBF3-55B0",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-D4YGX",
-    "targetIndex": 14,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-D4YGX",
-    "imagem": "./selos/selo-MKS-D4YGX.png",
-    "casa": "Montanha",
-    "essencia": "memória",
-    "assinatura": "1C3B-5FA2",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-KPXCT",
-    "targetIndex": 15,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-KPXCT",
-    "imagem": "./selos/selo-MKS-KPXCT.png",
-    "casa": "Montanha",
-    "essencia": "transformação",
-    "assinatura": "7CBF-3AAF",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-4K3BV",
-    "targetIndex": 16,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-4K3BV",
-    "imagem": "./selos/selo-MKS-4K3BV.png",
-    "casa": "Silêncio",
-    "essencia": "memória",
-    "assinatura": "FF09-F6DD",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-K4TBE",
-    "targetIndex": 17,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-K4TBE",
-    "imagem": "./selos/selo-MKS-K4TBE.png",
-    "casa": "Montanha",
-    "essencia": "escolha",
-    "assinatura": "B9A2-ECB2",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-FGS3K",
-    "targetIndex": 18,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-FGS3K",
-    "imagem": "./selos/selo-MKS-FGS3K.png",
-    "casa": "Lua",
-    "essencia": "transformação",
-    "assinatura": "AA05-88A0",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-V85DD",
-    "targetIndex": 19,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-V85DD",
-    "imagem": "./selos/selo-MKS-V85DD.png",
-    "casa": "Chama",
-    "essencia": "memória",
-    "assinatura": "432F-76A3",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-W8T6N",
-    "targetIndex": 20,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-W8T6N",
-    "imagem": "./selos/selo-MKS-W8T6N.png",
-    "casa": "Lua",
-    "essencia": "transformação",
-    "assinatura": "A226-3817",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-FR9CV",
-    "targetIndex": 21,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-FR9CV",
-    "imagem": "./selos/selo-MKS-FR9CV.png",
-    "casa": "Chama",
-    "essencia": "escolha",
-    "assinatura": "40BB-5D33",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-RTNBF",
-    "targetIndex": 22,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-RTNBF",
-    "imagem": "./selos/selo-MKS-RTNBF.png",
-    "casa": "Horizonte",
-    "essencia": "escolha",
-    "assinatura": "FF96-F6D7",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-87QT4",
-    "targetIndex": 23,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-87QT4",
-    "imagem": "./selos/selo-MKS-87QT4.png",
-    "casa": "Montanha",
-    "essencia": "passagem",
-    "assinatura": "5C6F-E053",
-    "qualidade": 78
-  },
-  {
-    "codigo": "MKS-LV9EV",
-    "targetIndex": 24,
-    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-LV9EV",
-    "imagem": "./selos/selo-MKS-LV9EV.png",
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-E6ALV",
+    "imagem": "./selos/selo-MKS-E6ALV.png",
     "casa": "Silêncio",
     "essencia": "origem",
-    "assinatura": "145D-81F5",
+    "assinatura": "A2F6-1FC6",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-HBR7Y",
+    "targetIndex": 11,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-HBR7Y",
+    "imagem": "./selos/selo-MKS-HBR7Y.png",
+    "casa": "Horizonte",
+    "essencia": "escolha",
+    "assinatura": "6CE4-823F",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-9EWLK",
+    "targetIndex": 12,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-9EWLK",
+    "imagem": "./selos/selo-MKS-9EWLK.png",
+    "casa": "Aurora",
+    "essencia": "passagem",
+    "assinatura": "2D80-2274",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-YAN55",
+    "targetIndex": 13,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-YAN55",
+    "imagem": "./selos/selo-MKS-YAN55.png",
+    "casa": "Caminho",
+    "essencia": "memória",
+    "assinatura": "1136-213E",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-Y2GJY",
+    "targetIndex": 14,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-Y2GJY",
+    "imagem": "./selos/selo-MKS-Y2GJY.png",
+    "casa": "Caminho",
+    "essencia": "memória",
+    "assinatura": "7040-E064",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-3WP6X",
+    "targetIndex": 15,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-3WP6X",
+    "imagem": "./selos/selo-MKS-3WP6X.png",
+    "casa": "Horizonte",
+    "essencia": "escolha",
+    "assinatura": "2C1F-1C1B",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-YRW4X",
+    "targetIndex": 16,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-YRW4X",
+    "imagem": "./selos/selo-MKS-YRW4X.png",
+    "casa": "Aurora",
+    "essencia": "memória",
+    "assinatura": "FF21-7265",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-6BHEN",
+    "targetIndex": 17,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-6BHEN",
+    "imagem": "./selos/selo-MKS-6BHEN.png",
+    "casa": "Silêncio",
+    "essencia": "origem",
+    "assinatura": "DE60-D64D",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-U526T",
+    "targetIndex": 18,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-U526T",
+    "imagem": "./selos/selo-MKS-U526T.png",
+    "casa": "Caminho",
+    "essencia": "origem",
+    "assinatura": "04E6-0CF1",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-PSHPW",
+    "targetIndex": 19,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-PSHPW",
+    "imagem": "./selos/selo-MKS-PSHPW.png",
+    "casa": "Aurora",
+    "essencia": "escolha",
+    "assinatura": "4EF0-856D",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-VEFSG",
+    "targetIndex": 20,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-VEFSG",
+    "imagem": "./selos/selo-MKS-VEFSG.png",
+    "casa": "Horizonte",
+    "essencia": "escolha",
+    "assinatura": "B7B9-A166",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-9XQ2E",
+    "targetIndex": 21,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-9XQ2E",
+    "imagem": "./selos/selo-MKS-9XQ2E.png",
+    "casa": "Silêncio",
+    "essencia": "transformação",
+    "assinatura": "A918-BF9F",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-ANMF2",
+    "targetIndex": 22,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-ANMF2",
+    "imagem": "./selos/selo-MKS-ANMF2.png",
+    "casa": "Montanha",
+    "essencia": "memória",
+    "assinatura": "5C7C-76BC",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-AYKDQ",
+    "targetIndex": 23,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-AYKDQ",
+    "imagem": "./selos/selo-MKS-AYKDQ.png",
+    "casa": "Montanha",
+    "essencia": "transformação",
+    "assinatura": "2F61-DFC2",
+    "qualidade": 78
+  },
+  {
+    "codigo": "MKS-6ZFXQ",
+    "targetIndex": 24,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-6ZFXQ",
+    "imagem": "./selos/selo-MKS-6ZFXQ.png",
+    "casa": "Lua",
+    "essencia": "transformação",
+    "assinatura": "4019-DF4D",
     "qualidade": 78
   }
 ]

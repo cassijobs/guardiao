@@ -1,104 +1,75 @@
 import { carregarRotas } from "./config.js";
 import { UI, definirStatus } from "./ui.js";
 
+let componenteRegistrado = false;
 let cenaAtual = null;
 let aoReconhecerAtual = null;
+let rotasPorIndice = new Map();
 let cancelado = false;
 let temporizadorTroca = null;
-let alvoReconhecido = false;
 
-function urlSemCache(caminho) {
-  const url = new URL(caminho, window.location.href);
-  url.searchParams.set("guardiao", `${Date.now()}-${Math.random().toString(36).slice(2)}`);
-  return url.toString();
-}
+function registrarComponente() {
+  if (componenteRegistrado) return;
 
-function registrarEventosDosAlvos(cena, rotas) {
-  for (const rota of rotas) {
-    const indice = Number(rota.targetIndex);
-    const entidade = cena.querySelector(`[data-guardiao-indice="${indice}"]`);
-    if (!entidade) continue;
+  AFRAME.registerComponent("guardiao-alvo", {
+    schema: { indice: { type: "int" } },
+    init() {
+      this.el.addEventListener("targetFound", () => {
+        const rota = rotasPorIndice.get(Number(this.data.indice));
+        if (rota && aoReconhecerAtual) aoReconhecerAtual(rota);
+      });
+    }
+  });
 
-    entidade.addEventListener("targetFound", () => {
-      if (cancelado || alvoReconhecido || !aoReconhecerAtual) return;
-      alvoReconhecido = true;
-      definirStatus(`Símbolo reconhecido: ${rota.codigo}`, "reconhecido");
-      aoReconhecerAtual(rota);
-    });
-
-    entidade.addEventListener("targetLost", () => {
-      if (!alvoReconhecido) {
-        definirStatus("Símbolo perdido. Reposicione-o dentro da moldura.", "procurando");
-      }
-    });
-  }
+  componenteRegistrado = true;
 }
 
 async function montarCena(lote, rotas) {
   await pararCenaAtual();
-  alvoReconhecido = false;
 
-  const alvoMind = urlSemCache(lote.targets);
-  definirStatus("Preparando o leitor…", "preparando");
+  rotasPorIndice = new Map(
+    rotas.map(rota => [Number(rota.targetIndex), rota])
+  );
 
   UI.cena.innerHTML = `
     <a-scene
-      mindar-image="imageTargetSrc: ${alvoMind}; autoStart: false; maxTrack: 1; uiScanning: no; uiLoading: no; uiError: no; warmupTolerance: 3; missTolerance: 25; filterMinCF: 0.0001; filterBeta: 0.001"
+      mindar-image="imageTargetSrc:${lote.targets};autoStart:false;maxTrack:1;uiScanning:no;uiLoading:no;uiError:no;warmupTolerance:2;missTolerance:20"
       embedded
-      vr-mode-ui="enabled: false"
-      renderer="colorManagement: true; physicallyCorrectLights: true; antialias: true"
-      device-orientation-permission-ui="enabled: false">
-      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+      vr-mode-ui="enabled:false"
+      renderer="colorManagement:true;physicallyCorrectLights:true"
+      device-orientation-permission-ui="enabled:false">
+      <a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
       ${rotas.map(rota => `
         <a-entity
-          data-guardiao-indice="${Number(rota.targetIndex)}"
-          mindar-image-target="targetIndex: ${Number(rota.targetIndex)}">
+          mindar-image-target="targetIndex:${Number(rota.targetIndex)}"
+          guardiao-alvo="indice:${Number(rota.targetIndex)}">
         </a-entity>`).join("")}
     </a-scene>`;
 
   await customElements.whenDefined("a-scene");
   cenaAtual = UI.cena.querySelector("a-scene");
-  if (!cenaAtual) throw new Error("A cena do leitor não foi criada.");
-
-  registrarEventosDosAlvos(cenaAtual, rotas);
 
   await new Promise((resolve, reject) => {
     const limite = setTimeout(
-      () => reject(new Error("O leitor demorou demais para ficar pronto.")),
-      30000
+      () => reject(new Error("A câmera demorou demais para iniciar.")),
+      20000
     );
 
-    let iniciado = false;
-
-    const iniciarSistema = async () => {
-      if (iniciado || cancelado) return;
-      const sistema = cenaAtual?.systems?.["mindar-image-system"];
-      if (!sistema) return;
-      iniciado = true;
-
+    const iniciar = async () => {
       try {
-        definirStatus("Preparando a câmera…", "preparando");
-        await sistema.start();
+        const sistema = cenaAtual?.systems?.["mindar-image-system"];
+        if (!sistema) return;
         clearTimeout(limite);
-        definirStatus("Leitor pronto. Aponte para o símbolo.", "procurando");
+        await sistema.start();
         resolve();
       } catch (erro) {
         clearTimeout(limite);
-        reject(new Error("Não foi possível iniciar o leitor."));
+        reject(erro);
       }
     };
 
-    cenaAtual.addEventListener("arReady", () => {
-      definirStatus("Leitor pronto. Aponte para o símbolo.", "procurando");
-    });
-
-    cenaAtual.addEventListener("arError", event => {
-      clearTimeout(limite);
-      reject(new Error("Não foi possível carregar os dados de reconhecimento."));
-    }, { once: true });
-
-    if (cenaAtual.hasLoaded) iniciarSistema();
-    else cenaAtual.addEventListener("loaded", iniciarSistema, { once: true });
+    if (cenaAtual.hasLoaded) iniciar();
+    else cenaAtual.addEventListener("loaded", iniciar, { once: true });
   });
 }
 
@@ -112,7 +83,7 @@ async function pararCenaAtual() {
     const sistema = cenaAtual?.systems?.["mindar-image-system"];
     if (sistema) await sistema.stop();
   } catch (_) {
-    // A câmera pode já ter sido encerrada.
+    // A câmera pode já ter sido encerrada pelo navegador.
   }
 
   cenaAtual = null;
@@ -130,41 +101,72 @@ async function localizarLoteDoArtefato(lotes, codigoEsperado) {
     );
     if (encontrou) return { lote, rotas };
   }
+
   return null;
 }
 
-export async function iniciarReconhecimento(lotesOuLote, aoReconhecer, codigoEsperado = "") {
-  const lotes = Array.isArray(lotesOuLote) ? lotesOuLote : [lotesOuLote];
-  if (!lotes.length) throw new Error("Nenhum lote foi publicado no leitor.");
+export async function iniciarReconhecimento(
+  lotesOuLote,
+  aoReconhecer,
+  codigoEsperado = ""
+) {
+  const lotes = Array.isArray(lotesOuLote)
+    ? lotesOuLote
+    : [lotesOuLote];
 
+  if (!lotes.length) {
+    throw new Error("Nenhum lote foi publicado no leitor.");
+  }
+
+  registrarComponente();
   aoReconhecerAtual = aoReconhecer;
   cancelado = false;
-  alvoReconhecido = false;
 
   const localizado = await localizarLoteDoArtefato(lotes, codigoEsperado);
+
   if (codigoEsperado && !localizado) {
     throw new Error("O artefato solicitado não está em nenhum lote publicado.");
   }
 
   if (localizado) {
     await montarCena(localizado.lote, localizado.rotas);
+    definirStatus(
+      `Procurando o símbolo — ${localizado.lote.nome}`,
+      "procurando"
+    );
     return localizado.rotas;
   }
 
+  /*
+   * Sem um código esperado, o leitor percorre os lotes publicados.
+   * Isso mantém compatibilidade com lotes futuros sem limitar a leitura
+   * ao primeiro arquivo .mind. Lotes mais recentes são testados primeiro.
+   */
   const ordem = [...lotes].reverse();
   let indice = 0;
 
   const abrirProximo = async () => {
-    if (cancelado || alvoReconhecido) return;
+    if (cancelado) return;
+
     const lote = ordem[indice % ordem.length];
     const rotas = await carregarRotas(lote);
     await montarCena(lote, rotas);
+
+    definirStatus(
+      ordem.length > 1
+        ? `Procurando símbolo — ${lote.nome} (${indice % ordem.length + 1}/${ordem.length})`
+        : `Procurando símbolo — ${lote.nome}`,
+      "procurando"
+    );
+
     indice += 1;
 
-    if (ordem.length > 1 && !cancelado && !alvoReconhecido) {
+    if (ordem.length > 1 && !cancelado) {
       temporizadorTroca = setTimeout(() => {
-        abrirProximo().catch(erro => console.error("Falha ao alternar lote:", erro));
-      }, 12000);
+        abrirProximo().catch(erro => {
+          console.error("Não foi possível alternar o lote do leitor:", erro);
+        });
+      }, 9000);
     }
   };
 
@@ -175,6 +177,6 @@ export async function iniciarReconhecimento(lotesOuLote, aoReconhecer, codigoEsp
 export async function pararReconhecimento() {
   cancelado = true;
   aoReconhecerAtual = null;
-  alvoReconhecido = false;
+  rotasPorIndice = new Map();
   await pararCenaAtual();
 }
