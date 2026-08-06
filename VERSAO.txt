@@ -1,1 +1,2 @@
-6.3.0
+GUARDIÃO MASTER 6.4
+Studio 10.8 — publicação simples por biblioteca

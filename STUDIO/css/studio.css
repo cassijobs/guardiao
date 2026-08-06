@@ -376,3 +376,13 @@ body.studio-bloqueado #studioAplicacao{visibility:hidden;pointer-events:none;use
 #sairStudio{border:1px solid #5a3f20;background:#0b0805;color:#cfad69;padding:10px 15px;cursor:pointer}
 #sairStudio:hover{border-color:#c69748;color:#f1d798}
 @media(max-width:600px){.login-studio-caixa{padding:25px 20px}.login-studio h1{font-size:1.65rem}.topo-acoes{gap:5px}#sairStudio,#backupTopo{padding:8px 10px;font-size:.75rem}}
+
+
+/* Studio 10.8 — escolhas de publicação visíveis */
+.escolha-publicacao{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:22px 0 16px}
+.opcao-publicacao{display:flex;flex-direction:column;justify-content:space-between;gap:18px;padding:20px;border:1px solid rgba(173,132,69,.45);border-radius:18px;background:rgba(29,20,12,.5);box-shadow:inset 0 0 0 1px rgba(255,255,255,.025)}
+.opcao-publicacao h4{font-size:1.1rem;margin:6px 0 8px;color:#f0d7a1}
+.opcao-publicacao p{margin:0;line-height:1.55;color:#cdbd9e}
+.opcao-etiqueta{display:inline-block;font-size:.68rem;letter-spacing:.16em;color:#9f8352;border:1px solid rgba(159,131,82,.45);border-radius:999px;padding:5px 9px}
+.opcao-publicacao .botao-publicar{width:100%;margin:0;min-height:52px}
+@media(max-width:760px){.escolha-publicacao{grid-template-columns:1fr}.opcao-publicacao{padding:17px}}

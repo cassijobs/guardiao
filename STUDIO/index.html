@@ -10,7 +10,7 @@
 <script defer src="./escriba/escriba.js"></script>
 <script defer src="./js/simbolo.js"></script>
 <script defer src="./js/auth-studio.js"></script>
-<script defer src="./js/studio-10.7.js"></script>
+<script defer src="./js/studio-10.8.js"></script>
 <script defer src="./js/interface-9.js"></script>
 </head>
 <body class="studio-bloqueado">
@@ -329,19 +329,31 @@
               <p class="validacao-resumo">Importe o arquivo <code>targets.mind</code> para iniciar a conferência.</p>
               <div id="validacaoItens" class="validacao-itens"></div>
             </div>
-            <button id="publicarTudo" class="botao-publicar" disabled>GERAR PASTA AR COMPLETA (TODOS OS LOTES)</button>
+            <div class="escolha-publicacao" aria-label="Escolha o modo de publicação">
+              <article class="opcao-publicacao">
+                <div>
+                  <span class="opcao-etiqueta">USO NORMAL</span>
+                  <h4>Publicar novo lote</h4>
+                  <p>Gera somente os arquivos do lote selecionado e um <code>config.json</code> atualizado. Copie sobre a pasta <code>AR</code> existente, sem apagá-la.</p>
+                </div>
+                <button id="gerarLote" class="botao-publicar">PUBLICAR NOVO LOTE</button>
+              </article>
+              <article class="opcao-publicacao">
+                <div>
+                  <span class="opcao-etiqueta">RECONSTRUÇÃO</span>
+                  <h4>Publicar Guardião completo</h4>
+                  <p>Reconstrói a pasta <code>AR</code> com todos os lotes armazenados na biblioteca do Studio. Pode substituir a pasta <code>AR</code> inteira.</p>
+                </div>
+                <button id="publicarTudo" class="botao-publicar" disabled>PUBLICAR GUARDIÃO COMPLETO</button>
+              </article>
+            </div>
             <div class="progresso"><div id="barra"></div></div>
             <p id="status">Aguardando.</p>
             <aside class="lembrete-publicacao10" aria-label="Como publicar no GitHub">
-              <strong>PUBLICAÇÃO NO GITHUB</strong>
-              <p><b>Para acrescentar um novo lote:</b></p>
-              <ol>
-                <li>Use <b>Gerar atualização do lote ativo</b>.</li>
-                <li>Copie o conteúdo da pasta <code>AR</code> gerada sobre a pasta <code>AR</code> existente.</li>
-                <li>Escolha substituir somente os arquivos com o mesmo nome. Não apague os lotes anteriores.</li>
-              </ol>
-              <p><b>Para reconstruir tudo:</b> use <b>Gerar pasta AR completa</b>. Esse pacote contém todos os lotes guardados no Studio e pode substituir a pasta <code>AR</code> inteira.</p>
-              <p>O botão <b>Apagar todos os dados</b> limpa somente este navegador. Ele não apaga arquivos já publicados no GitHub.</p>
+              <strong>COMO USAR</strong>
+              <p><b>Novo lote:</b> extraia o ZIP e copie o conteúdo da pasta <code>AR</code> sobre a pasta <code>AR</code> do projeto. Não apague a pasta antiga.</p>
+              <p><b>Guardião completo:</b> o pacote contém todos os lotes guardados no Studio e pode substituir integralmente a pasta <code>AR</code>.</p>
+              <p>A biblioteca do Studio é a fonte principal. Faça um backup JSON sempre que criar ou importar novos lotes.</p>
             </aside>
           </div>
         </article>
@@ -350,8 +362,7 @@
       <details class="ferramentas-avancadas">
         <summary>Ferramentas avançadas</summary>
         <div class="ferramentas-grade">
-          <button id="gerarLote" class="botao-secundario">GERAR ATUALIZAÇÃO DO LOTE ATIVO</button>
-          <button id="gerarConfig" class="botao-secundario">GERAR CONFIG.JSON GERAL</button>
+          <button id="gerarConfig" class="botao-secundario">BAIXAR CONFIG.JSON GERAL</button>
         </div>
       </details>
     </section>
