@@ -377,5 +377,18 @@ body.studio-bloqueado #studioAplicacao{visibility:hidden;pointer-events:none;use
 #sairStudio:hover{border-color:#c69748;color:#f1d798}
 @media(max-width:600px){.login-studio-caixa{padding:25px 20px}.login-studio h1{font-size:1.65rem}.topo-acoes{gap:5px}#sairStudio,#backupTopo{padding:8px 10px;font-size:.75rem}}
 
-/* Studio 12.0 — produção gráfica */
-.producao-grafica12{display:grid;grid-template-columns:repeat(2,minmax(260px,1fr));gap:18px;padding:22px}.producao-grafica12 article{border:1px solid #60451f;background:linear-gradient(145deg,#171007,#0c0905);padding:22px;border-radius:14px}.producao-grafica12 h2{margin:0 0 8px;color:#d9a94f}.producao-grafica12 p{line-height:1.55;color:#d8c8aa}.ficha-tecnica12{grid-column:1/-1}@media(max-width:900px){.producao-grafica12{grid-template-columns:1fr}}
+/* ===== STUDIO 10.7 — BIBLIOTECA PROTEGIDA ===== */
+.backup-acoes10{display:grid;grid-template-columns:repeat(2,minmax(220px,1fr));gap:12px;margin:18px 0}
+.backup-acoes10>*{min-height:48px;display:flex;align-items:center;justify-content:center;text-align:center}
+.backup-status10{margin:14px 0 20px;padding:13px 15px;border:1px solid rgba(101,153,111,.36);border-radius:12px;background:rgba(20,47,25,.38);color:#c9dec7;line-height:1.45}
+.migracao10{margin:18px 0;padding:16px;border:1px solid rgba(201,158,79,.28);border-radius:14px;background:rgba(27,20,12,.46)}
+.migracao10 h3{margin:0 0 8px;color:#e4c47f;letter-spacing:.08em;font-size:.95rem}
+.migracao10>p{margin:0 0 14px;color:#bcae92;line-height:1.45}
+.bibliotecas-antigas10{display:grid;gap:10px}
+.biblioteca-antiga10{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 14px;border:1px solid rgba(180,139,67,.26);border-radius:10px;background:rgba(8,6,4,.42)}
+.biblioteca-antiga10 div{display:grid;gap:3px}
+.biblioteca-antiga10 strong{color:#ead091}
+.biblioteca-antiga10 span{color:#d4c3a2;font-size:.9rem}
+.biblioteca-antiga10 small{color:#8f8068;word-break:break-all}
+#restaurarPontoLocal10{margin:6px 0 14px}
+@media(max-width:760px){.backup-acoes10{grid-template-columns:1fr}.biblioteca-antiga10{align-items:flex-start;flex-direction:column}.biblioteca-antiga10 button{width:100%}}

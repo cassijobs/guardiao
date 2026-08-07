@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#090704">
-<title>O Escriba Studio 12.0 — Produção Gráfica</title>
+<title>O Escriba Studio 10.7 — Biblioteca Protegida</title>
 <link rel="stylesheet" href="./css/studio.css">
 <script src="./vendor/jszip.min.js"></script>
 <script defer src="./escriba/escriba.js"></script>
 <script defer src="./js/simbolo.js"></script>
 <script defer src="./js/auth-studio.js"></script>
-<script defer src="./js/studio-12.1.js"></script>
+<script defer src="./js/studio-10.7.js"></script>
 <script defer src="./js/interface-9.js"></script>
 </head>
 <body class="studio-bloqueado">
@@ -45,14 +45,13 @@
     <div class="selo-marca">
       <canvas id="marcaCanvas" width="150" height="150" aria-hidden="true"></canvas>
       <strong>GUARDIÃO</strong>
-      <span>STUDIO 12.0</span>
+      <span>STUDIO 10.7</span>
     </div>
     <nav class="nav9">
       <button class="nav-ativo" data-modulo="inicio">⌂ Início</button>
       <button data-modulo="criacao">▤ Cartões e símbolos</button>
       <button data-modulo="biblioteca">▣ Artefatos</button>
       <button data-modulo="lotesModulo">◫ Lotes</button>
-      <button data-modulo="producao">🖨 Produção gráfica</button>
       <button data-modulo="publicacao">⌘ Publicar</button>
       <button data-modulo="historicoModulo">◷ Histórico</button>
       <button data-modulo="backup">⬡ Backup</button>
@@ -188,24 +187,12 @@
         </dl>
         
         <button id="salvar" class="botao-salvar">SALVAR DADOS DO CARTÃO</button>
-        <button id="imprimirExplicacao" class="botao-imprimir pequeno">IMPRIMIR CARTÃO 63 × 99 mm</button>
-        <button id="imprimirFolhaA4" class="botao-imprimir pequeno">IMPRIMIR FOLHA A4 (6 CARTÕES)</button>
-        <button id="baixarPNG" class="botao-secundario pequeno">BAIXAR CARTÃO PNG 300 DPI</button>
+        <button id="imprimirExplicacao" class="botao-imprimir pequeno">IMPRIMIR CARTÃO 10 × 15</button>
+        <button id="baixarPNG" class="botao-secundario pequeno">BAIXAR CARTÃO PNG</button>
         <button id="baixarSigiloPNG" class="botao-secundario pequeno">BAIXAR SÍMBOLO PNG</button>
         <button id="gerarTodosCartoes" class="botao-magico pequeno">GERAR TODOS OS CARTÕES DO LOTE</button>
         
       </aside>
-    </section>
-
-
-    <section id="producao" class="painel">
-      <div class="cabecalho-fluxo9"><button type="button" data-modulo="inicio" class="voltar9">← Início</button><div><span>PRODUÇÃO GRÁFICA</span><h1>CARTÕES PRONTOS PARA IMPRESSÃO</h1><p>Gere cartões individuais ou folhas A4 no tamanho final de 63 × 99 mm.</p></div></div>
-      <div class="producao-grafica12">
-        <article><h2>Cartão individual</h2><p>Imprime o artefato selecionado em 63 × 99 mm.</p><button id="producaoImprimirIndividual" class="botao-magico">IMPRIMIR CARTÃO</button></article>
-        <article><h2>Folha A4</h2><p>Organiza até 6 cartões por página, com marcas de corte.</p><button id="producaoImprimirA4" class="botao-magico">IMPRIMIR FOLHA A4</button></article>
-        <article><h2>Lote completo</h2><p>Gera todos os cartões do lote em PNG 300 DPI.</p><button id="producaoGerarLote" class="botao-magico">GERAR LOTE COMPLETO</button></article>
-        <article class="ficha-tecnica12"><h2>Especificação</h2><p><strong>Tamanho final:</strong> 63 × 99 mm<br><strong>Resolução:</strong> 300 DPI<br><strong>Folha:</strong> A4, 6 cartões por página<br><strong>Modelo:</strong> CARD(3) aprovado</p></article>
-      </div>
     </section>
 
     <section id="explicacao" class="painel explicacao-painel">
@@ -214,7 +201,7 @@
           <h2>EXPLICAÇÃO PARA A EMBALAGEM</h2>
           <p>O texto abaixo é criado a partir dos elementos que realmente aparecem no sigilo atual.</p>
         </div>
-        <button id="imprimirExplicacaoTopo" class="botao-imprimir">IMPRIMIR CARTÃO 63 × 99 mm</button>
+        <button id="imprimirExplicacaoTopo" class="botao-imprimir">GERAR CARTÃO 10 × 15</button>
       </div>
       <div class="explicacao-conteudo">
         <div class="explicacao-miniatura"><img id="explicacaoImagem" alt="Sigilo do artefato"></div>
@@ -368,13 +355,22 @@
     </section>
 
     <section id="backup" class="painel backup">
-      <button type="button" data-modulo="inicio" class="voltar9">← Início</button><h2>BACKUP E RESTAURAÇÃO</h2>
-      <p class="aviso"><strong>Proteção permanente:</strong> atualizações do Studio não devem recriar códigos nem símbolos. Faça um backup antes de substituir arquivos do projeto.</p>
-      <button id="exportarDados" class="botao-publicar">BAIXAR BACKUP COMPLETO DA BIBLIOTECA</button>
-      <label class="arquivo">IMPORTAR E RESTAURAR BACKUP<input type="file" id="importarDados" accept=".json,application/json"></label>
-      <button id="criarPontoRestauracao" class="botao-secundario">CRIAR PONTO DE RESTAURAÇÃO NESTE NAVEGADOR</button>
-      <button id="restaurarPontoRestauracao" class="botao-secundario">RECUPERAR ÚLTIMO PONTO DE RESTAURAÇÃO</button>
-      <p class="aviso">O backup guarda códigos MKS, símbolos, lotes, targetIndex, Casa, Essência e demais dados dos artefatos. Guarde o arquivo fora da pasta do repositório.</p>
+      <button type="button" data-modulo="inicio" class="voltar9">← Início</button>
+      <h2>BACKUP E RESTAURAÇÃO</h2>
+      <p class="ajuda">A biblioteca atual nunca é substituída automaticamente por dados de versões antigas. Antes de restaurar ou migrar, o Studio cria um ponto de recuperação local.</p>
+      <div class="backup-acoes10">
+        <button id="exportarBackupCompleto" class="botao-magico">EXPORTAR BACKUP COMPLETO ZIP</button>
+        <label class="arquivo">IMPORTAR BACKUP COMPLETO ZIP<input type="file" id="importarBackupCompleto" accept=".zip"></label>
+        <button id="exportarDados" class="botao-secundario">EXPORTAR SOMENTE BIBLIOTECA JSON</button>
+        <label class="arquivo">IMPORTAR BIBLIOTECA JSON<input type="file" id="importarDados" accept=".json"></label>
+      </div>
+      <div class="backup-status10" id="backupStatus10">Verificando bibliotecas antigas e targets persistidos...</div>
+      <div class="migracao10">
+        <h3>BIBLIOTECAS ANTIGAS ENCONTRADAS</h3>
+        <p>O Studio não importa nenhuma delas sozinho. Se quiser recuperar uma versão antiga, escolha explicitamente abaixo.</p>
+        <div id="bibliotecasAntigas10" class="bibliotecas-antigas10"></div>
+      </div>
+      <button id="restaurarPontoLocal10" class="botao-secundario">RESTAURAR ÚLTIMO PONTO DE RECUPERAÇÃO LOCAL</button>
       <button id="apagar" class="perigo">APAGAR TODOS OS DADOS</button>
     </section>
   </main>

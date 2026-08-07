@@ -1,0 +1,28 @@
+GUARDIÃO — O ESCRIBA STUDIO 10.7
+Biblioteca Protegida
+
+Base: Studio 10.6 funcional.
+
+CORREÇÕES
+- Mantida a chave oficial: guardiao-studio-v10-publicador.
+- Desativada a escolha automática da "maior" biblioteca antiga.
+- A biblioteca atual é a única carregada automaticamente.
+- Bibliotecas antigas são apenas detectadas e listadas na área Backup.
+- Migração de biblioteca antiga exige confirmação explícita.
+- Antes de importar/migrar, é criado um ponto de recuperação local e baixado um JSON preventivo.
+- targetIndex existente não é mais renumerado silenciosamente durante organização da biblioteca.
+
+BACKUP
+- Novo Backup Completo ZIP.
+- O ZIP contém biblioteca.json, manifesto.json e os targets .mind persistidos no IndexedDB.
+- Importação do Backup Completo ZIP restaura biblioteca e targets.
+- Importação de JSON agora pede confirmação e cria recuperação preventiva.
+- Botão para restaurar o último ponto de recuperação local.
+
+VERSÃO VISUAL
+- Título e barra lateral atualizados para STUDIO 10.7.
+- Script principal desta versão: js/studio-10.7.js.
+
+IMPORTANTE
+- Esta atualização não altera AR, leitor, app ou jornada.
+- Para instalar, substitua somente a pasta STUDIO pela pasta STUDIO deste pacote.

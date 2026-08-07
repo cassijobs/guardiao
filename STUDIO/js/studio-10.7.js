@@ -2,33 +2,41 @@
 const KEY="guardiao-studio-v10-publicador";
 const TAMANHO_LOTE=25;
 const CHAVES_ANTIGAS=["guardiao-studio-v8-publicador","guardiao-studio-v6-publicador","guardiao-studio-v5-publicador","guardiao-studio-v4-escriba"];
+const RECOVERY_KEY="guardiao-studio-v10-ponto-recuperacao";
 const DB_NOME="guardiao-studio-v10-targets";
 const DB_STORE="targets";
 let dados;
-function carregarBiblioteca(){
-  const chaves=[KEY,...CHAVES_ANTIGAS];
+let bibliotecasAntigasDetectadas=[];
+function lerBibliotecaDaChave(chave){
+  try{
+    const bruto=localStorage.getItem(chave);
+    if(!bruto)return null;
+    const candidato=JSON.parse(bruto);
+    if(!Array.isArray(candidato?.artefatos))return null;
+    return candidato;
+  }catch{return null}
+}
+function detectarBibliotecasAntigas(){
+  const chaves=[...CHAVES_ANTIGAS];
   try{
     for(let i=0;i<localStorage.length;i++){
       const chave=localStorage.key(i);
-      if(chave && /guardiao|escriba/i.test(chave) && !chaves.includes(chave)) chaves.push(chave);
+      if(!chave||chave===KEY||chave===RECOVERY_KEY)continue;
+      if(/guardiao-studio|escriba/i.test(chave) && !chaves.includes(chave))chaves.push(chave);
     }
   }catch{}
-  let melhor=null;
-  for(const chave of chaves){
-    try{
-      const bruto=localStorage.getItem(chave);
-      if(!bruto)continue;
-      const candidato=JSON.parse(bruto);
-      if(Array.isArray(candidato?.artefatos)){
-        if(!melhor || candidato.artefatos.length>melhor.artefatos.length) melhor=candidato;
-      }
-    }catch{}
-  }
-  if(melhor){
-    try{localStorage.setItem(KEY,JSON.stringify({...melhor,versao:10}))}catch{}
-    return melhor;
-  }
-  return {versao:10,artefatos:[]};
+  bibliotecasAntigasDetectadas=chaves.map(chave=>{
+    const biblioteca=lerBibliotecaDaChave(chave);
+    return biblioteca?{chave,biblioteca,quantidade:biblioteca.artefatos.length}:null;
+  }).filter(Boolean).sort((a,b)=>b.quantidade-a.quantidade);
+  return bibliotecasAntigasDetectadas;
+}
+function carregarBiblioteca(){
+  // REGRA 10.7: somente a chave oficial atual pode abrir automaticamente.
+  // Bibliotecas antigas são apenas detectadas e exigem escolha explícita do usuário.
+  const atual=lerBibliotecaDaChave(KEY);
+  detectarBibliotecasAntigas();
+  return atual||{versao:10,artefatos:[]};
 }
 dados=carregarBiblioteca();
 if(!Array.isArray(dados.artefatos))dados={versao:10,artefatos:[]};
@@ -181,18 +189,31 @@ function proximoNomeLote(){
   return `lote-${String(maior+1).padStart(3,"0")}`;
 }
 function organizar(){
-  // Migração de bibliotecas antigas: preserva os lotes existentes e só preenche campos ausentes.
+  // 10.7: nunca renumera silenciosamente identidades já registradas.
+  // Apenas completa lote/targetIndex quando esses campos realmente não existem.
   let loteAtual="lote-001", indice=0;
-  dados.artefatos.forEach((a,i)=>{
-    if(!a.lote){
-      a.lote=loteAtual;
-      a.targetIndex=indice++;
-      if(indice>=TAMANHO_LOTE){loteAtual=`lote-${String(numeroLote(loteAtual)+1).padStart(3,"0")}`;indice=0}
+  const ocupados={};
+  dados.artefatos.forEach(a=>{
+    if(a.lote && Number.isInteger(Number(a.targetIndex))){
+      (ocupados[a.lote]??=new Set()).add(Number(a.targetIndex));
     }
   });
-  const grupos={};
-  dados.artefatos.forEach(a=>(grupos[a.lote]??=[]).push(a));
-  Object.values(grupos).forEach(arr=>arr.forEach((a,i)=>a.targetIndex=i));
+  dados.artefatos.forEach(a=>{
+    if(!a.lote){
+      while((ocupados[loteAtual]?.has(indice))){indice++}
+      if(indice>=TAMANHO_LOTE){loteAtual=`lote-${String(numeroLote(loteAtual)+1).padStart(3,"0")}`;indice=0}
+      a.lote=loteAtual;
+      a.targetIndex=indice;
+      (ocupados[loteAtual]??=new Set()).add(indice);
+      indice++;
+    }else if(!Number.isInteger(Number(a.targetIndex))){
+      const usados=ocupados[a.lote]??=new Set();
+      let livre=0;while(usados.has(livre))livre++;
+      a.targetIndex=livre;usados.add(livre);
+    }else{
+      a.targetIndex=Number(a.targetIndex);
+    }
+  });
   invalidarTargetsManuaisIncompativeis();
   save();
 }
@@ -800,9 +821,182 @@ function atualizarBoasVindas(){
   const modal=document.getElementById("boasVindas"); if(!modal)return;
   modal.hidden=dados.artefatos.length>0 || sessionStorage.getItem("escriba-biblioteca-nova")==="1";
 }
+function criarPontoRecuperacaoLocal(motivo="antes de alteração") {
+  try{
+    const pacote={
+      criadoEm:new Date().toISOString(),
+      motivo,
+      studio:"10.7",
+      biblioteca:dadosCompactos()
+    };
+    localStorage.setItem(RECOVERY_KEY,JSON.stringify(pacote));
+    return true;
+  }catch(e){
+    console.warn("Não foi possível criar ponto de recuperação local.",e);
+    return false;
+  }
+}
+function baixarPontoRecuperacaoJSON(motivo="backup preventivo") {
+  const pacote={
+    criadoEm:new Date().toISOString(),
+    motivo,
+    studio:"10.7",
+    biblioteca:dadosCompactos()
+  };
+  download(new Blob([JSON.stringify(pacote,null,2)],{type:"application/json"}),`RECUPERACAO-GUARDIAO-${new Date().toISOString().slice(0,10)}.json`);
+}
+async function listarTargetsPersistentesBrutos(){
+  try{
+    const db=await abrirBancoTargets();
+    return await new Promise((resolve,reject)=>{
+      const tx=db.transaction(DB_STORE,"readonly");
+      const req=tx.objectStore(DB_STORE).getAll();
+      req.onsuccess=()=>resolve(req.result||[]);
+      req.onerror=()=>reject(req.error||new Error("Não foi possível listar targets."));
+    });
+  }catch(e){
+    console.warn("Targets não puderam ser incluídos no backup.",e);
+    return [];
+  }
+}
+async function exportarBackupCompleto(){
+  if(!window.JSZip)throw new Error("Gerador ZIP não carregado.");
+  const zip=new JSZip();
+  const biblioteca=dadosCompactos();
+  const targets=await listarTargetsPersistentesBrutos();
+  zip.file("biblioteca.json",JSON.stringify(biblioteca,null,2));
+  const manifesto={
+    formato:"guardiao-studio-backup",
+    versaoFormato:1,
+    studio:"10.7",
+    criadoEm:new Date().toISOString(),
+    artefatos:biblioteca.artefatos.length,
+    targets:[]
+  };
+  const pastaTargets=zip.folder("targets");
+  for(const r of targets){
+    const buffer=r.buffer instanceof ArrayBuffer?r.buffer:r.buffer?.buffer;
+    if(!buffer)continue;
+    const nome=`${r.lote}.mind`;
+    pastaTargets.file(nome,buffer);
+    manifesto.targets.push({
+      lote:r.lote,
+      arquivo:`targets/${nome}`,
+      nomeArquivo:r.nomeArquivo||"targets.mind",
+      quantidade:r.quantidade,
+      assinatura:r.assinatura||""
+    });
+  }
+  zip.file("manifesto.json",JSON.stringify(manifesto,null,2));
+  zip.file("LEIA-ME.txt",`GUARDIÃO STUDIO 10.7 — BACKUP COMPLETO\n\nArtefatos: ${biblioteca.artefatos.length}\nTargets MindAR incluídos: ${manifesto.targets.length}\nCriado em: ${manifesto.criadoEm}\n\nEste ZIP pode restaurar a biblioteca e os targets persistidos do Studio.\n`);
+  const blob=await zip.generateAsync({type:"blob"});
+  download(blob,`BACKUP-COMPLETO-GUARDIAO-${new Date().toISOString().slice(0,10)}.zip`);
+  toast("Backup completo exportado");
+}
+async function limparTargetsPersistentesParaRestauracao(){
+  targetsManuais.clear();
+  try{
+    const db=await abrirBancoTargets();
+    await new Promise((resolve,reject)=>{
+      const tx=db.transaction(DB_STORE,"readwrite");
+      tx.objectStore(DB_STORE).clear();
+      tx.oncomplete=()=>resolve();
+      tx.onerror=()=>reject(tx.error||new Error("Não foi possível limpar os targets anteriores."));
+    });
+  }catch(e){
+    console.warn("Não foi possível limpar targets persistidos antes da restauração.",e);
+  }
+}
+async function restaurarTargetsDoBackup(zip,manifesto){
+  await limparTargetsPersistentesParaRestauracao();
+  for(const item of (manifesto?.targets||[])){
+    const entrada=zip.file(item.arquivo);
+    if(!entrada)continue;
+    const buffer=await entrada.async("arraybuffer");
+    await guardarTargetPersistente(item.lote,{
+      nomeArquivo:item.nomeArquivo||"targets.mind",
+      buffer,
+      quantidade:item.quantidade,
+      assinatura:item.assinatura||""
+    });
+  }
+  targetsManuais.clear();
+  await carregarTargetsPersistentes();
+}
+async function importarBackupCompletoArquivo(arquivo){
+  if(!window.JSZip)throw new Error("Gerador ZIP não carregado.");
+  const zip=await JSZip.loadAsync(await arquivo.arrayBuffer());
+  const bibEntry=zip.file("biblioteca.json");
+  if(!bibEntry)throw new Error("biblioteca.json não encontrado no backup.");
+  const imp=JSON.parse(await bibEntry.async("text"));
+  if(!Array.isArray(imp?.artefatos))throw new Error("Biblioteca inválida.");
+  let manifesto={targets:[]};
+  const manEntry=zip.file("manifesto.json");
+  if(manEntry)manifesto=JSON.parse(await manEntry.async("text"));
+  if(!window.confirm(`Restaurar este backup com ${imp.artefatos.length} artefatos? A biblioteca atual será substituída. Um ponto de recuperação será criado antes.`))return false;
+  criarPontoRecuperacaoLocal("antes de importar backup completo");
+  baixarPontoRecuperacaoJSON("antes de importar backup completo");
+  importarBackupObjeto(imp);
+  await restaurarTargetsDoBackup(zip,manifesto);
+  render();
+  atualizarTargetManualUI();
+  atualizarValidacaoFinal();
+  atualizarBackupStatus10();
+  return true;
+}
+function nomeAmigavelChave(chave){
+  const m=String(chave).match(/v(\d+)/i);
+  return m?`Studio v${m[1]}`:chave;
+}
+function renderBibliotecasAntigas10(){
+  const el=document.getElementById("bibliotecasAntigas10");
+  if(!el)return;
+  detectarBibliotecasAntigas();
+  if(!bibliotecasAntigasDetectadas.length){
+    el.innerHTML='<div class="vazio-modulo">Nenhuma biblioteca antiga compatível foi encontrada neste navegador.</div>';
+    return;
+  }
+  el.innerHTML=bibliotecasAntigasDetectadas.map((item,i)=>`<article class="biblioteca-antiga10"><div><strong>${escaparHTML(nomeAmigavelChave(item.chave))}</strong><span>${item.quantidade} artefato${item.quantidade===1?'':'s'}</span><small>${escaparHTML(item.chave)}</small></div><button type="button" class="botao-secundario" data-migrar-biblioteca="${i}">IMPORTAR ESTA BIBLIOTECA</button></article>`).join('');
+}
+function atualizarBackupStatus10(){
+  const el=document.getElementById("backupStatus10");
+  if(!el)return;
+  listarTargetsPersistentesBrutos().then(registros=>{
+    el.textContent=`Biblioteca atual: ${dados.artefatos.length} artefato${dados.artefatos.length===1?'':'s'} · Targets persistidos: ${registros.length} · Migração automática: DESATIVADA`;
+  }).catch(()=>{
+    el.textContent=`Biblioteca atual: ${dados.artefatos.length} artefato${dados.artefatos.length===1?'':'s'} · Migração automática: DESATIVADA`;
+  });
+}
+async function migrarBibliotecaAntigaPorIndice(indice){
+  const item=bibliotecasAntigasDetectadas[Number(indice)];
+  if(!item)return;
+  const atual=dados.artefatos.length;
+  const msg=`Importar explicitamente ${item.quantidade} artefatos de “${nomeAmigavelChave(item.chave)}”? A biblioteca atual (${atual} artefatos) será substituída. O Studio criará um ponto de recuperação antes.`;
+  if(!window.confirm(msg))return;
+  criarPontoRecuperacaoLocal(`antes de migrar ${item.chave}`);
+  baixarPontoRecuperacaoJSON(`antes de migrar ${item.chave}`);
+  importarBackupObjeto(JSON.parse(JSON.stringify(item.biblioteca)));
+  atualizarBackupStatus10();
+  renderBibliotecasAntigas10();
+  toast("Biblioteca antiga importada com confirmação");
+}
+function restaurarPontoRecuperacaoLocal10(){
+  try{
+    const bruto=localStorage.getItem(RECOVERY_KEY);
+    if(!bruto)return toast("Nenhum ponto de recuperação local encontrado");
+    const pacote=JSON.parse(bruto);
+    const bib=pacote?.biblioteca||pacote;
+    if(!Array.isArray(bib?.artefatos))throw new Error();
+    if(!window.confirm(`Restaurar o ponto de recuperação de ${new Date(pacote.criadoEm||Date.now()).toLocaleString("pt-BR")}, com ${bib.artefatos.length} artefatos?`))return;
+    importarBackupObjeto(JSON.parse(JSON.stringify(bib)));
+    atualizarBackupStatus10();
+    toast("Ponto de recuperação restaurado");
+  }catch{toast("Ponto de recuperação inválido")}
+}
+
 function importarBackupObjeto(imp){
   if(!Array.isArray(imp?.artefatos))throw new Error("Backup inválido");
-  dados=imp; dados.versao=10;
+  dados=JSON.parse(JSON.stringify(imp)); dados.versao=10;
   dados.artefatos.forEach(a=>{if(a.imagem){a._imagem=a.imagem;delete a.imagem}});
   organizar(); render(); atualizarBoasVindas();
 }
@@ -909,8 +1103,35 @@ const botaoLote25=document.getElementById("novoLote25"); if(botaoLote25)botaoLot
 const botaoLote25Modulo=document.getElementById("criarLote25Modulo"); if(botaoLote25Modulo)botaoLote25Modulo.onclick=criarLoteCom25;
 const botaoExportarLote=document.getElementById("exportarSimbolosLote"); if(botaoExportarLote)botaoExportarLote.onclick=async()=>{try{await exportarSimbolosDoLote()}catch(e){prog(0,"Erro: "+e.message);toast(e.message)}};
 $("exportarDados").onclick=()=>download(new Blob([JSON.stringify(dadosCompactos(),null,2)],{type:"application/json"}),"backup-guardiao-studio-v10.json");
-$("backupTopo").onclick=$("exportarDados").onclick;
-$("importarDados").onchange=async e=>{try{importarBackupObjeto(JSON.parse(await e.target.files[0].text()));toast("Backup importado")}catch{toast("Backup inválido")}};
+$("backupTopo").onclick=async()=>{try{await exportarBackupCompleto()}catch(e){console.error(e);toast(e.message||"Falha ao exportar backup")}};
+const exportarBackupCompletoBtn=$("exportarBackupCompleto");
+if(exportarBackupCompletoBtn)exportarBackupCompletoBtn.onclick=async()=>{try{await exportarBackupCompleto()}catch(e){console.error(e);toast(e.message||"Falha ao exportar backup")}};
+const importarBackupCompletoInput=$("importarBackupCompleto");
+if(importarBackupCompletoInput)importarBackupCompletoInput.onchange=async e=>{
+  const arquivo=e.target.files?.[0];
+  if(!arquivo)return;
+  try{if(await importarBackupCompletoArquivo(arquivo))toast("Backup completo restaurado")}catch(err){console.error(err);toast(err.message||"Backup ZIP inválido")}finally{e.target.value=""}
+};
+$("importarDados").onchange=async e=>{
+  const arquivo=e.target.files?.[0];
+  if(!arquivo)return;
+  try{
+    const imp=JSON.parse(await arquivo.text());
+    if(!Array.isArray(imp?.artefatos))throw new Error("Backup inválido");
+    if(!window.confirm(`Importar esta biblioteca JSON com ${imp.artefatos.length} artefatos? A biblioteca atual será substituída. Um ponto de recuperação será criado antes.`))return;
+    criarPontoRecuperacaoLocal("antes de importar biblioteca JSON");
+    baixarPontoRecuperacaoJSON("antes de importar biblioteca JSON");
+    importarBackupObjeto(imp);
+    atualizarBackupStatus10();
+    toast("Biblioteca JSON importada");
+  }catch(err){console.error(err);toast("Backup inválido")}finally{e.target.value=""}
+};
+const restaurarPontoLocalBtn=$("restaurarPontoLocal10");
+if(restaurarPontoLocalBtn)restaurarPontoLocalBtn.onclick=restaurarPontoRecuperacaoLocal10;
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-migrar-biblioteca]");
+  if(b)migrarBibliotecaAntigaPorIndice(b.dataset.migrarBiblioteca);
+});
 async function limparBancoTargetsCompleto(){
   targetsManuais.clear();
   bancoTargetsPromise=null;
@@ -999,11 +1220,14 @@ async function iniciarStudio(){
   atualizarTargetManualUI();
   atualizarValidacaoFinal();
   renderEditorCartoes();
+  renderBibliotecasAntigas10();
+  atualizarBackupStatus10();
   prog(2,"Studio aberto. Recuperando targets guardados...");
   try{
     await carregarTargetsPersistentes();
     atualizarTargetManualUI();
     atualizarValidacaoFinal();
+    atualizarBackupStatus10();
     prog(0,"Studio pronto");
   }catch(e){
     console.warn("Persistência de targets indisponível:",e);
