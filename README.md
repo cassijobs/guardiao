@@ -54,4 +54,3 @@ Abrir apenas a raiz do site não ativa nem retoma Artefatos. O código deve vir 
 
 Ao abrir a raiz do Guardião sem código, o portador pode digitar a chave impressa no interior da caixa. O formulário cria o mesmo endereço utilizado pelo NFC e pelo QR Code, portanto todos os acessos passam pelo mesmo reconhecimento e pelas mesmas regras de ativação.
 
-Atualização para reprocessar a publicação do GitHub Pages..

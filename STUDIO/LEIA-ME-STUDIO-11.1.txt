@@ -1,8 +1,0 @@
-GUARDIÃO — STUDIO 11.1
-
-1. O cartão oficial agora usa o molde CARD(3).
-2. O símbolo congelado de cada artefato substitui automaticamente o espaço circular.
-3. A frase “Se este símbolo chegou até suas mãos...” ganhou maior destaque.
-4. O texto de exclusividade ficou menor e abaixo da frase principal.
-5. Casa, essência e tema/transformação mudam automaticamente de acordo com cada artefato.
-6. O sistema de versionamento do ecossistema permanece ativo.
