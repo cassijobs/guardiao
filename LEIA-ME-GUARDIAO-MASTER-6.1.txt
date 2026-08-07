@@ -1,0 +1,18 @@
+GUARDIÃO MASTER 6.1 — PUBLICAÇÃO
+
+1. Extraia este ZIP.
+2. Copie TODO o conteúdo da pasta guardiao para a pasta local clonada pelo GitHub Desktop.
+3. Substitua os arquivos quando o Windows perguntar.
+4. No GitHub Desktop: Commit to main e depois Push origin.
+5. Aguarde o GitHub Pages concluir a publicação.
+6. No Android, desinstale a PWA anterior e limpe os dados de cassijobs.github.io.
+7. Abra https://cassijobs.github.io/guardiao/app/ e instale novamente.
+
+FLUXO OFICIAL
+Ícone → “Encontrar o símbolo” → câmera → símbolo reconhecido → jornada.
+
+O arquivo js/ativacao-simbolo.js foi removido. Ele pertencia ao fluxo antigo e
+podia causar a solicitação de uma segunda câmera.
+
+IMPORTANTE
+Não copie a pasta .git de outro lugar. Este pacote não contém .git.

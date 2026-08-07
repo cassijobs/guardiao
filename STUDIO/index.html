@@ -10,7 +10,7 @@
 <script defer src="./escriba/escriba.js"></script>
 <script defer src="./js/simbolo.js"></script>
 <script defer src="./js/auth-studio.js"></script>
-<script defer src="./js/studio-12.1.js"></script>
+<script defer src="./js/studio-12.0.js"></script>
 <script defer src="./js/interface-9.js"></script>
 </head>
 <body class="studio-bloqueado">
@@ -369,12 +369,8 @@
 
     <section id="backup" class="painel backup">
       <button type="button" data-modulo="inicio" class="voltar9">← Início</button><h2>BACKUP E RESTAURAÇÃO</h2>
-      <p class="aviso"><strong>Proteção permanente:</strong> atualizações do Studio não devem recriar códigos nem símbolos. Faça um backup antes de substituir arquivos do projeto.</p>
-      <button id="exportarDados" class="botao-publicar">BAIXAR BACKUP COMPLETO DA BIBLIOTECA</button>
-      <label class="arquivo">IMPORTAR E RESTAURAR BACKUP<input type="file" id="importarDados" accept=".json,application/json"></label>
-      <button id="criarPontoRestauracao" class="botao-secundario">CRIAR PONTO DE RESTAURAÇÃO NESTE NAVEGADOR</button>
-      <button id="restaurarPontoRestauracao" class="botao-secundario">RECUPERAR ÚLTIMO PONTO DE RESTAURAÇÃO</button>
-      <p class="aviso">O backup guarda códigos MKS, símbolos, lotes, targetIndex, Casa, Essência e demais dados dos artefatos. Guarde o arquivo fora da pasta do repositório.</p>
+      <button id="exportarDados" class="botao-secundario">EXPORTAR DADOS JSON</button>
+      <label class="arquivo">IMPORTAR DADOS JSON<input type="file" id="importarDados" accept=".json"></label>
       <button id="apagar" class="perigo">APAGAR TODOS OS DADOS</button>
     </section>
   </main>

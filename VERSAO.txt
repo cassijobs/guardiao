@@ -1,2 +1,2 @@
-Guardião Studio 12.1
-Proteção permanente da biblioteca e pontos de restauração.
+Guardião Master 6.0
+Fluxo único: App → leitor → jornada

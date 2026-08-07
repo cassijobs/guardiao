@@ -1,11 +1,3 @@
-# Studio 12.1 — 2026-08-06
-
-- Biblioteca desacoplada do número da versão.
-- Migração automática das chaves antigas de localStorage.
-- Backup completo e pontos de restauração.
-- Proteção antes de importar ou apagar dados.
-- Preservação de códigos MKS, símbolos, lotes e targetIndex.
-
 ## v5.1.11 — Painel de Artefatos centralizado
 
 - Centralização geral da página `admin-artefatos.html`.

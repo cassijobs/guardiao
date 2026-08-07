@@ -1,0 +1,17 @@
+GUARDIÃO MASTER 6.3 — LOTES INCREMENTAIS
+
+O Studio agora oferece dois modos seguros:
+
+1. GERAR ATUALIZAÇÃO DO LOTE ATIVO
+   - inclui somente targets, rotas e selos do lote escolhido;
+   - inclui config.json atualizado com TODOS os lotes;
+   - deve ser mesclado à pasta AR existente;
+   - não apaga lotes anteriores.
+
+2. GERAR PASTA AR COMPLETA (TODOS OS LOTES)
+   - inclui o leitor e todos os lotes preservados no Studio;
+   - pode substituir a pasta AR inteira;
+   - use para recuperação ou reconstrução completa.
+
+O leitor-base do Studio também foi atualizado para a versão robusta sem cache.
+As mensagens técnicas de lote e .mind foram removidas da interface do usuário.

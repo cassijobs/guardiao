@@ -1,11 +1,8 @@
 (()=> {
-const KEY="guardiao-studio-biblioteca";
-const KEY_LEGADO_PRINCIPAL="guardiao-studio-v10-publicador";
-const KEY_BACKUP_SEGURANCA="guardiao-studio-backup-seguranca";
-const BACKUP_SCHEMA="guardiao-studio-backup-v1";
+const KEY="guardiao-studio-v10-publicador";
 const TAMANHO_LOTE=25;
-const CHAVES_ANTIGAS=[KEY_LEGADO_PRINCIPAL,"guardiao-studio-v8-publicador","guardiao-studio-v6-publicador","guardiao-studio-v5-publicador","guardiao-studio-v4-escriba"];
-const DB_NOME="guardiao-studio-targets";
+const CHAVES_ANTIGAS=["guardiao-studio-v8-publicador","guardiao-studio-v6-publicador","guardiao-studio-v5-publicador","guardiao-studio-v4-escriba"];
+const DB_NOME="guardiao-studio-v10-targets";
 const DB_STORE="targets";
 let dados;
 function carregarBiblioteca(){
@@ -28,13 +25,13 @@ function carregarBiblioteca(){
     }catch{}
   }
   if(melhor){
-    try{localStorage.setItem(KEY,JSON.stringify({...melhor,versao:12.1}))}catch{}
+    try{localStorage.setItem(KEY,JSON.stringify({...melhor,versao:10}))}catch{}
     return melhor;
   }
-  return {versao:12.1,artefatos:[]};
+  return {versao:10,artefatos:[]};
 }
 dados=carregarBiblioteca();
-if(!Array.isArray(dados.artefatos))dados={versao:12.1,artefatos:[]};
+if(!Array.isArray(dados.artefatos))dados={versao:10,artefatos:[]};
 // Migração: versões antigas guardavam PNGs em base64 no localStorage e estouravam a cota.
 // As imagens agora ficam apenas na memória e são recriadas pelo Escriba quando necessário.
 dados.artefatos.forEach(a=>{if(a.imagem){a._imagem=a.imagem;delete a.imagem}});
@@ -135,47 +132,10 @@ async function carregarTargetsPersistentes(){
 }
 
 function dadosCompactos(){
-  return {versao:12.1,artefatos:dados.artefatos.map(a=>{const {_imagem,imagem,...limpo}=a;return limpo})};
+  return {versao:10,artefatos:dados.artefatos.map(a=>{const {_imagem,imagem,...limpo}=a;return limpo})};
 }
-function pacoteBackup(){
-  return {
-    schema:BACKUP_SCHEMA,
-    exportadoEm:new Date().toISOString(),
-    studio:"12.1",
-    biblioteca:dadosCompactos()
-  };
-}
-function extrairBibliotecaBackup(obj){
-  if(Array.isArray(obj?.artefatos))return obj;
-  if(obj?.schema===BACKUP_SCHEMA && Array.isArray(obj?.biblioteca?.artefatos))return obj.biblioteca;
-  throw new Error("Backup inválido");
-}
-function criarBackupSeguranca(motivo="automático"){
-  if(!dados?.artefatos?.length)return false;
-  try{
-    localStorage.setItem(KEY_BACKUP_SEGURANCA,JSON.stringify({motivo,salvoEm:new Date().toISOString(),biblioteca:dadosCompactos()}));
-    return true;
-  }catch(e){console.warn("Não foi possível criar backup de segurança.",e);return false}
-}
-function lerBackupSeguranca(){
-  try{return JSON.parse(localStorage.getItem(KEY_BACKUP_SEGURANCA)||"null")}catch{return null}
-}
-function baixarBackupCompleto(){
-  criarBackupSeguranca("exportação manual");
-  const data=new Date().toISOString().slice(0,10);
-  download(new Blob([JSON.stringify(pacoteBackup(),null,2)],{type:"application/json"}),`guardiao-biblioteca-${data}.json`);
-  toast("Backup completo baixado");
-}
-function restaurarBackupSeguranca(){
-  const snap=lerBackupSeguranca();
-  if(!snap?.biblioteca?.artefatos?.length){toast("Nenhum ponto de restauração encontrado");return}
-  if(dados.artefatos.length && !confirm(`Substituir a biblioteca atual (${dados.artefatos.length} artefatos) pelo ponto de restauração (${snap.biblioteca.artefatos.length} artefatos)?`))return;
-  importarBackupObjeto(snap.biblioteca,{criarSnapshot:false});
-  toast("Ponto de restauração recuperado");
-}
-
 function save(){
-  dados.versao=12.1;
+  dados.versao=10;
   const texto=JSON.stringify(dadosCompactos());
   try{localStorage.setItem(KEY,texto)}
   catch(e){
@@ -291,15 +251,15 @@ function atualizarExplicacao(plano=planoAtual){
   $("explicacaoElementos").innerHTML=x.elementos.map(e=>`<div class="explicacao-elemento"><strong>${e.titulo}</strong><p>${e.texto}</p></div>`).join("");
 }
 function escaparHTML(t){return String(t).replace(/[&<>\"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
-async function imprimirExplicacao(){
-  const a=artefatoAtualCartao();
-  if(!a)return toast("Escolha um artefato");
-  const c=await canvasCartao(a),imagem=c.toDataURL("image/png");
-  const w=window.open("","_blank","width=820,height=980");
+function imprimirExplicacao(){
+  if(!planoAtual)return toast("Gere um sigilo primeiro");
+  const x=interpretarPlano(planoAtual),imagem=$("selo").toDataURL("image/png");
+  const itens=x.elementos.slice(0,4).map(e=>`<section><h3>${escaparHTML(e.titulo)}</h3><p>${escaparHTML(e.texto)}</p></section>`).join("");
+  const w=window.open("","_blank","width=520,height=760");
   if(!w)return toast("Permita janelas pop-up para imprimir");
-  w.document.write(`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Cartão ${escaparHTML(a.codigo)}</title><style>
-  @page{size:63mm 99mm;margin:0}*{box-sizing:border-box}html,body{width:63mm;height:99mm;margin:0;padding:0;background:#fff}img{display:block;width:63mm;height:99mm;object-fit:fill}@media print{html,body{width:63mm;height:99mm}}
-  </style></head><body><img src="${imagem}" alt="Cartão ${escaparHTML(a.codigo)}"><script>window.onload=()=>setTimeout(()=>window.print(),350)<\/script></body></html>`);
+  w.document.write(`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Cartão ${escaparHTML(x.codigo)}</title><style>
+  @page{size:100mm 150mm;margin:0}*{box-sizing:border-box}html,body{width:100mm;height:150mm;margin:0;padding:0;background:#fff;color:#24190d}body{font-family:Georgia,serif;overflow:hidden}.cartao{width:100mm;height:150mm;padding:5.5mm;border:1px solid #9a743c;display:flex;flex-direction:column;page-break-inside:avoid;break-inside:avoid;overflow:hidden}header{text-align:center}h1{font-size:11pt;letter-spacing:.18em;margin:0 0 1.5mm}.sigilo{display:block;width:44mm;height:44mm;object-fit:cover;margin:1mm auto 2mm;border:1px solid #9a743c}.codigo{font-family:Arial,sans-serif;font-size:10pt;font-weight:700;letter-spacing:.11em;margin:0}.identidade{display:flex;justify-content:center;gap:3mm;margin:2mm 0 2.5mm;font-family:Arial,sans-serif;font-size:7.3pt}.identidade span{border-top:1px solid #b99760;padding-top:1mm}.intro{font-size:7.2pt;line-height:1.25;text-align:center;margin:0 0 2mm}.elementos{display:grid;grid-template-columns:1fr 1fr;gap:1.7mm 3mm;flex:1;align-content:start}section{break-inside:avoid;margin:0}h3{font-size:7.2pt;margin:0 0 .4mm;text-transform:uppercase;letter-spacing:.03em}section p{font-size:6.8pt;line-height:1.2;margin:0;text-align:left}blockquote{margin:2mm 0 0;padding-top:1.6mm;border-top:1px solid #b99760;text-align:center;font-style:italic;font-size:7pt;line-height:1.25}.assinatura{text-align:right;font-size:6.4pt;margin:.7mm 1mm 0 0}.rodape{text-align:center;font-family:Arial,sans-serif;font-size:5.6pt;letter-spacing:.08em;margin-top:1mm;color:#6f5a3a}@media print{html,body{width:100mm;height:150mm}.cartao{border:0}}
+  </style></head><body><main class="cartao"><header><h1>GUARDIÃO</h1><img class="sigilo" src="${imagem}" alt="Sigilo"><p class="codigo">ARTEFATO ${escaparHTML(x.codigo)}</p><div class="identidade"><span>${escaparHTML(tituloCasa(x.casa))}</span><span>ESSÊNCIA: ${escaparHTML(primeiraMaiuscula(x.sentido))}</span></div></header><p class="intro">Este símbolo foi criado exclusivamente para este artefato. Nenhum outro será exatamente igual.</p><div class="elementos">${itens}</div><blockquote>“Se este símbolo chegou até suas mãos, nossa caminhada já começou.”</blockquote><p class="assinatura">— Guardião</p><p class="rodape">ESCRITA EXCLUSIVA DO ARTEFATO</p></main><script>window.onload=()=>setTimeout(()=>window.print(),300)<\/script></body></html>`);
   w.document.close();
 }
 function destino(){$("destino").value="https://cassijobs.github.io/guardiao/?artefato="+$("codigo").value}
@@ -622,13 +582,48 @@ async function obterMind(lote){
   return compilado;
 }
 async function gerarLote(){
-  const l=obterLoteAtivo();if(!l)throw new Error("Nenhum lote disponível");const nome=l.nome;
-  prog(2,"Preparando a Escrita");const m=await obterMind(l),z=new JSZip,ar=z.folder("AR");
+  const l=obterLoteAtivo();
+  if(!l)throw new Error("Nenhum lote disponível");
+  const nome=l.nome;
+  prog(2,"Preparando publicação do novo lote");
+  const m=await obterMind(l),z=new JSZip,ar=z.folder("AR");
+
+  // A atualização contém apenas os arquivos pesados do lote ativo,
+  // porém leva o config.json completo para manter todos os lotes visíveis.
   ar.file(`targets/${nome}.mind`,m);
-  ar.file(`rotas/${nome}.json`,JSON.stringify(l.artefatos.map(a=>({codigo:a.codigo,targetIndex:a.targetIndex,destino:a.destino,imagem:`selos/selo-${a.codigo}.png`,assinatura:a.assinatura,qualidade:a.qualidade})),null,2));
-  for(const a of l.artefatos)ar.file(`selos/selo-${a.codigo}.png`,Simbolo.toBlob(await imagemArtefato(a)));
+  ar.file(`rotas/${nome}.json`,JSON.stringify(l.artefatos.map(a=>({
+    codigo:a.codigo,
+    targetIndex:a.targetIndex,
+    destino:a.destino,
+    imagem:`./selos/selo-${a.codigo}.png`,
+    casa:Simbolo.casa(a.codigo),
+    essencia:Simbolo.significado(a.codigo),
+    assinatura:a.assinatura,
+    qualidade:a.qualidade
+  })),null,2));
+  for(const a of l.artefatos){
+    ar.file(`selos/selo-${a.codigo}.png`,Simbolo.toBlob(await imagemArtefato(a)));
+  }
+
+  const configLotes=lotes().map(lote=>({
+    nome:lote.nome,
+    quantidade:lote.artefatos.length,
+    targets:`./targets/${lote.nome}.mind`,
+    rotas:`./rotas/${lote.nome}.json`
+  }));
+  const versaoPublicacao=Date.now();
+  ar.file("config.json",JSON.stringify({
+    versao:versaoPublicacao,
+    sistema:"O Escriba Studio 10.8 — Publicação de novo lote",
+    geradoEm:new Date().toISOString(),
+    lotes:configLotes
+  },null,2));
+  ar.file("COMO-ATUALIZAR.txt",`GUARDIÃO — ATUALIZAÇÃO INCREMENTAL DE ${nome}\n\n1. NÃO apague a pasta AR existente.\n2. Copie o conteúdo desta pasta AR sobre a pasta AR do projeto.\n3. Confirme a substituição de config.json e de arquivos com o mesmo nome.\n4. Os lotes anteriores permanecem intactos.\n5. Faça Commit e Push pelo GitHub Desktop.\n\nLote acrescentado/atualizado: ${nome}\nTotal de lotes registrados no config.json: ${configLotes.length}\n`);
+
   const b=await z.generateAsync({type:"blob"},x=>prog(85+x.percent*.15,`Compactando ${Math.round(x.percent)}%`));
-  download(b,`guardiao-v4-${nome}.zip`);prog(100,"Atualização criada");toast("Pacote do lote criado")
+  download(b,`guardiao-NOVO-LOTE-${nome}.zip`);
+  prog(100,"Pacote do novo lote criado");
+  toast("Novo lote preparado. Copie sobre a pasta AR existente sem apagá-la");
 }
 function config(){
   const ls=lotes().map(l=>({nome:l.nome,quantidade:l.artefatos.length,targets:`./targets/${l.nome}.mind`,rotas:`./rotas/${l.nome}.json`}));
@@ -723,24 +718,24 @@ async function publicarTudo(){
     for(const a of lote.artefatos)ar.file(`selos/selo-${a.codigo}.png`,Simbolo.toBlob(await imagemArtefato(a)));
     configLotes.push({nome:lote.nome,quantidade:lote.artefatos.length,targets:`./targets/${lote.nome}.mind`,rotas:`./rotas/${lote.nome}.json`});
   }
-  ar.file("config.json",JSON.stringify({versao:7,sistema:"O Escriba Studio 12.0 — Produção Gráfica",geradoEm:new Date().toISOString(),lotes:configLotes},null,2));
+  ar.file("config.json",JSON.stringify({versao:Date.now(),sistema:"O Escriba Studio 10.8 — Biblioteca completa",geradoEm:new Date().toISOString(),lotes:configLotes},null,2));
   ar.file("COMO-PUBLICAR.txt",`GUARDIÃO — PACOTE AR COMPLETO E VALIDADO
 
-ESTA É A ÚNICA PASTA AR QUE DEVE SER ENVIADA AO GITHUB.
+ESTE É O PACOTE COMPLETO, COM TODOS OS LOTES SALVOS NO STUDIO.
 
-1. Faça backup da pasta AR atual do repositório.
-2. Apague o conteúdo antigo de AR.
-3. Abra este ZIP e envie O CONTEÚDO da pasta AR gerada.
-4. Confirme se aparecem targets, rotas e selos com arquivos reais.
-5. Confirme o commit e aguarde o GitHub Pages atualizar.
-6. Teste /guardiao/AR/config.json?v=7 e depois /guardiao/AR/?v=7.
+1. Use este pacote quando desejar reconstruir toda a pasta AR.
+2. Confirme que a lista abaixo inclui todos os lotes anteriores e o novo.
+3. Faça backup da pasta AR atual.
+4. Substitua a pasta AR pelo conteúdo completo deste pacote.
+5. Faça Commit e Push pelo GitHub Desktop.
+6. Teste /guardiao/AR/config.json e depois /guardiao/AR/.
 
 Artefatos: ${dados.artefatos.length}
 Lotes: ${grupos.length}
 `);
   const manifest={
     versao:8,
-    studio:"10.5",
+    studio:"10.8",
     validado:true,
     geradoEm:new Date().toISOString(),
     artefatos:dados.artefatos.length,
@@ -840,11 +835,9 @@ function atualizarBoasVindas(){
   const modal=document.getElementById("boasVindas"); if(!modal)return;
   modal.hidden=dados.artefatos.length>0 || sessionStorage.getItem("escriba-biblioteca-nova")==="1";
 }
-function importarBackupObjeto(imp,{criarSnapshot=true}={}){
-  const biblioteca=extrairBibliotecaBackup(imp);
-  if(criarSnapshot)criarBackupSeguranca("antes de importar outro backup");
-  dados=typeof structuredClone==="function"?structuredClone(biblioteca):JSON.parse(JSON.stringify(biblioteca));
-  dados.versao=12.1;
+function importarBackupObjeto(imp){
+  if(!Array.isArray(imp?.artefatos))throw new Error("Backup inválido");
+  dados=imp; dados.versao=10;
   dados.artefatos.forEach(a=>{if(a.imagem){a._imagem=a.imagem;delete a.imagem}});
   organizar(); render(); atualizarBoasVindas();
 }
@@ -857,57 +850,22 @@ function quebrarTexto(ctx,texto,maxWidth){
   for(const p of palavras){const teste=linha?linha+" "+p:p;if(ctx.measureText(teste).width>maxWidth&&linha){linhas.push(linha);linha=p}else linha=teste}
   if(linha)linhas.push(linha);return linhas;
 }
-async function carregarImagem(src){
-  return await new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=src});
-}
-function textoCentralizado(ctx,texto,x,y,maxWidth,alturaLinha,maxLinhas=3){
-  const linhas=quebrarTexto(ctx,texto,maxWidth).slice(0,maxLinhas);
-  linhas.forEach((linha,i)=>ctx.fillText(linha,x,y+i*alturaLinha));
-  return y+linhas.length*alturaLinha;
-}
 async function canvasCartao(a){
-  // 63 × 99 mm em 300 DPI: 744 × 1169 px
-  const c=document.createElement("canvas");c.width=744;c.height=1169;const x=c.getContext("2d");
-  const molde=await carregarImagem("./assets/CARD-3.png");
-  x.drawImage(molde,0,0,c.width,c.height);
-
-  const url=await imagemArtefato(a),simbolo=await carregarImagem(url);
-  // Círculo superior do molde aprovado
-  x.save();x.beginPath();x.arc(372,319,176,0,Math.PI*2);x.clip();
-  x.fillStyle="#b08747";x.fillRect(196,143,352,352);
-  x.drawImage(simbolo,196,143,352,352);x.restore();
-
-  x.fillStyle="#170f08";x.textAlign="center";x.textBaseline="alphabetic";
-  x.font="700 35px Georgia, serif";x.fillText("GUARDIÃO",372,72);
-  x.font="700 31px Georgia, serif";x.fillText(a.codigo,372,548);
-
-  x.font="700 25px Georgia, serif";
-  let y=634;
-  y=textoCentralizado(x,"SE ESTE SÍMBOLO CHEGOU ATÉ SUAS MÃOS,",372,y,620,31,2);
-  y=textoCentralizado(x,"NOSSA CAMINHADA JÁ COMEÇOU.",372,y+2,620,31,2);
-
-  x.font="600 16px Georgia, serif";
-  y=textoCentralizado(x,"Este símbolo foi criado exclusivamente para este artefato.",372,y+35,610,22,2);
-  y=textoCentralizado(x,"Nenhum outro será exatamente igual.",372,y,610,22,2);
-
-  const casa=tituloCasa(Simbolo.casa(a.codigo)).toUpperCase();
-  const sentido=primeiraMaiuscula(Simbolo.significado(a.codigo)).toUpperCase();
-  x.font="700 15px Georgia, serif";
-  textoCentralizado(x,`${casa} - ESSÊNCIA - ${sentido}`,372,915,625,20,2);
+  const c=document.createElement("canvas");c.width=1000;c.height=1500;const x=c.getContext("2d");
+  x.fillStyle="#efe0bd";x.fillRect(0,0,c.width,c.height);x.strokeStyle="#8b642f";x.lineWidth=10;x.strokeRect(28,28,944,1444);
+  x.textAlign="center";x.fillStyle="#2b1b0e";x.font="bold 54px Georgia";x.fillText("GUARDIÃO",500,100);
+  x.font="24px Georgia";x.fillText("CHAVE DE ATIVAÇÃO E RECUPERAÇÃO",500,145);
+  const url=await imagemArtefato(a);const im=await new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=url});
+  x.drawImage(im,130,190,740,740);x.strokeStyle="#8b642f";x.lineWidth=3;x.strokeRect(130,190,740,740);
+  x.fillStyle="#2b1b0e";x.font="bold 42px Arial";x.fillText(a.codigo,500,1000);
+  x.font="28px Georgia";x.fillText(`${tituloCasa(Simbolo.casa(a.codigo))}  ·  Essência: ${primeiraMaiuscula(Simbolo.significado(a.codigo))}`,500,1050);
+  x.font="22px Arial";x.fillText(`Assinatura: ${a.assinatura||Simbolo.assinatura(a.codigo,a.estilo)}`,500,1095);
+  x.textAlign="left";x.font="27px Georgia";x.fillStyle="#3a2818";
+  let y=1170;const texto=a.obs||"Guarde este símbolo. Ele é a chave de ativação e recuperação do seu Guardião.";
+  for(const linha of quebrarTexto(x,texto,820).slice(0,4)){x.fillText(linha,90,y);y+=38}
+  x.textAlign="center";x.font="italic 25px Georgia";x.fillText("Não publique nem compartilhe este símbolo.",500,1380);
+  x.font="20px Arial";x.fillText(a.destino,500,1430);
   return c;
-}
-async function imprimirFolhaA4(){
-  const nome=$("cartaoLote")?.value;const lote=lotes().find(l=>l.nome===nome);
-  if(!lote)return toast("Escolha um lote");
-  const imagens=[];
-  for(let i=0;i<lote.artefatos.length;i++){
-    prog(5+(i+1)/lote.artefatos.length*80,`Preparando folha: cartão ${i+1} de ${lote.artefatos.length}`);
-    imagens.push((await canvasCartao(lote.artefatos[i])).toDataURL("image/png"));
-  }
-  const paginas=[];for(let i=0;i<imagens.length;i+=6)paginas.push(imagens.slice(i,i+6));
-  const html=paginas.map(pg=>`<section class="pagina">${pg.map((src,i)=>`<div class="celula"><i class="corte tl"></i><i class="corte tr"></i><i class="corte bl"></i><i class="corte br"></i><img src="${src}"></div>`).join("")}</section>`).join("");
-  const w=window.open("","_blank","width=1100,height=850");if(!w)return toast("Permita janelas pop-up para imprimir");
-  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Folhas A4 — ${escaparHTML(nome)}</title><style>@page{size:A4 portrait;margin:0}*{box-sizing:border-box}html,body{margin:0;background:#ddd}.pagina{width:210mm;height:297mm;background:#fff;display:grid;grid-template-columns:repeat(3,63mm);grid-template-rows:repeat(2,99mm);column-gap:3mm;row-gap:8mm;justify-content:center;align-content:center;page-break-after:always}.pagina:last-child{page-break-after:auto}.celula{width:63mm;height:99mm;position:relative}.celula img{width:63mm;height:99mm;display:block}.corte{position:absolute;width:4mm;height:4mm;z-index:2}.tl{left:-2.5mm;top:-2.5mm;border-right:.2mm solid #000;border-bottom:.2mm solid #000}.tr{right:-2.5mm;top:-2.5mm;border-left:.2mm solid #000;border-bottom:.2mm solid #000}.bl{left:-2.5mm;bottom:-2.5mm;border-right:.2mm solid #000;border-top:.2mm solid #000}.br{right:-2.5mm;bottom:-2.5mm;border-left:.2mm solid #000;border-top:.2mm solid #000}@media print{html,body{background:#fff}}</style></head><body>${html}<script>window.onload=()=>setTimeout(()=>window.print(),500)<\/script></body></html>`);w.document.close();prog(100,"Folha A4 pronta para impressão");
 }
 async function baixarPNG(){
   const a=artefatoAtualCartao();if(!a)return toast("Escolha um artefato");
@@ -957,8 +915,7 @@ $("codigo").onchange=()=>{};
 $("novoCodigo").onclick=$("gerarCodigoGrande").onclick=()=>{};
 $("revelar").onclick=()=>{const a=artefatoAtualCartao();if(a)carregarArtefatoNoEditor(a)};$("salvar").onclick=salvar;$("baixarPNG").onclick=baixarPNG;
 $("baixarSigiloPNG").onclick=baixarSigiloPNG;$("gerarTodosCartoes").onclick=async()=>{try{await gerarTodosCartoes()}catch(e){prog(0,"Erro: "+e.message);toast(e.message)}};
-$("imprimirExplicacao").onclick=$("imprimirExplicacaoTopo").onclick=()=>imprimirExplicacao().catch(e=>toast(e.message));
-if($("imprimirFolhaA4"))$("imprimirFolhaA4").onclick=()=>imprimirFolhaA4().catch(e=>toast(e.message));
+$("imprimirExplicacao").onclick=$("imprimirExplicacaoTopo").onclick=imprimirExplicacao;
 
 $("busca").oninput=render;
 document.body.onclick=e=>{
@@ -986,20 +943,9 @@ $("dropMind").ondrop=async e=>{e.preventDefault();$("dropMind").classList.remove
 const botaoLote25=document.getElementById("novoLote25"); if(botaoLote25)botaoLote25.onclick=criarLoteCom25;
 const botaoLote25Modulo=document.getElementById("criarLote25Modulo"); if(botaoLote25Modulo)botaoLote25Modulo.onclick=criarLoteCom25;
 const botaoExportarLote=document.getElementById("exportarSimbolosLote"); if(botaoExportarLote)botaoExportarLote.onclick=async()=>{try{await exportarSimbolosDoLote()}catch(e){prog(0,"Erro: "+e.message);toast(e.message)}};
-$("exportarDados").onclick=baixarBackupCompleto;
-$("backupTopo").onclick=baixarBackupCompleto;
-const botaoSnapshot=$("criarPontoRestauracao");if(botaoSnapshot)botaoSnapshot.onclick=()=>{criarBackupSeguranca("ponto manual");toast("Ponto de restauração criado")};
-const botaoRestaurarSnapshot=$("restaurarPontoRestauracao");if(botaoRestaurarSnapshot)botaoRestaurarSnapshot.onclick=restaurarBackupSeguranca;
-$("importarDados").onchange=async e=>{
-  const arquivo=e.target.files?.[0];if(!arquivo)return;
-  try{
-    const obj=JSON.parse(await arquivo.text());
-    const biblioteca=extrairBibliotecaBackup(obj);
-    if(dados.artefatos.length && !confirm(`Importar ${biblioteca.artefatos.length} artefatos e substituir os ${dados.artefatos.length} atuais? Um ponto de restauração será criado antes.`)){e.target.value="";return}
-    importarBackupObjeto(obj);toast("Backup importado e protegido");
-  }catch(err){console.error(err);toast("Backup inválido")}
-  finally{e.target.value=""}
-};
+$("exportarDados").onclick=()=>download(new Blob([JSON.stringify(dadosCompactos(),null,2)],{type:"application/json"}),"backup-guardiao-studio-v10.json");
+$("backupTopo").onclick=$("exportarDados").onclick;
+$("importarDados").onchange=async e=>{try{importarBackupObjeto(JSON.parse(await e.target.files[0].text()));toast("Backup importado")}catch{toast("Backup inválido")}};
 async function limparBancoTargetsCompleto(){
   targetsManuais.clear();
   bancoTargetsPromise=null;
@@ -1011,9 +957,8 @@ async function limparBancoTargetsCompleto(){
 }
 
 async function reiniciarProjeto(){
-  const aviso="Esta ação apagará a biblioteca, os lotes, os PNGs guardados no navegador, os targets importados e o histórico local do Escriba. Um ponto de restauração será criado antes. Ela NÃO apaga arquivos já publicados no GitHub. Continuar?";
+  const aviso="Esta ação apagará a biblioteca, os lotes, os PNGs guardados no navegador, os targets importados e o histórico local do Escriba. Ela NÃO apaga arquivos já publicados no GitHub. Continuar?";
   if(!window.confirm(aviso))return;
-  criarBackupSeguranca("antes de apagar todos os dados");
   try{
     const apagar=[];
     for(let i=0;i<localStorage.length;i++){
@@ -1024,7 +969,7 @@ async function reiniciarProjeto(){
   }catch{}
   try{sessionStorage.removeItem("escriba-biblioteca-nova")}catch{}
   await limparBancoTargetsCompleto();
-  dados={versao:12.1,artefatos:[]};
+  dados={versao:10,artefatos:[]};
   $("busca").value="";
   render();
   atualizarBoasVindas();
@@ -1034,7 +979,7 @@ async function reiniciarProjeto(){
 }
 
 function criarBibliotecaVazia(){
-  dados={versao:12.1,artefatos:[]};
+  dados={versao:10,artefatos:[]};
   try{localStorage.setItem(KEY,JSON.stringify(dadosCompactos()))}catch{}
   try{sessionStorage.setItem("escriba-biblioteca-nova","1")}catch{}
   atualizarBoasVindas();
@@ -1080,14 +1025,9 @@ if(cartaoLote)cartaoLote.onchange=()=>renderEditorCartoes();
 if(cartaoArtefato)cartaoArtefato.onchange=()=>renderEditorCartoes(cartaoArtefato.value);
 if($("cartaoAnterior"))$("cartaoAnterior").onclick=()=>{const lote=lotes().find(l=>l.nome===$("cartaoLote").value);if(!lote)return;indiceCartaoAtual=(indiceCartaoAtual-1+lote.artefatos.length)%lote.artefatos.length;renderEditorCartoes(lote.artefatos[indiceCartaoAtual].codigo)};
 if($("cartaoProximo"))$("cartaoProximo").onclick=()=>{const lote=lotes().find(l=>l.nome===$("cartaoLote").value);if(!lote)return;indiceCartaoAtual=(indiceCartaoAtual+1)%lote.artefatos.length;renderEditorCartoes(lote.artefatos[indiceCartaoAtual].codigo)};
-if($("producaoImprimirIndividual"))$("producaoImprimirIndividual").onclick=()=>imprimirExplicacao().catch(e=>toast(e.message));
-if($("producaoImprimirA4"))$("producaoImprimirA4").onclick=()=>imprimirFolhaA4().catch(e=>toast(e.message));
-if($("producaoGerarLote"))$("producaoGerarLote").onclick=()=>gerarTodosCartoes().catch(e=>toast(e.message));
 
 async function iniciarStudio(){
   montarAlfabeto();
-  // Cria automaticamente um ponto de restauração da biblioteca carregada.
-  criarBackupSeguranca("abertura do Studio 12.1");
   organizar();
   render();
   sincronizarLoteAtivo();
