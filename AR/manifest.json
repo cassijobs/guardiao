@@ -1,0 +1,180 @@
+{
+  "versao": 8,
+  "studio": "10.2.2",
+  "validado": true,
+  "geradoEm": "2026-08-04T15:25:49.599Z",
+  "artefatos": 25,
+  "lotes": [
+    {
+      "nome": "lote-001",
+      "quantidade": 25,
+      "targets": "./targets/lote-001.mind",
+      "rotas": "./rotas/lote-001.json",
+      "ordemEsperada": [
+        {
+          "targetIndex": 0,
+          "codigo": "MKS-2ES73",
+          "assinatura": "F256-1140"
+        },
+        {
+          "targetIndex": 1,
+          "codigo": "MKS-9FYAF",
+          "assinatura": "988B-9808"
+        },
+        {
+          "targetIndex": 2,
+          "codigo": "MKS-G4EPH",
+          "assinatura": "76E3-6865"
+        },
+        {
+          "targetIndex": 3,
+          "codigo": "MKS-Y8WD9",
+          "assinatura": "01B3-E209"
+        },
+        {
+          "targetIndex": 4,
+          "codigo": "MKS-UAH7B",
+          "assinatura": "13A1-DF2A"
+        },
+        {
+          "targetIndex": 5,
+          "codigo": "MKS-CY995",
+          "assinatura": "EF94-8F78"
+        },
+        {
+          "targetIndex": 6,
+          "codigo": "MKS-MJ9P3",
+          "assinatura": "35D3-3347"
+        },
+        {
+          "targetIndex": 7,
+          "codigo": "MKS-E25JA",
+          "assinatura": "D95E-9EB4"
+        },
+        {
+          "targetIndex": 8,
+          "codigo": "MKS-LZUWF",
+          "assinatura": "A671-2237"
+        },
+        {
+          "targetIndex": 9,
+          "codigo": "MKS-UHU53",
+          "assinatura": "85F0-8187"
+        },
+        {
+          "targetIndex": 10,
+          "codigo": "MKS-E6ALV",
+          "assinatura": "A2F6-1FC6"
+        },
+        {
+          "targetIndex": 11,
+          "codigo": "MKS-HBR7Y",
+          "assinatura": "6CE4-823F"
+        },
+        {
+          "targetIndex": 12,
+          "codigo": "MKS-9EWLK",
+          "assinatura": "2D80-2274"
+        },
+        {
+          "targetIndex": 13,
+          "codigo": "MKS-YAN55",
+          "assinatura": "1136-213E"
+        },
+        {
+          "targetIndex": 14,
+          "codigo": "MKS-Y2GJY",
+          "assinatura": "7040-E064"
+        },
+        {
+          "targetIndex": 15,
+          "codigo": "MKS-3WP6X",
+          "assinatura": "2C1F-1C1B"
+        },
+        {
+          "targetIndex": 16,
+          "codigo": "MKS-YRW4X",
+          "assinatura": "FF21-7265"
+        },
+        {
+          "targetIndex": 17,
+          "codigo": "MKS-6BHEN",
+          "assinatura": "DE60-D64D"
+        },
+        {
+          "targetIndex": 18,
+          "codigo": "MKS-U526T",
+          "assinatura": "04E6-0CF1"
+        },
+        {
+          "targetIndex": 19,
+          "codigo": "MKS-PSHPW",
+          "assinatura": "4EF0-856D"
+        },
+        {
+          "targetIndex": 20,
+          "codigo": "MKS-VEFSG",
+          "assinatura": "B7B9-A166"
+        },
+        {
+          "targetIndex": 21,
+          "codigo": "MKS-9XQ2E",
+          "assinatura": "A918-BF9F"
+        },
+        {
+          "targetIndex": 22,
+          "codigo": "MKS-ANMF2",
+          "assinatura": "5C7C-76BC"
+        },
+        {
+          "targetIndex": 23,
+          "codigo": "MKS-AYKDQ",
+          "assinatura": "2F61-DFC2"
+        },
+        {
+          "targetIndex": 24,
+          "codigo": "MKS-6ZFXQ",
+          "assinatura": "4019-DF4D"
+        }
+      ]
+    }
+  ],
+  "arquivos": [
+    "index.html",
+    "leitor.css",
+    "config.json",
+    "js/app.js",
+    "js/config.js",
+    "js/identidade.js",
+    "js/reconhecimento.js",
+    "js/ritual.js",
+    "js/ui.js",
+    "targets/lote-001.mind",
+    "rotas/lote-001.json",
+    "selos/selo-MKS-2ES73.png",
+    "selos/selo-MKS-9FYAF.png",
+    "selos/selo-MKS-G4EPH.png",
+    "selos/selo-MKS-Y8WD9.png",
+    "selos/selo-MKS-UAH7B.png",
+    "selos/selo-MKS-CY995.png",
+    "selos/selo-MKS-MJ9P3.png",
+    "selos/selo-MKS-E25JA.png",
+    "selos/selo-MKS-LZUWF.png",
+    "selos/selo-MKS-UHU53.png",
+    "selos/selo-MKS-E6ALV.png",
+    "selos/selo-MKS-HBR7Y.png",
+    "selos/selo-MKS-9EWLK.png",
+    "selos/selo-MKS-YAN55.png",
+    "selos/selo-MKS-Y2GJY.png",
+    "selos/selo-MKS-3WP6X.png",
+    "selos/selo-MKS-YRW4X.png",
+    "selos/selo-MKS-6BHEN.png",
+    "selos/selo-MKS-U526T.png",
+    "selos/selo-MKS-PSHPW.png",
+    "selos/selo-MKS-VEFSG.png",
+    "selos/selo-MKS-9XQ2E.png",
+    "selos/selo-MKS-ANMF2.png",
+    "selos/selo-MKS-AYKDQ.png",
+    "selos/selo-MKS-6ZFXQ.png"
+  ]
+}
