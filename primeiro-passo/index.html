@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#24160d">
+<title>Primeiro Passo — Guardião</title>
+
+<style>
+:root {
+  --fundo-superior: #160d07;
+  --fundo-central: #29180e;
+  --fundo-inferior: #3a281a;
+  --texto: #efd5a0;
+  --destaque: #d4a55a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  position: fixed;
+  inset: 0;
+  color: var(--texto);
+  font-family: Georgia, "Times New Roman", serif;
+  background:
+    radial-gradient(
+      ellipse at 50% 40%,
+      rgba(218, 166, 82, 0.12),
+      transparent 57%
+    ),
+    linear-gradient(
+      180deg,
+      var(--fundo-superior),
+      var(--fundo-central) 54%,
+      var(--fundo-inferior)
+    );
+}
+
+main {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+#palco {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding:
+    max(18px, env(safe-area-inset-top))
+    18px
+    max(18px, env(safe-area-inset-bottom));
+  text-align: center;
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 1.15s ease,
+    transform 1.15s ease;
+}
+
+#palco.sumindo {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.conteudo {
+  width: min(700px, 94vw);
+  margin: 0 auto;
+}
+
+.abertura {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.marca {
+  margin: 0;
+  color: var(--destaque);
+  font-size: clamp(1rem, 3.5vw, 1.22rem);
+  font-weight: normal;
+  letter-spacing: 0.28em;
+}
+
+.estrela {
+  margin: 18px 0 15px;
+  color: var(--destaque);
+  font-size: clamp(1.45rem, 5vw, 1.9rem);
+  line-height: 1;
+}
+
+.titulo {
+  margin: 0;
+  color: var(--destaque);
+  font-size: clamp(1.55rem, 5.5vw, 2.25rem);
+  font-weight: normal;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fala {
+  margin: 0;
+  color: var(--texto);
+  font-size: clamp(1.72rem, 6.1vw, 2.55rem);
+  line-height: 1.42;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  text-shadow:
+    0 0 20px rgba(212, 165, 90, 0.08),
+    0 2px 10px rgba(0, 0, 0, 0.30);
+}
+
+.fala.media {
+  font-size: clamp(1.58rem, 5.6vw, 2.3rem);
+}
+
+.fala.longa {
+  font-size: clamp(1.38rem, 4.9vw, 2rem);
+  line-height: 1.36;
+}
+
+.bloco {
+  display: flex;
+  flex-direction: column;
+  gap: 0.52em;
+  width: 100%;
+}
+
+.bloco span {
+  display: block;
+}
+
+.encerramento {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo-final {
+  width: min(260px, 58vw);
+  max-height: 43vh;
+  object-fit: contain;
+  margin: 0 0 24px;
+  opacity: 0;
+  transform: scale(.96);
+  filter:
+    sepia(1)
+    saturate(1.35)
+    hue-rotate(342deg)
+    brightness(0.92)
+    contrast(1.05);
+  transition: opacity 2.1s ease, transform 2.1s ease;
+}
+
+.frase-final {
+  width: min(620px, 92vw);
+  margin: 0;
+  color: var(--destaque);
+  font-size: clamp(1.45rem, 5vw, 2rem);
+  line-height: 1.4;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 1.8s ease 1.2s, transform 1.8s ease 1.2s;
+}
+
+.encerramento.mostrar .logo-final {
+  opacity: .94;
+  transform: scale(1);
+}
+
+.encerramento.mostrar .frase-final {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-height: 700px) {
+  #palco {
+    padding:
+      max(12px, env(safe-area-inset-top))
+      14px
+      max(12px, env(safe-area-inset-bottom));
+  }
+
+  .fala {
+    font-size: clamp(1.48rem, 5.4vw, 2.05rem);
+    line-height: 1.34;
+  }
+
+  .fala.media {
+    font-size: clamp(1.38rem, 5vw, 1.88rem);
+  }
+
+  .fala.longa {
+    font-size: clamp(1.22rem, 4.45vw, 1.68rem);
+    line-height: 1.30;
+  }
+
+  .logo-final {
+    width: min(205px, 48vw);
+    max-height: 37vh;
+    margin-bottom: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #palco {
+    transition-duration: 0.01ms;
+  }
+}
+</style>
+</head>
+
+<body>
+<main aria-live="polite">
+  <div id="palco">
+    <div class="conteudo abertura">
+      <h1 class="marca">GUARDIÃO</h1>
+      <div class="estrela" aria-hidden="true">✦</div>
+      <p class="titulo">O Primeiro Passo</p>
+    </div>
+  </div>
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const palco = document.getElementById("palco");
+
+  const roteiro = [
+    {
+      html: '<p class="fala">Todos nós estamos caminhando.</p>',
+      tempo: 6000
+    },
+    {
+      html: '<p class="fala media">A diferença é que cada pessoa escolhe como deseja percorrer esse caminho.</p>',
+      tempo: 6000
+    },
+    {
+      html: '<p class="fala longa"><span class="bloco"><span>Alguns apenas deixam os dias passarem.</span><span>Outros escolhem crescer por meio das experiências, das reflexões e das escolhas feitas ao longo da vida.</span></span></p>',
+      tempo: 12000
+    },
+    {
+      html: '<p class="fala">Ele nasceu para acompanhar essa caminhada.</p>',
+      tempo: 6000
+    },
+    {
+      html: '<p class="fala media"><span class="bloco"><span>Ele não oferece respostas prontas.</span><span>Nem pretende dizer como você deve viver.</span></span></p>',
+      tempo: 10000
+    },
+    {
+      html: '<p class="fala media">Apenas reserva alguns instantes para uma pergunta, uma reflexão ou um momento de silêncio.</p>',
+      tempo: 6000
+    },
+    {
+      html: '<p class="fala media"><span class="bloco"><span>Porque nenhuma caminhada é construída por um único passo.</span><span>Ela acontece, pouco a pouco, um dia de cada vez.</span></span></p>',
+      tempo: 10000
+    },
+    {
+      html: '<p class="fala media">Imagine que este seja o primeiro passo de uma longa caminhada.</p>',
+      tempo: 6000
+    },
+    {
+      html: '<p class="fala media">Às vezes, seguimos em frente sem perceber o que estamos levando conosco.</p>',
+      tempo: 6000
+    },
+    {
+      html: '<p class="fala">Agora, pense por alguns instantes:</p>',
+      tempo: 6000
+    },
+    {
+      html: '<p class="fala media">Qual pequeno passo poderia tornar o seu caminho de amanhã um pouco mais consciente?</p>',
+      tempo: 6000
+    },
+    {
+      html: '<p class="fala">Esta foi apenas uma breve demonstração.</p>',
+      tempo: 6000
+    },
+    {
+      html: '<p class="fala media">A verdadeira caminhada começa quando você decide continuar.</p>',
+      tempo: 6000
+    }
+  ];
+
+  const esperar = function (milissegundos) {
+    return new Promise(function (resolver) {
+      window.setTimeout(resolver, milissegundos);
+    });
+  };
+
+  async function trocar(htmlNovo) {
+    palco.classList.add("sumindo");
+    await esperar(1250);
+
+    palco.innerHTML = '<div class="conteudo">' + htmlNovo + '</div>';
+
+    await esperar(80);
+    palco.classList.remove("sumindo");
+    await esperar(1250);
+  }
+
+  async function iniciar() {
+    await esperar(4600);
+
+    for (const item of roteiro) {
+      await trocar(item.html);
+      await esperar(item.tempo);
+    }
+
+    await trocar(
+      '<div class="encerramento" id="encerramentoFinal">' +
+        '<img class="logo-final" src="logo-guardiao.png" alt="Símbolo do Guardião">' +
+        '<p class="frase-final">Estarei esperando.</p>' +
+      '</div>'
+    );
+
+    await esperar(120);
+    const encerramento = document.getElementById('encerramentoFinal');
+    if (encerramento) {
+      await esperar(260);
+      encerramento.classList.add('mostrar');
+    }
+  }
+
+  iniciar().catch(function () {
+    palco.classList.remove("sumindo");
+    palco.innerHTML =
+      '<div class="conteudo">' +
+        '<p class="fala">Todos nós estamos caminhando.</p>' +
+      '</div>';
+  });
+});
+</script>
+</body>
+</html>

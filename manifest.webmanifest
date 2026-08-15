@@ -1,0 +1,31 @@
+{
+  "id": "./app/",
+  "name": "Guardião",
+  "short_name": "Guardião",
+  "description": "A entrada para reconhecer o artefato e iniciar a jornada do Guardião.",
+  "lang": "pt-BR",
+  "start_url": "./AR/?origem=app&v=600",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "portrait",
+  "background_color": "#160d07",
+  "theme_color": "#1a1009",
+  "icons": [
+    {
+      "src": "./icons/guardiao-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/guardiao-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "versao": 7,
+  "sistema": "O Escriba Studio 10.5 — Publicação Guiada",
+  "geradoEm": "2026-08-14T22:35:07.945Z",
+  "lotes": [
+    {
+      "nome": "lote-001",
+      "quantidade": 25,
+      "targets": "./targets/lote-001.mind",
+      "rotas": "./rotas/lote-001.json"
+    }
+  ]
+}
