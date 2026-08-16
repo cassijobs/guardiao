@@ -2,7 +2,7 @@
   "versao": 8,
   "studio": "10.5",
   "validado": true,
-  "geradoEm": "2026-08-14T22:35:07.945Z",
+  "geradoEm": "2026-08-16T17:05:25.882Z",
   "artefatos": 25,
   "lotes": [
     {
@@ -13,128 +13,128 @@
       "ordemEsperada": [
         {
           "targetIndex": 0,
-          "codigo": "MKS-R88MH",
-          "assinatura": "FCA6-424F"
+          "codigo": "MKS-2RASA",
+          "assinatura": "0368-20A8"
         },
         {
           "targetIndex": 1,
-          "codigo": "MKS-5ALYS",
-          "assinatura": "7B78-AC48"
+          "codigo": "MKS-9FG2N",
+          "assinatura": "F03C-0DCF"
         },
         {
           "targetIndex": 2,
-          "codigo": "MKS-GHLSK",
-          "assinatura": "8749-4BAC"
+          "codigo": "MKS-M9U2A",
+          "assinatura": "BE51-0A3E"
         },
         {
           "targetIndex": 3,
-          "codigo": "MKS-Q5FE2",
-          "assinatura": "BA34-3B8A"
+          "codigo": "MKS-NJUDE",
+          "assinatura": "B544-DA33"
         },
         {
           "targetIndex": 4,
-          "codigo": "MKS-A8T4T",
-          "assinatura": "0E5E-0842"
+          "codigo": "MKS-QMLFU",
+          "assinatura": "47C3-87EA"
         },
         {
           "targetIndex": 5,
-          "codigo": "MKS-EVB25",
-          "assinatura": "895A-E2E1"
+          "codigo": "MKS-G6WEU",
+          "assinatura": "9F7B-B002"
         },
         {
           "targetIndex": 6,
-          "codigo": "MKS-7X5A6",
-          "assinatura": "FFAC-4703"
+          "codigo": "MKS-J2SDB",
+          "assinatura": "675D-0AA7"
         },
         {
           "targetIndex": 7,
-          "codigo": "MKS-Z6GPB",
-          "assinatura": "6915-9779"
+          "codigo": "MKS-YMQ96",
+          "assinatura": "87A5-6034"
         },
         {
           "targetIndex": 8,
-          "codigo": "MKS-SM7D6",
-          "assinatura": "18DF-9B32"
+          "codigo": "MKS-DU4BQ",
+          "assinatura": "1226-9F46"
         },
         {
           "targetIndex": 9,
-          "codigo": "MKS-ZPCZZ",
-          "assinatura": "AE2E-6691"
+          "codigo": "MKS-ZXZ2P",
+          "assinatura": "C60E-CD2F"
         },
         {
           "targetIndex": 10,
-          "codigo": "MKS-MS3GJ",
-          "assinatura": "1C2C-8C6D"
+          "codigo": "MKS-BS64Y",
+          "assinatura": "1BC2-5EBB"
         },
         {
           "targetIndex": 11,
-          "codigo": "MKS-3ZW8C",
-          "assinatura": "1084-ABFC"
+          "codigo": "MKS-BMSND",
+          "assinatura": "45CB-93EE"
         },
         {
           "targetIndex": 12,
-          "codigo": "MKS-3HP66",
-          "assinatura": "0B96-559B"
+          "codigo": "MKS-XP2MW",
+          "assinatura": "A92B-46D5"
         },
         {
           "targetIndex": 13,
-          "codigo": "MKS-CMVNR",
-          "assinatura": "7DFD-0692"
+          "codigo": "MKS-HLKWB",
+          "assinatura": "88DA-0C10"
         },
         {
           "targetIndex": 14,
-          "codigo": "MKS-R9EYV",
-          "assinatura": "0E32-7752"
+          "codigo": "MKS-AD8SJ",
+          "assinatura": "C80B-9F29"
         },
         {
           "targetIndex": 15,
-          "codigo": "MKS-T6KTK",
-          "assinatura": "F2DA-3A55"
+          "codigo": "MKS-DU5PV",
+          "assinatura": "8C9C-6232"
         },
         {
           "targetIndex": 16,
-          "codigo": "MKS-3CYGG",
-          "assinatura": "5FFF-B088"
+          "codigo": "MKS-GFXUZ",
+          "assinatura": "A01F-DA70"
         },
         {
           "targetIndex": 17,
-          "codigo": "MKS-54KZN",
-          "assinatura": "B578-807A"
+          "codigo": "MKS-JESQC",
+          "assinatura": "0526-1D3E"
         },
         {
           "targetIndex": 18,
-          "codigo": "MKS-DQ8PC",
-          "assinatura": "735A-FD8B"
+          "codigo": "MKS-45K2A",
+          "assinatura": "6A71-4F0E"
         },
         {
           "targetIndex": 19,
-          "codigo": "MKS-X23P2",
-          "assinatura": "5EB5-7D62"
+          "codigo": "MKS-JYYSE",
+          "assinatura": "0E55-70F6"
         },
         {
           "targetIndex": 20,
-          "codigo": "MKS-4L64A",
-          "assinatura": "8A26-C53F"
+          "codigo": "MKS-4UR2J",
+          "assinatura": "2255-D386"
         },
         {
           "targetIndex": 21,
-          "codigo": "MKS-NRQ3H",
-          "assinatura": "BF52-96B5"
+          "codigo": "MKS-NVXEM",
+          "assinatura": "7591-0E92"
         },
         {
           "targetIndex": 22,
-          "codigo": "MKS-FCSVJ",
-          "assinatura": "55FD-661A"
+          "codigo": "MKS-L2QYY",
+          "assinatura": "6545-CC1A"
         },
         {
           "targetIndex": 23,
-          "codigo": "MKS-P6ULD",
-          "assinatura": "E9AB-85BC"
+          "codigo": "MKS-ZXSZF",
+          "assinatura": "C943-9D4C"
         },
         {
           "targetIndex": 24,
-          "codigo": "MKS-2CQ56",
-          "assinatura": "54A0-79BA"
+          "codigo": "MKS-GAXCQ",
+          "assinatura": "61A3-64E4"
         }
       ]
     }
@@ -151,30 +151,30 @@
     "js/ui.js",
     "targets/lote-001.mind",
     "rotas/lote-001.json",
-    "selos/selo-MKS-R88MH.png",
-    "selos/selo-MKS-5ALYS.png",
-    "selos/selo-MKS-GHLSK.png",
-    "selos/selo-MKS-Q5FE2.png",
-    "selos/selo-MKS-A8T4T.png",
-    "selos/selo-MKS-EVB25.png",
-    "selos/selo-MKS-7X5A6.png",
-    "selos/selo-MKS-Z6GPB.png",
-    "selos/selo-MKS-SM7D6.png",
-    "selos/selo-MKS-ZPCZZ.png",
-    "selos/selo-MKS-MS3GJ.png",
-    "selos/selo-MKS-3ZW8C.png",
-    "selos/selo-MKS-3HP66.png",
-    "selos/selo-MKS-CMVNR.png",
-    "selos/selo-MKS-R9EYV.png",
-    "selos/selo-MKS-T6KTK.png",
-    "selos/selo-MKS-3CYGG.png",
-    "selos/selo-MKS-54KZN.png",
-    "selos/selo-MKS-DQ8PC.png",
-    "selos/selo-MKS-X23P2.png",
-    "selos/selo-MKS-4L64A.png",
-    "selos/selo-MKS-NRQ3H.png",
-    "selos/selo-MKS-FCSVJ.png",
-    "selos/selo-MKS-P6ULD.png",
-    "selos/selo-MKS-2CQ56.png"
+    "selos/selo-MKS-2RASA.png",
+    "selos/selo-MKS-9FG2N.png",
+    "selos/selo-MKS-M9U2A.png",
+    "selos/selo-MKS-NJUDE.png",
+    "selos/selo-MKS-QMLFU.png",
+    "selos/selo-MKS-G6WEU.png",
+    "selos/selo-MKS-J2SDB.png",
+    "selos/selo-MKS-YMQ96.png",
+    "selos/selo-MKS-DU4BQ.png",
+    "selos/selo-MKS-ZXZ2P.png",
+    "selos/selo-MKS-BS64Y.png",
+    "selos/selo-MKS-BMSND.png",
+    "selos/selo-MKS-XP2MW.png",
+    "selos/selo-MKS-HLKWB.png",
+    "selos/selo-MKS-AD8SJ.png",
+    "selos/selo-MKS-DU5PV.png",
+    "selos/selo-MKS-GFXUZ.png",
+    "selos/selo-MKS-JESQC.png",
+    "selos/selo-MKS-45K2A.png",
+    "selos/selo-MKS-JYYSE.png",
+    "selos/selo-MKS-4UR2J.png",
+    "selos/selo-MKS-NVXEM.png",
+    "selos/selo-MKS-L2QYY.png",
+    "selos/selo-MKS-ZXSZF.png",
+    "selos/selo-MKS-GAXCQ.png"
   ]
 }
