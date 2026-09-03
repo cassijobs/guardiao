@@ -1,6 +1,6 @@
 /*
 ======================================================
-GUARDIÃO v5.0
+GUARDIÃO v6.0 — ACESSO VINCULADO AO PROPRIETÁRIO
 INICIALIZAÇÃO DAS JORNADAS
 ======================================================
 */
@@ -169,6 +169,17 @@ async function iniciarGuardiao() {
             app.innerHTML='<section class="tela-espera"><p class="fala-guardiao">Este Artefato não está disponível.</p><p class="fala-guardiao fala-secundaria">Verifique o código impresso dentro da caixa.</p></section>'; return;
         }
         window.GUARDIAO_ARTEFATO_ATUAL=artefato;
+
+        if (!window.AcessoGuardiao?.garantirAcesso) {
+            throw new Error("O módulo de acesso seguro não foi carregado.");
+        }
+
+        const acessoPermitido = await window.AcessoGuardiao.garantirAcesso(
+            app,
+            artefato.codigo
+        );
+        if (!acessoPermitido) return;
+
         await prepararCaminhada(app,artefato);
 
         const total=TOTAL_ENCONTROS_GUARDIAO;

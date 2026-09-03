@@ -1,6 +1,6 @@
 /*
 ======================================================
-GUARDIÃO — CARREGADOR MESTRE 6.0
+GUARDIÃO — CARREGADOR MESTRE 6.1
 ======================================================
 A leitura do símbolo acontece somente no leitor AR.
 Ao chegar à jornada com ?artefato=MKS-XXXXX, o Guardião
@@ -27,6 +27,7 @@ reconhece a identidade e abre o encontro diretamente.
       "js/memoria.js",
       "js/supabase.js",
       "js/artefato.js",
+      "js/acesso.js",
       "js/api.js",
       "js/fornecedor-encontros.js",
       "js/palco.js",
