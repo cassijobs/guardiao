@@ -273,5 +273,16 @@
     "essencia": "escolha",
     "assinatura": "61A3-64E4",
     "qualidade": 78
+  },
+  {
+    "codigo": "MKS-K5S7P",
+    "targetIndex": 25,
+    "destino": "https://cassijobs.github.io/guardiao/?artefato=MKS-K5S7P",
+    "imagem": "./selos/selo-MKS-K5S7P.png",
+    "estilo": "imagem-teste",
+    "casa": "Teste",
+    "essencia": "KISS",
+    "assinatura": "KISS-TESTE",
+    "qualidade": 90
   }
 ]
