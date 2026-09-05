@@ -5,7 +5,7 @@
   "lotes": [
     {
       "nome": "lote-001",
-      "quantidade": 26,
+      "quantidade": 25,
       "targets": "./targets/lote-001.mind",
       "rotas": "./rotas/lote-001.json"
     }
