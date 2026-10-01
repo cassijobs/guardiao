@@ -40,6 +40,8 @@ const AcessoGuardiao = (() => {
             .acesso-guardiao input:focus{border-color:currentColor}
             .acesso-guardiao button{width:100%;box-sizing:border-box;margin-top:12px;padding:13px 16px;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;font:inherit;cursor:pointer}
             .acesso-guardiao button.secundario-botao{border-color:rgba(255,255,255,.28);opacity:.82}
+            .acesso-guardiao button.link-botao{width:auto;margin:12px auto 2px;padding:5px 8px;border:0;border-radius:0;opacity:.8;text-decoration:underline;text-underline-offset:3px}
+            .acesso-guardiao .confirmar-senha{margin-top:4px}
             .acesso-guardiao button:disabled{cursor:wait;opacity:.55}
             .acesso-guardiao .erro{min-height:1.4em;margin-top:14px;font-size:.92rem}
             .acesso-guardiao .codigo{opacity:.58;font-size:.78rem;letter-spacing:.08em;margin-top:22px}
@@ -53,6 +55,64 @@ const AcessoGuardiao = (() => {
         return data?.session || null;
     }
 
+    function retornoRecuperacao() {
+        const retorno = new URL(window.location.href);
+        retorno.hash = "";
+        return retorno.toString();
+    }
+
+    function veioDeRecuperacao() {
+        return new URLSearchParams(window.location.hash.replace(/^#/, "")).get("type") === "recovery";
+    }
+
+    function mostrarNovaSenha(app) {
+        return new Promise(resolve => {
+            app.innerHTML = `${estilos()}
+                <section class="acesso-guardiao">
+                    <h2>Crie uma nova senha</h2>
+                    <p>Escolha uma nova senha para reencontrar seu Guardião com segurança.</p>
+                    <label for="guardiaoNovaSenha">Nova senha</label>
+                    <input id="guardiaoNovaSenha" type="password" autocomplete="new-password" minlength="8">
+                    <label for="guardiaoConfirmarSenha">Confirmar nova senha</label>
+                    <input id="guardiaoConfirmarSenha" class="confirmar-senha" type="password" autocomplete="new-password" minlength="8">
+                    <button id="guardiaoSalvarSenha" type="button">Salvar nova senha</button>
+                    <p id="guardiaoErro" class="erro" role="status" aria-live="polite"></p>
+                </section>`;
+
+            const senha = document.getElementById("guardiaoNovaSenha");
+            const confirmar = document.getElementById("guardiaoConfirmarSenha");
+            const salvar = document.getElementById("guardiaoSalvarSenha");
+            const mensagem = document.getElementById("guardiaoErro");
+            salvar.addEventListener("click", async () => {
+                mensagem.textContent = "";
+                if (senha.value.length < 8) {
+                    mensagem.textContent = "A senha precisa ter pelo menos 8 caracteres.";
+                    senha.focus();
+                    return;
+                }
+                if (senha.value !== confirmar.value) {
+                    mensagem.textContent = "As duas senhas não são iguais.";
+                    confirmar.focus();
+                    return;
+                }
+                salvar.disabled = true;
+                salvar.textContent = "Salvando...";
+                const { error } = await cliente().auth.updateUser({ password: senha.value });
+                if (error) {
+                    mensagem.textContent = "O link pode ter expirado. Solicite uma nova recuperação.";
+                    salvar.disabled = false;
+                    salvar.textContent = "Salvar nova senha";
+                    return;
+                }
+                history.replaceState(null, "", window.location.pathname + window.location.search);
+                mensagem.textContent = "Senha atualizada. Reabrindo seu Guardião...";
+                setTimeout(() => resolve(true), 900);
+            });
+            confirmar.addEventListener("keydown", evento => { if (evento.key === "Enter") salvar.click(); });
+            senha.focus();
+        });
+    }
+
     function mostrarLogin(app, codigo) {
         return new Promise(resolve => {
             app.innerHTML = `${estilos()}
@@ -64,6 +124,7 @@ const AcessoGuardiao = (() => {
                     <label for="guardiaoSenha">Senha</label>
                     <input id="guardiaoSenha" type="password" autocomplete="current-password" minlength="8">
                     <button id="guardiaoEntrar" type="button">Entrar</button>
+                    <button id="guardiaoEsqueciSenha" class="link-botao" type="button">Esqueci minha senha</button>
                     <button id="guardiaoCriarConta" class="secundario-botao" type="button">Criar minha conta</button>
                     <p id="guardiaoErro" class="erro" role="status" aria-live="polite"></p>
                     <p class="codigo">${escapar(codigo)}</p>
@@ -72,9 +133,10 @@ const AcessoGuardiao = (() => {
             const email = document.getElementById("guardiaoEmail");
             const senha = document.getElementById("guardiaoSenha");
             const entrar = document.getElementById("guardiaoEntrar");
+            const esqueci = document.getElementById("guardiaoEsqueciSenha");
             const criar = document.getElementById("guardiaoCriarConta");
             const mensagem = document.getElementById("guardiaoErro");
-            const botoes = [entrar, criar];
+            const botoes = [entrar, esqueci, criar];
 
             function valoresValidos(exigirSenha = true) {
                 const e = email.value.trim();
@@ -111,6 +173,23 @@ const AcessoGuardiao = (() => {
                     mensagem.textContent = erro?.message === "Invalid login credentials"
                         ? "E-mail ou senha não reconhecidos."
                         : "Não foi possível entrar agora.";
+                    ocupando(false);
+                }
+            });
+
+            esqueci.addEventListener("click", async () => {
+                const credenciais = valoresValidos(false);
+                if (!credenciais) return;
+                ocupando(true, "Enviando...");
+                try {
+                    const { error } = await cliente().auth.resetPasswordForEmail(credenciais.email, {
+                        redirectTo: retornoRecuperacao()
+                    });
+                    if (error) throw error;
+                    mensagem.textContent = "Se este e-mail estiver cadastrado, enviaremos as instruções para redefinir sua senha. Confira também o Spam.";
+                } catch (_) {
+                    mensagem.textContent = "Não foi possível enviar agora. Aguarde um pouco e tente novamente.";
+                } finally {
                     ocupando(false);
                 }
             });
@@ -237,6 +316,10 @@ const AcessoGuardiao = (() => {
     }
 
     async function garantirAcesso(app, codigo) {
+        if (veioDeRecuperacao()) {
+            const atualizou = await mostrarNovaSenha(app);
+            if (!atualizou) return false;
+        }
         let sessao = await sessaoAtual();
         if (!sessao) sessao = await mostrarLogin(app, codigo);
         if (!sessao?.user) return false;
