@@ -148,17 +148,21 @@ const AcessoGuardiao = (() => {
 
     function mostrarLogin(app, codigo) {
         return new Promise(resolve => {
+            const retornandoDaConfirmacao =
+                localStorage.getItem(CHAVE_ARTEFATO_PENDENTE) === codigo;
             app.innerHTML = `${estilos()}
                 <section class="acesso-guardiao">
-                    <h2>Entre para encontrar seu Guardião</h2>
-                    <p>Sua conta protege esta caminhada quando o link é aberto em outro aparelho.</p>
+                    <h2>${retornandoDaConfirmacao ? "E-mail confirmado" : "Entre para encontrar seu Guardião"}</h2>
+                    <p>${retornandoDaConfirmacao
+                        ? "Entre com a senha que você criou para continuar com seu Guardião."
+                        : "Entre em sua conta ou crie uma para começar esta caminhada."}</p>
                     <label for="guardiaoEmail">E-mail</label>
                     <input id="guardiaoEmail" type="email" inputmode="email" autocomplete="email">
                     <label for="guardiaoSenha">Senha</label>
                     ${campoSenha("guardiaoSenha", "current-password")}
                     <button id="guardiaoEntrar" type="button">Entrar</button>
                     <button id="guardiaoEsqueciSenha" class="link-botao" type="button">Esqueci minha senha</button>
-                    <button id="guardiaoCriarConta" class="secundario-botao" type="button">Criar minha conta</button>
+                    ${retornandoDaConfirmacao ? "" : '<button id="guardiaoCriarConta" class="secundario-botao" type="button">Criar minha conta</button>'}
                     <p id="guardiaoErro" class="erro" role="status" aria-live="polite"></p>
                     <p class="codigo">${escapar(codigo)}</p>
                 </section>`;
@@ -171,7 +175,7 @@ const AcessoGuardiao = (() => {
             const esqueci = document.getElementById("guardiaoEsqueciSenha");
             const criar = document.getElementById("guardiaoCriarConta");
             const mensagem = document.getElementById("guardiaoErro");
-            const botoes = [entrar, esqueci, criar];
+            const botoes = [entrar, esqueci, criar].filter(Boolean);
 
             function valoresValidos(exigirSenha = true) {
                 const e = email.value.trim().toLowerCase();
@@ -239,7 +243,7 @@ const AcessoGuardiao = (() => {
                 }
             });
 
-            criar.addEventListener("click", async () => {
+            criar?.addEventListener("click", async () => {
                 const credenciais = valoresValidos();
                 if (!credenciais) return;
                 ocupando(true, "Criando conta...");
