@@ -270,7 +270,8 @@ input {
 }
 
 .leitura-guardiao {
-    width: min(92vw, 720px);
+    width: 100%;
+    max-width: 720px;
     margin: 0 auto;
     text-align: center;
 }
@@ -282,13 +283,26 @@ input {
 
 .navegacao-leitura {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 12px;
     margin-top: 34px;
 }
 
-.navegacao-leitura .botao { margin: 0; }
+.navegacao-leitura .botao {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 10px 8px;
+    font-size: clamp(.92rem, 4.2vw, 1.15rem);
+    white-space: nowrap;
+}
 .navegacao-leitura .botao:disabled { opacity: .28; cursor: default; }
 .rotulo-revisao { margin-bottom: 26px; opacity: .62; font-size: .76rem; letter-spacing: .16em; }
 .botao-secundario { opacity: .78; }
 .botao-rever-encontro { margin-top: 24px; }
+
+@media (max-width: 380px) {
+    .navegacao-leitura { gap: 8px; }
+    .navegacao-leitura .botao { font-size: .9rem; padding-inline: 5px; }
+}
