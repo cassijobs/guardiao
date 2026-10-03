@@ -158,6 +158,12 @@ async function iniciarGuardiao() {
         AgendaGuardiao.pararRelogio();
         const apresentacao = ArtefatoGuardiao.obterCodigoApresentado();
         if (!apresentacao.codigo) {
+            const pendente = localStorage.getItem("guardiao_artefato_pendente_confirmacao");
+            if (pendente && ArtefatoGuardiao.codigoValido(pendente)) {
+                window.location.replace(ArtefatoGuardiao.criarLink(pendente));
+                return;
+            }
+            if (pendente) localStorage.removeItem("guardiao_artefato_pendente_confirmacao");
             mostrarEntradaManual(app);
             return;
         }

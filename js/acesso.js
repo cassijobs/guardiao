@@ -9,6 +9,8 @@ GUARDIÃO v6.0 — ACESSO SEGURO DO PROPRIETÁRIO
 */
 
 const AcessoGuardiao = (() => {
+    const CHAVE_ARTEFATO_PENDENTE = "guardiao_artefato_pendente_confirmacao";
+
     function cliente() {
         if (!window.supabaseClient?.auth || !window.supabaseClient?.rpc) {
             throw new Error("A conexão segura com o Guardião não está disponível.");
@@ -244,6 +246,7 @@ const AcessoGuardiao = (() => {
                 try {
                     const retorno = new URL(window.location.href);
                     retorno.hash = "";
+                    localStorage.setItem(CHAVE_ARTEFATO_PENDENTE, codigo);
                     const { data, error } = await cliente().auth.signUp({
                         ...credenciais,
                         options: { emailRedirectTo: retorno.toString() }
@@ -253,8 +256,9 @@ const AcessoGuardiao = (() => {
                         resolve(data.session);
                         return;
                     }
-                    mensagem.textContent = "Enviamos uma confirmação para seu e-mail. Depois de confirmar, volte aqui e entre com sua senha.";
+                    mensagem.textContent = "Enviamos uma confirmação para seu e-mail. Ao tocar no link, este mesmo Guardião será reaberto.";
                 } catch (erro) {
+                    localStorage.removeItem(CHAVE_ARTEFATO_PENDENTE);
                     mensagem.textContent = erro?.message || "Não foi possível criar a conta.";
                 } finally {
                     ocupando(false);
@@ -368,12 +372,16 @@ const AcessoGuardiao = (() => {
         if (!sessao?.user) return false;
 
         let estado = await chamarRpc("status_acesso_guardiao", { p_codigo: codigo });
-        if (estado.autorizado === true) return true;
+        if (estado.autorizado === true) {
+            localStorage.removeItem(CHAVE_ARTEFATO_PENDENTE);
+            return true;
+        }
 
         if (estado.precisa_chave === true) {
             const vinculou = await mostrarVinculacao(app, codigo, sessao.user.email);
             if (!vinculou) return false;
             estado = await chamarRpc("status_acesso_guardiao", { p_codigo: codigo });
+            if (estado.autorizado === true) localStorage.removeItem(CHAVE_ARTEFATO_PENDENTE);
             return estado.autorizado === true;
         }
 
