@@ -14,6 +14,8 @@ const Memoria = (() => {
         encontroEmAndamento: false,
         visitasAntecipadas: 0,
         aguardouEncontro: false,
+        ultimaReflexao: [],
+        ultimoEncontroNumero: 0,
         versao: "5.0"
     });
 
@@ -58,6 +60,10 @@ const Memoria = (() => {
         memoria.encontroEmAndamento = Boolean(memoria.encontroEmAndamento);
         memoria.visitasAntecipadas = Math.max(0, Number.parseInt(memoria.visitasAntecipadas, 10) || 0);
         memoria.aguardouEncontro = Boolean(memoria.aguardouEncontro);
+        memoria.ultimaReflexao = Array.isArray(memoria.ultimaReflexao)
+            ? memoria.ultimaReflexao.map(texto => String(texto || "")).filter(Boolean)
+            : [];
+        memoria.ultimoEncontroNumero = Math.max(0, Number.parseInt(memoria.ultimoEncontroNumero, 10) || 0);
         memoria.versao = "5.0";
         return memoria;
     }
@@ -154,6 +160,12 @@ const Memoria = (() => {
     function podeIniciarAgora(dados = carregar()) { return !dados.ultimoEncontroData || dados.ultimoEncontroData !== dataLocal(); }
     function tempoRestante(dados = carregar()) { return podeIniciarAgora(dados) ? 0 : Math.max(0, inicioDoProximoDia() - Date.now()); }
     function iniciarEncontro() { return atualizar({ encontroEmAndamento: true }); }
+    function salvarUltimaReflexao(textos, numero) {
+        return atualizar({
+            ultimaReflexao: Array.isArray(textos) ? textos : [],
+            ultimoEncontroNumero: Math.max(0, Number.parseInt(numero, 10) || 0)
+        });
+    }
     function concluirEncontro(total) {
         const dados = carregar();
         const agora = Date.now();
@@ -209,6 +221,7 @@ const Memoria = (() => {
         podeIniciarAgora,
         tempoRestante,
         iniciarEncontro,
+        salvarUltimaReflexao,
         concluirEncontro,
         registrarVisitaAntecipada,
         consumirEsperaCumprida,

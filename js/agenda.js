@@ -48,6 +48,8 @@ const AgendaGuardiao = (() => {
 
         const mensagens = SaudacaoGuardiao.retornoMesmoDia();
         const observacao = mensagemDeEspera(visitasAntecipadas);
+        const memoria = Memoria.carregar();
+        const podeRever = Array.isArray(memoria.ultimaReflexao) && memoria.ultimaReflexao.length > 0;
 
         elemento.innerHTML = `
             <section class="tela-espera">
@@ -55,8 +57,18 @@ const AgendaGuardiao = (() => {
                 <p class="fala-guardiao fala-secundaria">${observacao}</p>
                 <p class="fala-guardiao fala-secundaria">${mensagens[1]}</p>
                 <p class="fala-guardiao fala-secundaria">${mensagens[2]}</p>
+                ${podeRever ? '<button class="botao botao-rever-encontro" id="rever-ultimo-encontro" type="button">Rever meu último encontro</button>' : ''}
             </section>
         `;
+
+        if (podeRever) {
+            document.getElementById("rever-ultimo-encontro").addEventListener("click", async () => {
+                pararRelogio();
+                Palco.iniciar();
+                await Palco.reverTextos(memoria.ultimaReflexao);
+                mostrarEspera(elemento, aoMudarODia, visitasAntecipadas);
+            });
+        }
 
         function verificarMudancaDoDia() {
             if (Memoria.podeIniciarAgora()) {

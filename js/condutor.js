@@ -12,10 +12,12 @@ const Condutor = {
 
     dados: null,
     opcoes: {},
+    historicoTextos: [],
 
     async executar(roteiro, opcoes = {}) {
         this.opcoes = opcoes;
         this.dados = Memoria.carregar();
+        this.historicoTextos = [];
 
         Palco.iniciar();
 
@@ -96,36 +98,31 @@ const Condutor = {
     },
 
     async texto(cena) {
-        await Palco.mostrarTexto(
-            this.substituir(cena.texto)
-        );
-
-        await Palco.esperar(
-            cena.pausa ??
-            CONFIG.pausa.media
-        );
+        const texto = this.substituir(cena.texto);
+        await Palco.mostrarTextoNavegavel(texto, this.historicoTextos);
+        this.historicoTextos.push(texto);
     },
 
     async jornada(cena) {
+        const titulo = this.substituir(cena.titulo ?? "");
+        const partes = Array.isArray(cena.texto)
+            ? cena.texto.map(parte => this.substituir(parte))
+            : [this.substituir(cena.texto ?? "")];
         await Palco.mostrarJornada({
             rotulo: this.substituir(
                 cena.rotulo ?? "Nova Jornada"
             ),
-            titulo: this.substituir(
-                cena.titulo ?? ""
-            ),
+            titulo,
             frase: this.substituir(
                 cena.frase ?? ""
             ),
-            texto: Array.isArray(cena.texto)
-                ? cena.texto.map(parte =>
-                    this.substituir(parte)
-                )
-                : [this.substituir(cena.texto ?? "")],
+            texto: partes,
             botao: this.substituir(
                 cena.botao ?? "Continuar"
             )
         });
+        const resumo = [titulo, ...partes].filter(Boolean).join("<br><br>");
+        if (resumo) this.historicoTextos.push(resumo);
     },
 
     async nome(cena) {
@@ -145,14 +142,9 @@ const Condutor = {
     },
 
     async escolha(cena) {
-        await Palco.mostrarTexto(
-            this.substituir(cena.pergunta)
-        );
-
-        await Palco.esperar(
-            cena.pausa ??
-            CONFIG.pausa.leitura
-        );
+        const pergunta = this.substituir(cena.pergunta);
+        await Palco.mostrarTextoNavegavel(pergunta, this.historicoTextos);
+        this.historicoTextos.push(pergunta);
 
         const resposta =
             await Palco.mostrarBotoes(
@@ -268,9 +260,13 @@ const Condutor = {
     },
 
     async fim(cena) {
-        await Palco.mostrarTexto(
-            this.substituir(cena.texto)
-        );
+        const texto = this.substituir(cena.texto);
+        await Palco.mostrarTextoNavegavel(texto, this.historicoTextos);
+        this.historicoTextos.push(texto);
+        if (typeof this.opcoes.aoPrepararRevisao === "function") {
+            await this.opcoes.aoPrepararRevisao([...this.historicoTextos]);
+        }
+        await Palco.mostrarEncerramento(this.historicoTextos);
     }
 
 };

@@ -38,6 +38,9 @@ const AcessoGuardiao = (() => {
             .acesso-guardiao label{display:block;text-align:left;margin:12px 3px 5px;font-size:.9rem}
             .acesso-guardiao input{width:100%;box-sizing:border-box;padding:14px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.06);color:inherit;font:inherit;outline:none}
             .acesso-guardiao input:focus{border-color:currentColor}
+            .acesso-guardiao .campo-senha{position:relative}
+            .acesso-guardiao .campo-senha input{padding-right:52px}
+            .acesso-guardiao button.alternar-senha{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:42px;height:42px;margin:0;padding:0;border:0;border-radius:50%;font-size:1.05rem;opacity:.78}
             .acesso-guardiao button{width:100%;box-sizing:border-box;margin-top:12px;padding:13px 16px;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;font:inherit;cursor:pointer}
             .acesso-guardiao button.secundario-botao{border-color:rgba(255,255,255,.28);opacity:.82}
             .acesso-guardiao button.link-botao{width:auto;margin:12px auto 2px;padding:5px 8px;border:0;border-radius:0;opacity:.8;text-decoration:underline;text-underline-offset:3px}
@@ -56,13 +59,39 @@ const AcessoGuardiao = (() => {
     }
 
     function retornoRecuperacao() {
-        const retorno = new URL(window.location.href);
-        retorno.hash = "";
-        return retorno.toString();
+        return new URL("redefinir-senha.html", document.baseURI).toString();
     }
 
     function veioDeRecuperacao() {
         return new URLSearchParams(window.location.hash.replace(/^#/, "")).get("type") === "recovery";
+    }
+
+    function emailAlternativoGmail(email) {
+        const valor = String(email || "").trim().toLowerCase();
+        const partes = valor.split("@");
+        if (partes.length !== 2 || !["gmail.com", "googlemail.com"].includes(partes[1])) return "";
+        const semPontos = partes[0].split("+")[0].replaceAll(".", "");
+        const alternativo = `${semPontos}@gmail.com`;
+        return alternativo === valor ? "" : alternativo;
+    }
+
+    function campoSenha(id, autocomplete, classe = "") {
+        return `<div class="campo-senha">
+            <input id="${id}" class="${classe}" type="password" autocomplete="${autocomplete}" minlength="8">
+            <button class="alternar-senha" type="button" aria-label="Mostrar senha" aria-pressed="false" data-alvo="${id}">👁</button>
+        </div>`;
+    }
+
+    function ativarVisualizacaoSenhas(raiz) {
+        raiz.querySelectorAll(".alternar-senha").forEach(botao => {
+            botao.addEventListener("click", () => {
+                const campo = document.getElementById(botao.dataset.alvo);
+                const mostrar = campo.type === "password";
+                campo.type = mostrar ? "text" : "password";
+                botao.setAttribute("aria-pressed", String(mostrar));
+                botao.setAttribute("aria-label", mostrar ? "Ocultar senha" : "Mostrar senha");
+            });
+        });
     }
 
     function mostrarNovaSenha(app) {
@@ -72,12 +101,14 @@ const AcessoGuardiao = (() => {
                     <h2>Crie uma nova senha</h2>
                     <p>Escolha uma nova senha para reencontrar seu Guardião com segurança.</p>
                     <label for="guardiaoNovaSenha">Nova senha</label>
-                    <input id="guardiaoNovaSenha" type="password" autocomplete="new-password" minlength="8">
+                    ${campoSenha("guardiaoNovaSenha", "new-password")}
                     <label for="guardiaoConfirmarSenha">Confirmar nova senha</label>
-                    <input id="guardiaoConfirmarSenha" class="confirmar-senha" type="password" autocomplete="new-password" minlength="8">
+                    ${campoSenha("guardiaoConfirmarSenha", "new-password", "confirmar-senha")}
                     <button id="guardiaoSalvarSenha" type="button">Salvar nova senha</button>
                     <p id="guardiaoErro" class="erro" role="status" aria-live="polite"></p>
                 </section>`;
+
+            ativarVisualizacaoSenhas(app);
 
             const senha = document.getElementById("guardiaoNovaSenha");
             const confirmar = document.getElementById("guardiaoConfirmarSenha");
@@ -122,13 +153,15 @@ const AcessoGuardiao = (() => {
                     <label for="guardiaoEmail">E-mail</label>
                     <input id="guardiaoEmail" type="email" inputmode="email" autocomplete="email">
                     <label for="guardiaoSenha">Senha</label>
-                    <input id="guardiaoSenha" type="password" autocomplete="current-password" minlength="8">
+                    ${campoSenha("guardiaoSenha", "current-password")}
                     <button id="guardiaoEntrar" type="button">Entrar</button>
                     <button id="guardiaoEsqueciSenha" class="link-botao" type="button">Esqueci minha senha</button>
                     <button id="guardiaoCriarConta" class="secundario-botao" type="button">Criar minha conta</button>
                     <p id="guardiaoErro" class="erro" role="status" aria-live="polite"></p>
                     <p class="codigo">${escapar(codigo)}</p>
                 </section>`;
+
+            ativarVisualizacaoSenhas(app);
 
             const email = document.getElementById("guardiaoEmail");
             const senha = document.getElementById("guardiaoSenha");
@@ -139,7 +172,7 @@ const AcessoGuardiao = (() => {
             const botoes = [entrar, esqueci, criar];
 
             function valoresValidos(exigirSenha = true) {
-                const e = email.value.trim();
+                const e = email.value.trim().toLowerCase();
                 const s = senha.value;
                 mensagem.textContent = "";
                 if (!/^\S+@\S+\.\S+$/.test(e)) {
@@ -165,7 +198,16 @@ const AcessoGuardiao = (() => {
                 if (!credenciais) return;
                 ocupando(true, "Entrando...");
                 try {
-                    const { data, error } = await cliente().auth.signInWithPassword(credenciais);
+                    let { data, error } = await cliente().auth.signInWithPassword(credenciais);
+                    const alternativo = error?.message === "Invalid login credentials"
+                        ? emailAlternativoGmail(credenciais.email)
+                        : "";
+                    if (alternativo) {
+                        ({ data, error } = await cliente().auth.signInWithPassword({
+                            email: alternativo,
+                            password: credenciais.password
+                        }));
+                    }
                     if (error) throw error;
                     if (!data?.session) throw new Error("A sessão não foi criada.");
                     resolve(data.session);
@@ -182,7 +224,8 @@ const AcessoGuardiao = (() => {
                 if (!credenciais) return;
                 ocupando(true, "Enviando...");
                 try {
-                    const { error } = await cliente().auth.resetPasswordForEmail(credenciais.email, {
+                    const emailRecuperacao = emailAlternativoGmail(credenciais.email) || credenciais.email;
+                    const { error } = await cliente().auth.resetPasswordForEmail(emailRecuperacao, {
                         redirectTo: retornoRecuperacao()
                     });
                     if (error) throw error;

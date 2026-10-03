@@ -194,6 +194,7 @@ async function iniciarGuardiao() {
         Memoria.iniciarEncontro();
         await Condutor.executar({...encontro,cenas:[SaudacaoGuardiao.cenaDeAbertura(),...encontro.cenas]}, {
             aoSalvarNome(nome){Memoria.salvarNome(nome);},
+            aoPrepararRevisao(textos){Memoria.salvarUltimaReflexao(textos, memoria.encontroAtual + 1);},
             aoConcluir(){Memoria.concluirEncontro(total);}
         });
     } catch(erro){

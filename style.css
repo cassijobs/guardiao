@@ -268,3 +268,27 @@ input {
         margin-top: 22px;
     }
 }
+
+.leitura-guardiao {
+    width: min(92vw, 720px);
+    margin: 0 auto;
+    text-align: center;
+}
+
+.texto-leitura {
+    font-size: clamp(1.35rem, 5vw, 2.15rem);
+    line-height: 1.55;
+}
+
+.navegacao-leitura {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 34px;
+}
+
+.navegacao-leitura .botao { margin: 0; }
+.navegacao-leitura .botao:disabled { opacity: .28; cursor: default; }
+.rotulo-revisao { margin-bottom: 26px; opacity: .62; font-size: .76rem; letter-spacing: .16em; }
+.botao-secundario { opacity: .78; }
+.botao-rever-encontro { margin-top: 24px; }

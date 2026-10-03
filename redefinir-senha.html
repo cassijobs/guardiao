@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Redefinir senha — Guardião</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="tema-guardiao.css">
+</head>
+<body>
+  <div id="app"><main id="guardiao"></main></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script>
+    (async () => {
+      const app = document.getElementById("guardiao");
+      const cliente = window.supabaseClient;
+      const codigo = new URLSearchParams(location.search).get("code");
+      app.innerHTML = '<section class="tela-espera"><p class="fala-guardiao">Preparando a redefinição da sua senha…</p></section>';
+
+      let { data } = await cliente.auth.getSession();
+      if (!data?.session && codigo) {
+        const { error } = await cliente.auth.exchangeCodeForSession(codigo);
+        if (error) {
+          app.innerHTML = '<section class="tela-espera"><p class="fala-guardiao">Este link expirou ou já foi utilizado.</p><p class="fala-guardiao fala-secundaria">Volte ao Guardião e solicite uma nova recuperação.</p></section>';
+          return;
+        }
+        ({ data } = await cliente.auth.getSession());
+      }
+
+      if (!data?.session) {
+        app.innerHTML = '<section class="tela-espera"><p class="fala-guardiao">Não foi possível confirmar este pedido.</p><p class="fala-guardiao fala-secundaria">Volte ao Guardião e solicite um novo link.</p></section>';
+        return;
+      }
+
+      app.innerHTML = `<style>
+        .redefinir{width:min(92vw,430px);margin:7vh auto 0;text-align:center}.redefinir label{display:block;text-align:left;margin:12px 3px 5px}.campo-senha{position:relative}.campo-senha input{width:100%;box-sizing:border-box;padding:14px 52px 14px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.06);color:inherit;font:inherit}.olho{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:42px;height:42px;border:0;background:transparent;color:inherit;font-size:1.05rem}.acao{width:100%;margin-top:18px;padding:14px;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;font:inherit}.erro{min-height:1.4em;margin-top:14px}
+      </style><section class="redefinir">
+        <h1>Crie uma nova senha</h1><p>Escolha uma nova senha para reencontrar seu Guardião com segurança.</p>
+        <label for="nova-senha">Nova senha</label><div class="campo-senha"><input id="nova-senha" type="password" minlength="8" autocomplete="new-password"><button class="olho" data-alvo="nova-senha" type="button" aria-label="Mostrar senha">👁</button></div>
+        <label for="confirmar-senha">Confirmar nova senha</label><div class="campo-senha"><input id="confirmar-senha" type="password" minlength="8" autocomplete="new-password"><button class="olho" data-alvo="confirmar-senha" type="button" aria-label="Mostrar senha">👁</button></div>
+        <button id="salvar-senha" class="acao" type="button">Salvar nova senha</button><p id="mensagem" class="erro" role="status" aria-live="polite"></p>
+      </section>`;
+
+      document.querySelectorAll(".olho").forEach(botao => botao.onclick = () => {
+        const campo = document.getElementById(botao.dataset.alvo);
+        campo.type = campo.type === "password" ? "text" : "password";
+      });
+      document.getElementById("salvar-senha").onclick = async () => {
+        const senha = document.getElementById("nova-senha").value;
+        const confirmar = document.getElementById("confirmar-senha").value;
+        const mensagem = document.getElementById("mensagem");
+        if (senha.length < 8) { mensagem.textContent = "A senha precisa ter pelo menos 8 caracteres."; return; }
+        if (senha !== confirmar) { mensagem.textContent = "As duas senhas não são iguais."; return; }
+        const { error } = await cliente.auth.updateUser({ password: senha });
+        mensagem.textContent = error ? "Não foi possível salvar. Solicite um novo link." : "Senha atualizada. Você já pode voltar ao Guardião e entrar.";
+      };
+    })();
+  </script>
+</body>
+</html>
