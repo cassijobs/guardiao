@@ -148,8 +148,12 @@ const AcessoGuardiao = (() => {
 
     function mostrarLogin(app, codigo) {
         return new Promise(resolve => {
+            const parametrosRetorno = new URLSearchParams(window.location.search);
+            const parametrosHash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
             const retornandoDaConfirmacao =
-                localStorage.getItem(CHAVE_ARTEFATO_PENDENTE) === codigo;
+                localStorage.getItem(CHAVE_ARTEFATO_PENDENTE) === codigo ||
+                parametrosRetorno.get("cadastro") === "confirmado" ||
+                parametrosHash.get("type") === "signup";
             app.innerHTML = `${estilos()}
                 <section class="acesso-guardiao">
                     <h2>${retornandoDaConfirmacao ? "E-mail confirmado" : "Entre para encontrar seu Guardião"}</h2>
@@ -250,6 +254,7 @@ const AcessoGuardiao = (() => {
                 try {
                     const retorno = new URL(window.location.href);
                     retorno.hash = "";
+                    retorno.searchParams.set("cadastro", "confirmado");
                     localStorage.setItem(CHAVE_ARTEFATO_PENDENTE, codigo);
                     const { data, error } = await cliente().auth.signUp({
                         ...credenciais,
