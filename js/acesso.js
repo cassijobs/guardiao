@@ -222,9 +222,21 @@ const AcessoGuardiao = (() => {
                     if (!data?.session) throw new Error("A sessão não foi criada.");
                     resolve(data.session);
                 } catch (erro) {
-                    mensagem.textContent = erro?.message === "Invalid login credentials"
-                        ? "E-mail ou senha não reconhecidos."
-                        : "Não foi possível entrar agora.";
+                    const detalhe = String(erro?.message || "").toLowerCase();
+                    if (detalhe.includes("invalid login credentials")) {
+                        mensagem.textContent = "E-mail ou senha não reconhecidos.";
+                    } else if (detalhe.includes("email not confirmed")) {
+                        mensagem.textContent = "O e-mail ainda não foi confirmado pelo Supabase. Abra novamente o link recebido no e-mail e depois tente entrar.";
+                    } else if (detalhe.includes("rate limit") || detalhe.includes("too many requests")) {
+                        mensagem.textContent = "O limite temporário do Supabase foi atingido. Aguarde um pouco antes de tentar novamente.";
+                    } else if (detalhe.includes("fetch") || detalhe.includes("network")) {
+                        mensagem.textContent = "Não foi possível conectar ao Guardião. Verifique a internet e tente novamente.";
+                    } else {
+                        mensagem.textContent = erro?.message
+                            ? `Não foi possível entrar: ${erro.message}`
+                            : "Não foi possível entrar agora.";
+                    }
+                    console.error("Falha ao entrar no Guardião:", erro);
                     ocupando(false);
                 }
             });
