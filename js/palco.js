@@ -142,7 +142,23 @@ const Palco = {
                     await this.reverTextos(textos);
                     desenhar();
                 };
-                document.getElementById("encerrar-encontro").onclick = resolve;
+                document.getElementById("encerrar-encontro").onclick = () => {
+                    resolve();
+
+                    // Navegadores só permitem fechar automaticamente abas abertas
+                    // por script. Tentamos fechar e, quando isso é bloqueado, encerramos
+                    // a experiência nesta própria página sem reiniciar o encontro.
+                    window.close();
+                    window.setTimeout(() => {
+                        this.elemento.innerHTML = `
+                            <section class="tela-espera encerramento-encontro encerramento-final">
+                                <p class="fala-guardiao">Encontro encerrado.</p>
+                                <p class="fala-guardiao fala-secundaria">Você já pode fechar esta página.</p>
+                            </section>`;
+                        this.elemento.classList.remove("oculto");
+                        this.elemento.classList.add("visivel");
+                    }, 200);
+                };
             };
             desenhar();
         });
