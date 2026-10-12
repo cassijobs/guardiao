@@ -166,11 +166,11 @@ const Memoria = (() => {
             ultimoEncontroNumero: Math.max(0, Number.parseInt(numero, 10) || 0)
         });
     }
-    function concluirEncontro(total) {
+    async function concluirEncontro(total) {
         const dados = carregar();
         const agora = Date.now();
         const proximo = Math.min(dados.encontroAtual + 1, total);
-        return atualizar({
+        const memoria = atualizar({
             encontroAtual: proximo,
             ultimoEncontroConcluidoEm: agora,
             ultimoEncontroData: dataLocal(),
@@ -178,6 +178,8 @@ const Memoria = (() => {
             encontroEmAndamento: false,
             aguardouEncontro: false
         });
+        await filaSincronizacao;
+        return memoria;
     }
     function registrarVisitaAntecipada() {
         const dados = carregar();

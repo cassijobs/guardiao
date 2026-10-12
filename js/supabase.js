@@ -20,7 +20,15 @@
     try {
         const cliente = window.supabase.createClient(
             SUPABASE_URL,
-            SUPABASE_PUBLISHABLE_KEY
+            SUPABASE_PUBLISHABLE_KEY,
+            {
+                auth: {
+                    persistSession: true,
+                    autoRefreshToken: true,
+                    detectSessionInUrl: true,
+                    storage: window.localStorage
+                }
+            }
         );
 
         // Nomes globais mantidos para compatibilidade com todas as versões.

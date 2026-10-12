@@ -201,7 +201,7 @@ async function iniciarGuardiao() {
         await Condutor.executar({...encontro,cenas:[SaudacaoGuardiao.cenaDeAbertura(),...encontro.cenas]}, {
             aoSalvarNome(nome){Memoria.salvarNome(nome);},
             aoPrepararRevisao(textos){Memoria.salvarUltimaReflexao(textos, memoria.encontroAtual + 1);},
-            aoConcluir(){Memoria.concluirEncontro(total);}
+            aoConcluir(){return Memoria.concluirEncontro(total);}
         });
     } catch(erro){
         console.error("Erro ao iniciar o Guardião:",erro);

@@ -142,26 +142,30 @@ const Palco = {
                     await this.reverTextos(textos);
                     desenhar();
                 };
-                document.getElementById("encerrar-encontro").onclick = () => {
-                    resolve();
-
-                    // Navegadores só permitem fechar automaticamente abas abertas
-                    // por script. Tentamos fechar e, quando isso é bloqueado, encerramos
-                    // a experiência nesta própria página sem reiniciar o encontro.
-                    window.close();
-                    window.setTimeout(() => {
-                        this.elemento.innerHTML = `
-                            <section class="tela-espera encerramento-encontro encerramento-final">
-                                <p class="fala-guardiao">Encontro encerrado.</p>
-                                <p class="fala-guardiao fala-secundaria">Você já pode fechar esta página.</p>
-                            </section>`;
-                        this.elemento.classList.remove("oculto");
-                        this.elemento.classList.add("visivel");
-                    }, 200);
+                document.getElementById("encerrar-encontro").onclick = evento => {
+                    evento.currentTarget.disabled = true;
+                    evento.currentTarget.textContent = "Guardando seu encontro...";
+                    resolve("encerrar");
                 };
             };
             desenhar();
         });
+    },
+
+    finalizarEncerramento() {
+        this.garantirElemento();
+
+        // Só é chamado depois que o progresso foi enviado ao Supabase.
+        window.close();
+        window.setTimeout(() => {
+            this.elemento.innerHTML = `
+                <section class="tela-espera encerramento-encontro encerramento-final">
+                    <p class="fala-guardiao">Encontro encerrado.</p>
+                    <p class="fala-guardiao fala-secundaria">Seu caminho foi guardado. Você já pode fechar esta página.</p>
+                </section>`;
+            this.elemento.classList.remove("oculto");
+            this.elemento.classList.add("visivel");
+        }, 200);
     },
 
     mostrarJornada({

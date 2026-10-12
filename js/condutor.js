@@ -13,11 +13,13 @@ const Condutor = {
     dados: null,
     opcoes: {},
     historicoTextos: [],
+    encerramentoSolicitado: false,
 
     async executar(roteiro, opcoes = {}) {
         this.opcoes = opcoes;
         this.dados = Memoria.carregar();
         this.historicoTextos = [];
+        this.encerramentoSolicitado = false;
 
         Palco.iniciar();
 
@@ -53,6 +55,9 @@ const Condutor = {
             "function"
         ) {
             await this.opcoes.aoConcluir();
+        }
+        if (this.encerramentoSolicitado) {
+            Palco.finalizarEncerramento();
         }
     },
 
@@ -266,7 +271,8 @@ const Condutor = {
         if (typeof this.opcoes.aoPrepararRevisao === "function") {
             await this.opcoes.aoPrepararRevisao([...this.historicoTextos]);
         }
-        await Palco.mostrarEncerramento(this.historicoTextos);
+        const acao = await Palco.mostrarEncerramento(this.historicoTextos);
+        this.encerramentoSolicitado = acao === "encerrar";
     }
 
 };
