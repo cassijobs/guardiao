@@ -14,12 +14,17 @@ const Condutor = {
     opcoes: {},
     historicoTextos: [],
     encerramentoSolicitado: false,
+    contextoEncontro: {},
 
     async executar(roteiro, opcoes = {}) {
         this.opcoes = opcoes;
         this.dados = Memoria.carregar();
         this.historicoTextos = [];
         this.encerramentoSolicitado = false;
+        this.contextoEncontro = {
+            numero: Math.max(1, Number.parseInt(roteiro.numeroEncontro, 10) || this.dados.encontroAtual + 1),
+            titulo: String(roteiro.titulo || `Encontro ${this.dados.encontroAtual + 1}`)
+        };
 
         Palco.iniciar();
 
@@ -271,7 +276,18 @@ const Condutor = {
         if (typeof this.opcoes.aoPrepararRevisao === "function") {
             await this.opcoes.aoPrepararRevisao([...this.historicoTextos]);
         }
-        const acao = await Palco.mostrarEncerramento(this.historicoTextos);
+        const reflexao = await Palco.pedirReflexao({
+            nome: this.dados.nome,
+            pergunta: cena.perguntaReflexao || cena.pergunta_reflexao || ""
+        });
+        if (reflexao && typeof this.opcoes.aoSalvarReflexao === "function") {
+            await this.opcoes.aoSalvarReflexao({
+                ...reflexao,
+                encontroNumero: this.contextoEncontro.numero,
+                titulo: this.contextoEncontro.titulo
+            });
+        }
+        const acao = await Palco.mostrarEncerramento(this.historicoTextos, this.dados.nome);
         this.encerramentoSolicitado = acao === "encerrar";
     }
 

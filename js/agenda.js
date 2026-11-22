@@ -46,10 +46,11 @@ const AgendaGuardiao = (() => {
     function mostrarEspera(elemento, aoMudarODia, visitasAntecipadas = 0) {
         pararRelogio();
 
-        const mensagens = SaudacaoGuardiao.retornoMesmoDia();
-        const observacao = mensagemDeEspera(visitasAntecipadas);
         const memoria = Memoria.carregar();
+        const mensagens = SaudacaoGuardiao.retornoMesmoDia(memoria.nome);
+        const observacao = mensagemDeEspera(visitasAntecipadas);
         const podeRever = Array.isArray(memoria.ultimaReflexao) && memoria.ultimaReflexao.length > 0;
+        const temReflexoes = Array.isArray(memoria.reflexoes) && memoria.reflexoes.length > 0;
 
         elemento.innerHTML = `
             <section class="tela-espera">
@@ -58,6 +59,7 @@ const AgendaGuardiao = (() => {
                 <p class="fala-guardiao fala-secundaria">${mensagens[1]}</p>
                 <p class="fala-guardiao fala-secundaria">${mensagens[2]}</p>
                 ${podeRever ? '<button class="botao botao-rever-encontro" id="rever-ultimo-encontro" type="button">Rever meu último encontro</button>' : ''}
+                ${temReflexoes ? '<button class="botao botao-secundario" id="abrir-minhas-reflexoes" type="button">Minhas Reflexões</button>' : ''}
             </section>
         `;
 
@@ -66,6 +68,15 @@ const AgendaGuardiao = (() => {
                 pararRelogio();
                 Palco.iniciar();
                 await Palco.reverTextos(memoria.ultimaReflexao);
+                mostrarEspera(elemento, aoMudarODia, visitasAntecipadas);
+            });
+        }
+
+        if (temReflexoes) {
+            document.getElementById("abrir-minhas-reflexoes").addEventListener("click", async () => {
+                pararRelogio();
+                Palco.iniciar();
+                await Palco.mostrarMinhasReflexoes(Memoria.carregar().reflexoes);
                 mostrarEspera(elemento, aoMudarODia, visitasAntecipadas);
             });
         }
@@ -85,6 +96,8 @@ const AgendaGuardiao = (() => {
         pararRelogio();
         const mensagens = SaudacaoGuardiao.mensagemJornadaConcluida();
 
+        const memoria = Memoria.carregar();
+        const temReflexoes = Array.isArray(memoria.reflexoes) && memoria.reflexoes.length > 0;
         elemento.innerHTML = `
             <section class="tela-espera">
                 ${mensagens.map((texto, indice) => `
@@ -92,8 +105,16 @@ const AgendaGuardiao = (() => {
                         ${texto}
                     </p>
                 `).join("")}
+                ${temReflexoes ? '<button class="botao" id="abrir-reflexoes-finais" type="button">Minhas Reflexões</button>' : ''}
             </section>
         `;
+        if (temReflexoes) {
+            document.getElementById("abrir-reflexoes-finais").onclick = async () => {
+                Palco.iniciar();
+                await Palco.mostrarMinhasReflexoes(Memoria.carregar().reflexoes);
+                jornadaConcluida(elemento);
+            };
+        }
     }
 
     return {

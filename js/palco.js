@@ -32,6 +32,15 @@ const Palco = {
         this.elemento.innerHTML = "";
     },
 
+    escapar(valor) {
+        return String(valor ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    },
+
     esperar(ms) {
     const tempo = window.GUARDIAO_MODO_RAPIDO
         ? Math.min(ms, 150)
@@ -127,19 +136,94 @@ const Palco = {
         });
     },
 
-    mostrarEncerramento(textos = []) {
+    pedirReflexao({ nome = "", pergunta = "", resposta = "" } = {}) {
+        this.garantirElemento();
+        const nomeLimpo = String(nome || "").trim();
+        const chamada = nomeLimpo
+            ? `${this.escapar(nomeLimpo)}, o que este encontro despertou em você hoje?`
+            : "O que este encontro despertou em você hoje?";
+        const perguntaFinal = String(pergunta || "").trim() || chamada;
+
+        return new Promise(resolve => {
+            this.elemento.innerHTML = `
+                <section class="reflexao-guardiao">
+                    <p class="rotulo-reflexao">MINHA REFLEXÃO</p>
+                    <h2>${this.escapar(perguntaFinal)}</h2>
+                    <p class="orientacao-reflexao">Não procure uma resposta perfeita. Escreva apenas o que é verdadeiro agora.</p>
+                    <label class="sr" for="resposta-reflexao">Sua reflexão</label>
+                    <textarea id="resposta-reflexao" maxlength="6000" placeholder="Escreva aqui, se desejar.">${this.escapar(resposta)}</textarea>
+                    <p id="estado-reflexao" class="estado-reflexao" role="status" aria-live="polite"></p>
+                    <button class="botao" id="guardar-reflexao" type="button">Guardar minha reflexão</button>
+                    <button class="botao botao-secundario" id="seguir-sem-escrever" type="button">Hoje prefiro apenas refletir</button>
+                </section>`;
+            this.elemento.classList.remove("oculto");
+            this.elemento.classList.add("visivel");
+
+            const campo = document.getElementById("resposta-reflexao");
+            const estado = document.getElementById("estado-reflexao");
+            document.getElementById("guardar-reflexao").onclick = () => {
+                const valor = campo.value.trim();
+                if (!valor) {
+                    estado.textContent = "Escreva algo ou escolha continuar sem escrever.";
+                    campo.focus();
+                    return;
+                }
+                resolve({ resposta: valor, pergunta: perguntaFinal });
+            };
+            document.getElementById("seguir-sem-escrever").onclick = () => resolve(null);
+            campo.focus();
+        });
+    },
+
+    mostrarMinhasReflexoes(reflexoes = []) {
+        this.garantirElemento();
+        const registros = Array.isArray(reflexoes) ? [...reflexoes].reverse() : [];
+        const conteudo = registros.length
+            ? registros.map(registro => {
+                const data = new Date(Number(registro.registradoEm) || Date.now()).toLocaleDateString("pt-BR");
+                return `
+                    <article class="cartao-reflexao">
+                        <p class="meta-reflexao">ENCONTRO ${Number(registro.encontroNumero) || ""} · ${this.escapar(data)}</p>
+                        <h3>${this.escapar(registro.titulo || "Encontro")}</h3>
+                        <p class="pergunta-guardada">${this.escapar(registro.pergunta || "")}</p>
+                        <p class="resposta-guardada">${this.escapar(registro.resposta || "")}</p>
+                    </article>`;
+            }).join("")
+            : '<p class="reflexoes-vazias">Quando você guardar uma reflexão, ela aparecerá aqui.</p>';
+
+        return new Promise(resolve => {
+            this.elemento.innerHTML = `
+                <section class="minhas-reflexoes">
+                    <p class="rotulo-reflexao">MEU CAMINHO</p>
+                    <h2>Minhas Reflexões</h2>
+                    <p class="orientacao-reflexao">Palavras que você escolheu guardar durante seus encontros.</p>
+                    <div class="lista-reflexoes">${conteudo}</div>
+                    <button class="botao" id="voltar-das-reflexoes" type="button">Voltar</button>
+                </section>`;
+            this.elemento.classList.remove("oculto");
+            this.elemento.classList.add("visivel");
+            document.getElementById("voltar-das-reflexoes").onclick = resolve;
+        });
+    },
+
+    mostrarEncerramento(textos = [], nome = "") {
         this.garantirElemento();
         return new Promise(resolve => {
             const desenhar = () => {
                 this.elemento.innerHTML = `
                     <section class="tela-espera encerramento-encontro">
                         <p class="fala-guardiao">Por hoje, guarde consigo o que encontrou.</p>
-                        <p class="fala-guardiao fala-secundaria">Amanhã continuamos.</p>
+                        <p class="fala-guardiao fala-secundaria">Amanhã continuamos${nome ? `, ${this.escapar(nome)}` : ""}.</p>
                         <button class="botao" id="rever-encontro-agora" type="button">Rever este encontro</button>
+                        <button class="botao" id="minhas-reflexoes-agora" type="button">Minhas Reflexões</button>
                         <button class="botao botao-secundario" id="encerrar-encontro" type="button">Encerrar por hoje</button>
                     </section>`;
                 document.getElementById("rever-encontro-agora").onclick = async () => {
                     await this.reverTextos(textos);
+                    desenhar();
+                };
+                document.getElementById("minhas-reflexoes-agora").onclick = async () => {
+                    await this.mostrarMinhasReflexoes(Memoria.carregar().reflexoes);
                     desenhar();
                 };
                 document.getElementById("encerrar-encontro").onclick = evento => {

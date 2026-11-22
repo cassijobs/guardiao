@@ -76,16 +76,30 @@ const SaudacaoGuardiao = (() => {
         return escolher(ABERTURAS[periodoDoDia()]);
     }
 
-    function cenaDeAbertura() {
+    function aberturaComNome(nome = "") {
+        const partes = [...abertura()];
+        const nomeLimpo = String(nome || "").trim();
+        if (!nomeLimpo) return partes;
+        if (/^bom dia\.?$/i.test(partes[0])) partes[0] = `Bom dia, ${nomeLimpo}.`;
+        else if (/^boa tarde\.?$/i.test(partes[0])) partes[0] = `Boa tarde, ${nomeLimpo}.`;
+        else if (/^boa noite\.?$/i.test(partes[0])) partes[0] = `Boa noite, ${nomeLimpo}.`;
+        else partes.unshift(`${nomeLimpo}, este encontro é seu.`);
+        return partes;
+    }
+
+    function cenaDeAbertura(nome = "") {
         return {
             tipo: "texto",
-            texto: abertura().join("<br><br>"),
+            texto: aberturaComNome(nome).join("<br><br>"),
             pausa: CONFIG.pausa.longa
         };
     }
 
-    function retornoMesmoDia() {
-        return RETORNO_MESMO_DIA[periodoDoDia()];
+    function retornoMesmoDia(nome = "") {
+        const mensagens = [...RETORNO_MESMO_DIA[periodoDoDia()]];
+        const nomeLimpo = String(nome || "").trim();
+        if (nomeLimpo) mensagens[0] = `${nomeLimpo}, ${mensagens[0].charAt(0).toLowerCase()}${mensagens[0].slice(1)}`;
+        return mensagens;
     }
 
     function mensagemJornadaConcluida() {
@@ -107,6 +121,7 @@ const SaudacaoGuardiao = (() => {
     return {
         periodoDoDia,
         abertura,
+        aberturaComNome,
         cenaDeAbertura,
         retornoMesmoDia,
         mensagemJornadaConcluida

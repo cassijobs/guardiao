@@ -16,6 +16,7 @@ const Memoria = (() => {
         aguardouEncontro: false,
         ultimaReflexao: [],
         ultimoEncontroNumero: 0,
+        reflexoes: [],
         versao: "5.0"
     });
 
@@ -64,6 +65,16 @@ const Memoria = (() => {
             ? memoria.ultimaReflexao.map(texto => String(texto || "")).filter(Boolean)
             : [];
         memoria.ultimoEncontroNumero = Math.max(0, Number.parseInt(memoria.ultimoEncontroNumero, 10) || 0);
+        memoria.reflexoes = Array.isArray(memoria.reflexoes)
+            ? memoria.reflexoes.slice(-365).map((registro, indice) => ({
+                id: String(registro?.id || `reflexao-${indice}-${Date.now()}`),
+                encontroNumero: Math.max(1, Number.parseInt(registro?.encontroNumero, 10) || 1),
+                titulo: String(registro?.titulo || "Encontro").slice(0, 180),
+                pergunta: String(registro?.pergunta || "O que este encontro despertou em você hoje?").slice(0, 500),
+                resposta: String(registro?.resposta || "").slice(0, 6000),
+                registradoEm: Number(registro?.registradoEm) || Date.now()
+            })).filter(registro => registro.resposta.trim())
+            : [];
         memoria.versao = "5.0";
         return memoria;
     }
@@ -166,6 +177,23 @@ const Memoria = (() => {
             ultimoEncontroNumero: Math.max(0, Number.parseInt(numero, 10) || 0)
         });
     }
+    function salvarReflexao({ encontroNumero, titulo, pergunta, resposta }) {
+        const dados = carregar();
+        const numero = Math.max(1, Number.parseInt(encontroNumero, 10) || dados.encontroAtual + 1);
+        const texto = String(resposta || "").trim().slice(0, 6000);
+        if (!texto) return dados;
+        const registro = {
+            id: `encontro-${numero}`,
+            encontroNumero: numero,
+            titulo: String(titulo || `Encontro ${numero}`).trim().slice(0, 180),
+            pergunta: String(pergunta || "O que este encontro despertou em você hoje?").trim().slice(0, 500),
+            resposta: texto,
+            registradoEm: Date.now()
+        };
+        const anteriores = dados.reflexoes.filter(item => item.id !== registro.id);
+        return atualizar({ reflexoes: [...anteriores, registro] });
+    }
+    function aguardarSincronizacao() { return filaSincronizacao; }
     async function concluirEncontro(total) {
         const dados = carregar();
         const agora = Date.now();
@@ -224,6 +252,8 @@ const Memoria = (() => {
         tempoRestante,
         iniciarEncontro,
         salvarUltimaReflexao,
+        salvarReflexao,
+        aguardarSincronizacao,
         concluirEncontro,
         registrarVisitaAntecipada,
         consumirEsperaCumprida,

@@ -198,9 +198,13 @@ async function iniciarGuardiao() {
         const encontro=await FornecedorEncontros.buscar(memoria.encontroAtual,artefato.codigo);
         if(!encontro||!Array.isArray(encontro.cenas)) throw new Error(`Encontro ${memoria.encontroAtual+1} inválido ou sem cenas.`);
         Memoria.iniciarEncontro();
-        await Condutor.executar({...encontro,cenas:[SaudacaoGuardiao.cenaDeAbertura(),...encontro.cenas]}, {
+        await Condutor.executar({...encontro,numeroEncontro:memoria.encontroAtual+1,cenas:[SaudacaoGuardiao.cenaDeAbertura(memoria.nome),...encontro.cenas]}, {
             aoSalvarNome(nome){Memoria.salvarNome(nome);},
             aoPrepararRevisao(textos){Memoria.salvarUltimaReflexao(textos, memoria.encontroAtual + 1);},
+            async aoSalvarReflexao(reflexao){
+                Memoria.salvarReflexao(reflexao);
+                await Memoria.aguardarSincronizacao();
+            },
             aoConcluir(){return Memoria.concluirEncontro(total);}
         });
     } catch(erro){
