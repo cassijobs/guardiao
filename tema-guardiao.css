@@ -15,6 +15,8 @@
 /* Sobrescreve o fundo preto definido no style.css original. */
 html,
 body {
+    max-width: 100%;
+    overflow-x: hidden !important;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -242,15 +244,20 @@ body::after {
 
 #app {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
     padding: clamp(10px, 2.5vw, 28px);
 }
 
 #guardiao {
+    box-sizing: border-box;
+    min-width: 0;
     width: min(100%, 760px);
     max-height: calc(100vh - clamp(20px, 5vw, 56px));
     margin: 0 auto;
     padding: clamp(28px, 6vw, 54px);
     overflow-y: auto;
+    overflow-x: hidden;
     color: var(--g7-texto) !important;
     background: var(--g7-superficie) !important;
     border: 1px solid rgba(255, 255, 255, .92);
@@ -259,6 +266,34 @@ body::after {
     backdrop-filter: blur(20px);
     scrollbar-width: thin;
     scrollbar-color: rgba(96, 116, 138, .25) transparent;
+}
+
+.tela-espera,
+.entrada-artefato,
+.form-chave-artefato,
+.leitura-guardiao,
+.reflexao-guardiao,
+.minhas-reflexoes,
+.acesso-guardiao {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+}
+
+.fala-guardiao,
+.fala-secundaria,
+.orientacao-chave,
+.texto-leitura {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+.form-chave-artefato input,
+.form-chave-artefato .botao,
+.acesso-guardiao input,
+.acesso-guardiao button {
+    max-width: 100% !important;
 }
 
 #guardiao,
@@ -407,11 +442,26 @@ textarea::placeholder {
         width: 100%;
         max-height: 100vh;
         min-height: 100vh;
+        min-height: 100dvh;
         padding: max(28px, env(safe-area-inset-top)) 22px max(28px, env(safe-area-inset-bottom));
         border: 0;
         border-radius: 0;
         background: rgba(255, 255, 255, .68) !important;
         box-shadow: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #guardiao > * {
+        width: 100%;
+        flex: 0 0 auto;
+    }
+
+    /* Listas extensas começam no topo e continuam roláveis. */
+    #guardiao:has(.minhas-reflexoes) {
+        justify-content: flex-start;
     }
 
     body::before {
@@ -429,6 +479,15 @@ textarea::placeholder {
     .botao { width: min(100%, 300px); }
     .reflexao-guardiao,
     .minhas-reflexoes { max-height: none; padding-inline: 0; }
+}
+
+@media (max-width: 700px) and (max-height: 680px) {
+    /* Em aparelhos baixos, formulários maiores não podem ficar cortados. */
+    #guardiao:has(.acesso-guardiao),
+    #guardiao:has(.reflexao-guardiao),
+    #guardiao:has(.abertura-jornada) {
+        justify-content: flex-start;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
